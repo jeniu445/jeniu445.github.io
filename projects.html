@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Projects — Jennifer Niu</title>
+
+  <style>
+
+    @font-face {
+        font-family: "SpaceMono";
+        src: url("fonts/SpaceMono-Regular.woff2") format("woff2");
+        font-weight: 700;
+    }
+
+    @font-face {
+        font-family: "SpaceMono";
+        src: url("fonts/SpaceMono-Bold.woff2") format("woff2");
+        font-weight: 700;
+    }
+    :root{
+      --bg:#fff;
+      --text:#111;
+      --t:200ms;
+
+      --gallery-width: 1020px;
+      --gutter: 28px;
+
+      --panel-gap: 18px;
+      --banner-h: 180px;
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family:"Courier New", Courier, monospace;
+      background:var(--bg);
+      color:var(--text);
+      opacity:0;
+      transition:opacity var(--t) ease;
+    }
+    body.page-loaded{opacity:1;}
+    body.page-exit{opacity:0;}
+
+    /* NAV */
+    nav{
+      position:absolute;
+      top:0; left:0;
+      width:100%;
+      display:flex;
+      justify-content:center;
+      gap:2.2rem;
+      padding:.9rem 0;
+      z-index:10;
+    }
+    nav a{
+      text-decoration:none;
+      color:var(--text);
+      font-size:.95rem;
+      padding:.35rem .75rem;
+      border-radius:999px;
+      font-weight:700;
+      transition:background 150ms, transform 150ms;
+    }
+    nav a:hover{
+      background:rgba(0,0,0,.06);
+      transform:translateY(-1px);
+    }
+
+    main{
+      min-height:100dvh;
+      padding:4.6rem 0 2rem;
+    }
+
+    .layout{
+      width:100%;
+      padding-left:var(--gutter);
+      padding-right:var(--gutter);
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:16px;
+    }
+
+    /* LEFT tabs */
+    .side{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      padding-top:2px;
+    }
+
+    .side a{
+      text-decoration:none;
+      color:#000;
+      font-size:1.1rem;
+      font-weight:1000;
+      letter-spacing:.15em;
+      text-transform:uppercase;
+      line-height:1;
+      transition:opacity 160ms ease;
+      width:fit-content;
+    }
+    .side a:hover{opacity:.55;}
+    .side a.current{
+      opacity:.35;
+      pointer-events:none;
+    }
+
+    /* RIGHT content column */
+    .gallery{
+      width:var(--gallery-width);
+      flex:0 0 var(--gallery-width);
+    }
+
+    .stack{
+      display:flex;
+      flex-direction:column;
+      gap:var(--panel-gap);
+    }
+
+    /* Banner cards */
+    .banner{
+      position:relative;
+      display:block;
+      height:var(--banner-h);
+      width:100%;
+      overflow:hidden;
+      text-decoration:none;
+      color:#000;
+      transform:translateZ(0);
+      transition:transform 220ms ease, box-shadow 220ms ease;
+      will-change:transform;
+      perspective:900px;
+    }
+
+    /* ACTUAL IMAGE LAYER */
+    .banner .bg{
+      position:absolute;
+      inset:0;
+      background-size:cover;
+      background-position:center;
+      transform:scale(1);
+      transition:transform 320ms ease, filter 220ms ease;
+      will-change:transform;
+      pointer-events:none;
+    }
+
+    /* ✅ NEW: white wash overlay (makes whole banner “more white”) */
+    .banner::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:#fff;
+      opacity:0;
+      transition:opacity 220ms ease;
+      pointer-events:none;
+    }
+
+    /* hover effect */
+    .banner:hover{
+      transform:translateY(-2px) rotateX(2.2deg) rotateY(-2deg);
+      box-shadow:0 14px 38px rgba(0,0,0,.12);
+    }
+    .banner:hover .bg{
+      transform:scale(0.985);
+      filter:contrast(1.02) saturate(0.95); /* subtle, keeps it clean */
+    }
+    .banner:hover::after{
+      opacity:0.9; /* ✅ controls how “white” it gets (try 0.2–0.45) */
+    }
+
+    /* Title overlay */
+    .title{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      opacity:0;
+      transform:translateY(6px);
+      transition:opacity 180ms ease, transform 180ms ease;
+      user-select:none;
+      pointer-events:none;
+      z-index:2; /* above overlay */
+    }
+    .banner:hover .title{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    /* ✅ NEW: NO background box, bigger type */
+    .title span{
+      background:transparent;   /* ✅ no pill */
+      padding:0;                /* ✅ no padding */
+      font-size:clamp(1.4rem, 2.3vw, 2.1rem);  /* ✅ bigger title */
+      font-weight:1000;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:#000;
+      text-align:center;
+      line-height:1.05;
+      text-shadow:0 2px 18px rgba(255,255,255,.35); /* subtle readability, not “boxy” */
+    }
+
+        /* Responsive */
+    @media (max-width:1180px){
+      .layout{
+        flex-direction:column;
+        align-items:center;
+        justify-content:flex-start;
+        gap:6px;
+      }
+      .side{
+        width:min(100%, var(--gallery-width));
+        flex-direction:row;
+        flex-wrap:wrap;
+        gap:12px;
+        padding-top:0;
+      }
+      .gallery{
+        width:min(100%, var(--gallery-width));
+        flex:0 1 auto;
+      }
+      .banner{ height:170px; }
+    }
+
+    @media (max-width:700px){
+      .banner{ height:150px; }
+      .title span{ font-size:1.0rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <a href="index.html" data-nav>Home</a>
+    <a href="portfolio.html" data-nav>Portfolio</a>
+    <a href="about.html" data-nav>About</a>
+  </nav>
+
+  <main>
+    <div class="layout">
+
+      <aside class="side">
+        <a href="portfolio.html" data-nav>Artworks</a>
+        <a href="projects.html" class="current">Projects</a>
+        <a href="photography.html" data-nav>Photography</a>
+      </aside>
+
+      <div class="gallery">
+        <div class="stack">
+
+          <!-- MAKE SURE these files exist in /images/ exactly -->
+          <!-- follow-the-red.jpg, changing.jpg, bench.jpg, paper-forms.jpg -->
+
+          <a class="banner" href="follow-the-red.html">
+            <div class="bg" style="background-image:url('images/follow-the-red.jpg')"></div>
+            <div class="title"><span>Follow the Red</span></div>
+          </a>
+
+          <a class="banner" href="changing.html">
+            <div class="bg" style="background-image:url('images/changing.jpg')"></div>
+            <div class="title"><span>Changing</span></div>
+          </a>
+
+          <a class="banner" href="bench.html">
+            <div class="bg" style="background-image:url('images/bench.jpg')"></div>
+            <div class="title"><span>Bench</span></div>
+          </a>
+
+          <a class="banner" href="paper-forms.html">
+            <div class="bg" style="background-image:url('images/paper-forms.jpg')"></div>
+            <div class="title"><span>Paper Forms</span></div>
+          </a>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    window.addEventListener("load",()=>document.body.classList.add("page-loaded"));
+
+    document.querySelectorAll("a[data-nav]").forEach(link=>{
+      link.addEventListener("click",e=>{
+        e.preventDefault();
+        document.body.classList.add("page-exit");
+        setTimeout(()=>location.href=link.href,200);
+      });
+    });
+  </script>
+</body>
+</html>

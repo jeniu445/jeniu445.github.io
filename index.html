@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jennifer Niu — Home</title>
+  <style>
+ 
+    @font-face {
+        font-family: "SpaceMono";
+        src: url("fonts/SpaceMono-Regular.woff2") format("woff2");
+        font-weight: 400;
+    }
+
+    @font-face {
+        font-family: "SpaceMono";
+        src: url("fonts/SpaceMono-Bold.woff2") format("woff2");
+        font-weight: 700;
+    }
+    :root {
+      --bg: #ffffff;
+      --text: #111;
+      --hover: rgba(0, 0, 0, 0.08);
+      --title: #000;
+      --transition-time: 200ms;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: var(--bg);
+      font-family: "Courier New", Courier, monospace;
+      font-weight: 700;
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    /* Fade animation */
+    body, .background-image {
+      opacity: 0;
+      transition: opacity var(--transition-time) ease;
+    }
+    body.page-loaded, .page-loaded .background-image { opacity: 1; }
+    body.page-exit, .page-exit .background-image { opacity: 0; }
+
+    /* Background image */
+    .background-image {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100dvh;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+      background-color: #ffffff;
+      pointer-events: none;
+    }
+
+    /* Navigation */
+    nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 3;
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      padding: 1rem 0;
+      background: transparent;
+    }
+    nav a {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.95rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      transition: background 150ms ease-out, transform 150ms ease-out;
+    }
+    nav a:hover { background: var(--hover); transform: translateY(-1px); }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100dvh;
+      padding: 0 5vw;
+    }
+
+    .name {
+      font-family: "Courier New", Courier, monospace;
+      font-weight: 540;
+      font-size: clamp(3rem, 8vw, 6rem);
+      color: var(--title);
+      margin: 0;
+      letter-spacing: -0.015em;
+    }
+
+    @media (max-width: 900px) {
+      nav { gap: 1.5rem; }
+      .hero { justify-content: center; text-align: center; padding-bottom: 2rem; }
+      .name { font-size: clamp(2.5rem, 9vw, 4rem); }
+    }
+  </style>
+</head>
+<body>
+  <img src="images/port_cover2.jpg" alt="Portfolio cover" class="background-image" />
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="about.html">About</a>
+  </nav>
+
+  <main class="hero">
+    <h1 class="name">Jennifer Niu</h1>
+  </main>
+
+  <script>
+    window.addEventListener("load", () => {
+      document.body.classList.add("page-loaded");
+    });
+    document.querySelectorAll("nav a").forEach(link => {
+      link.addEventListener("click", e => {
+        const href = link.getAttribute("href");
+        if (!href) return;
+        e.preventDefault();
+        document.body.classList.add("page-exit");
+        setTimeout(() => { window.location.href = href; }, 200);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Changing — Jennifer Niu</title>
+
+  <style>
+    @font-face {
+        font-family: "SpaceMono";
+        src: url("fonts/SpaceMono-Regular.woff2") format("woff2");
+        font-weight: 400;
+    }
+
+    @font-face {
+        font-family: "SpaceMono";
+        src: url("fonts/SpaceMono-Bold.woff2") format("woff2");
+        font-weight: 700;
+    }
+    :root{
+      --bg:#fff;
+      --text:#111;
+      --t:200ms;
+
+      --gutter: 28px;
+      --content: 1020px;
+
+      --row-gap: 7px;     /* consistent with your other pages */
+      --col-gap: 14px;    /* spacing inside multi-column rows */
+    }
+
+    *{box-sizing:border-box;}
+
+    body{
+      margin:0;
+      font-family:"Courier New", Courier, monospace;
+      background:var(--bg);
+      color:var(--text);
+      opacity:0;
+      transition:opacity var(--t) ease;
+    }
+    body.page-loaded{opacity:1;}
+    body.page-exit{opacity:0;}
+
+    /* NAV */
+    nav{
+      position:absolute;
+      top:0; left:0;
+      width:100%;
+      display:flex;
+      justify-content:center;
+      gap:2.2rem;
+      padding:.9rem 0;
+      z-index:10;
+    }
+    nav a{
+      text-decoration:none;
+      color:var(--text);
+      font-size:.95rem;
+      padding:.35rem .75rem;
+      border-radius:999px;
+      font-weight: 700; 
+      transition:background 150ms, transform 150ms;
+    }
+    nav a:hover{
+      background:rgba(0,0,0,.06);
+      transform:translateY(-1px);
+    }
+
+    main{
+      min-height:100dvh;
+      padding:4.6rem var(--gutter) 2.5rem;
+    }
+
+    .wrap{
+      width:min(var(--content), 100%);
+      margin:0 auto;
+      display:flex;
+      flex-direction:column;
+      gap:calc(var(--row-gap) * 7);
+    }
+
+    /* Header row (same as Follow the Red) */
+    .top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:calc(var(--row-gap) * 7);
+    }
+
+    h1{
+      margin:0;
+      font-size:1.55rem;
+      font-weight:1000;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:#000;
+      line-height:1.2;
+    }
+
+    .back{
+      text-decoration:none;
+      color:#000;
+      font-size:.95rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      padding:.35rem .6rem;
+      border-radius:999px;
+      transition:opacity 160ms ease, background 160ms ease, transform 160ms ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .back:hover{
+      opacity:.65;
+      background:rgba(0,0,0,.05);
+      transform:translateY(-1px);
+    }
+
+    /* Media blocks */
+    .media{
+      width:100%;
+      display:block;
+      background:#fff;
+    }
+
+    /* Row 2: single gif */
+    .hero-gif{
+      width:100%;
+      overflow:hidden;
+      background:#fff;
+    }
+    .hero-gif img{
+      width:100%;
+      height:auto;
+      display:block;
+      object-fit:contain; /* no crop */
+    }
+
+    /* Row 3: paragraph */
+    .para{
+      max-width: 760px;
+      font-size:1rem;
+      line-height:1.55;
+      margin:0;
+      font-weight: 700; 
+    }
+
+    /* Row 4: stack 3 gifs */
+    .gif-stack{
+      display:flex;
+      flex-direction:column;
+      gap:var(--row-gap);
+    }
+    .gif{
+      width:100%;
+      overflow:hidden;
+      background:#fff;
+    }
+    .gif img{
+      width:100%;
+      height:auto;
+      display:block;
+      object-fit:contain; /* no crop */
+    }
+
+    /* Row 5: video + photo with 5:3 ratio */
+    .pair{
+      display:grid;
+      grid-template-columns: 7fr 3fr; /* ✅ 5:3 split */
+      gap:var(--col-gap);
+      align-items:start;
+    }
+
+    .videoBox{
+      width:100%;
+      aspect-ratio: 7 / 4; /* keeps it neat */
+      background:#000;
+      overflow:hidden;
+    }
+    .videoBox video{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:contain;
+      background:#000;
+    }
+
+    .photoBox{
+      width:100%;
+      aspect-ratio: 7/9; /* matches video height */
+      background:#fff;
+      overflow:hidden;
+    }
+    .photoBox img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .pair{
+        grid-template-columns: 1fr;
+      }
+      .photoBox{
+        aspect-ratio: 16 / 10;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <a href="index.html" data-nav>Home</a>
+    <a href="portfolio.html" data-nav>Portfolio</a>
+    <a href="about.html" data-nav>About</a>
+  </nav>
+
+  <main>
+    <div class="wrap">
+
+      <!-- ROW 1: Title + Back -->
+      <div class="top">
+        <h1>Changing</h1>
+        <a class="back" href="projects.html" data-nav>Back</a>
+      </div>
+
+      <!-- ROW 2: GIF -->
+      <section class="hero-gif">
+        <img src="images/changing/hero.gif" alt="Changing — hero gif" loading="lazy">
+      </section>
+
+      <!-- ROW 3: Paragraph -->
+      <p class="para">
+        Write your Changing paragraph here. One clean paragraph is perfect: what changed,
+        what you iterated on, and what the viewer should notice about the transformation.
+      </p>
+
+      <!-- ROW 4: 3 stacked GIFs -->
+      <section class="gif-stack">
+        <div class="gif">
+          <img src="images/changing/gif1.gif" alt="Changing gif 1" loading="lazy">
+        </div>
+        <div class="gif">
+          <img src="images/changing/gif2.gif" alt="Changing gif 2" loading="lazy">
+        </div>
+        <div class="gif">
+          <img src="images/changing/gif3.gif" alt="Changing gif 3" loading="lazy">
+        </div>
+      </section>
+
+      <!-- ROW 5: Video + Photo (5:3 ratio) -->
+      <section class="pair">
+        <div class="videoBox">
+          <video controls playsinline preload="metadata">
+            <source src="images/changing/video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <div class="photoBox">
+          <img src="images/changing/photo.jpg" alt="Changing photo" loading="lazy">
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    window.addEventListener("load",()=>document.body.classList.add("page-loaded"));
+
+    document.querySelectorAll("a[data-nav]").forEach(link=>{
+      link.addEventListener("click",e=>{
+        e.preventDefault();
+        document.body.classList.add("page-exit");
+        setTimeout(()=>location.href=link.href,200);
+      });
+    });
+
+    // debug missing media
+    document.querySelectorAll("img").forEach(img=>{
+      img.addEventListener("error",()=>console.error("Missing image:", img.src));
+    });
+  </script>
+</body>
+</html>

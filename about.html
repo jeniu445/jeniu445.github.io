@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About — Jennifer Niu</title>
+
+  <style>
+    @font-face {
+        font-family: "SpaceMono";
+        src: url("fonts/SpaceMono-Regular.woff2") format("woff2");
+        font-weight: 400;
+    }
+
+    @font-face {
+        font-family: "SpaceMono";
+        src: url("fonts/SpaceMono-Bold.woff2") format("woff2");
+        font-weight: 700;
+    }
+    :root {
+      --bg: #ffffff;
+      --text: #111;
+      --hover: rgba(0, 0, 0, 0.08);
+      --transition-time: 200ms;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      background: var(--bg);
+      font-family: "Courier New", Courier, monospace;
+      font-weight: 700;
+      color: var(--text);
+      opacity: 0;
+      transition: opacity var(--transition-time) ease;
+    }
+    body.page-loaded { opacity: 1; }
+    body.page-exit { opacity: 0; }
+
+    /* NAVIGATION */
+    nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      padding: 1rem 0;
+      z-index: 20;
+    }
+    nav a {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.95rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      transition: background 150ms ease-out, transform 150ms ease-out;
+    }
+    nav a:hover {
+      background: var(--hover);
+      transform: translateY(-1px);
+    }
+
+    /* OUTER WRAPPER TO FILL PAGE */
+    main {
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5rem 0 3rem; /* space for nav + breathing room */
+    }
+
+    /* GRID LAYOUT */
+    .container {
+      width: 88%;
+      max-width: 1200px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr; /* text a bit wider than image */
+      gap: 3rem;
+      align-items: center;
+    }
+
+    /* TEXT */
+    .about-title {
+      font-size: 1rem;
+      font-weight: 1000;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 1.4rem;
+    }
+
+    .about-text {
+      font-size: 1.02rem;
+      line-height: 1.6;
+      max-width: 620px;
+      color: #111;
+    }
+
+    /* HEADSHOT — larger circle, pulled in toward center */
+    .headshot-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 1.5rem; /* pulls the image inward from the far right */
+    }
+
+    .headshot {
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      margin-top: -0.5rem; /* aligns nicely with first lines of text */
+    }
+
+    /* MOBILE / TABLET */
+    @media (max-width: 900px) {
+      main {
+        padding-top: 5.5rem;
+        padding-bottom: 3rem;
+      }
+
+      .container {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        text-align: center;
+        justify-items: center;
+      }
+
+      .about-text {
+        max-width: 100%;
+      }
+
+      .headshot-wrapper {
+        margin-right: 0;
+      }
+
+      .headshot {
+        width: 260px;
+        height: 260px;
+        margin-top: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAV -->
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="about.html">About</a>
+  </nav>
+
+  <!-- CONTENT -->
+  <main>
+    <div class="container">
+      <!-- TEXT COLUMN -->
+      <div>
+        <div class="about-title">About</div>
+        <div class="about-text">
+          I’m Jennifer Niu — a designer and developer exploring the space 
+          between art and technology. My work blends visual design, 
+          interactive systems, and computational structure, shaped by a 
+          focus on clarity, texture, and form.
+          <br><br>
+          I’m interested in how digital environments hold memory, how 
+          interfaces influence perception, and how simplicity can create 
+          emotional impact. I move fluidly between 3D, web, graphics, 
+          and experimental visuals, building work that is minimal, 
+          intentional, and exploratory.
+        </div>
+      </div>
+
+      <!-- HEADSHOT COLUMN -->
+      <div class="headshot-wrapper">
+        <img src="images/headshot.jpg" alt="Headshot" class="headshot" />
+      </div>
+    </div>
+  </main>
+
+  <!-- FADE TRANSITIONS -->
+  <script>
+    window.addEventListener("load", () => {
+      document.body.classList.add("page-loaded");
+    });
+
+    document.querySelectorAll("nav a").forEach(link => {
+      link.addEventListener("click", e => {
+        const href = link.getAttribute("href");
+        if (!href) return;
+
+        e.preventDefault();
+        document.body.classList.add("page-exit");
+
+        setTimeout(() => {
+          window.location.href = href;
+        }, 200);
+      });
+    });
+  </script>
+</body>
+</html>
