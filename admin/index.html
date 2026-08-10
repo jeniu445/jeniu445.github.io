@@ -64,7 +64,7 @@
 
 
     .collage-help{
-      max-width:760px;
+      max-width:780px;
 
       font-family:
         -apple-system,
@@ -79,14 +79,15 @@
     }
 
 
-    .collage-toolbar-actions{
+    .collage-toolbar-right{
       display:flex;
       align-items:center;
-      gap:8px;
+
+      gap:10px;
     }
 
 
-    .collage-selection-count{
+    .selection-count{
       font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -101,10 +102,9 @@
     }
 
 
-    .collage-reset{
-      flex:0 0 auto;
-
+    .collage-button{
       border:1px solid #bbb;
+
       border-radius:4px;
 
       background:#fff;
@@ -123,7 +123,7 @@
     }
 
 
-    .collage-reset:hover{
+    .collage-button:hover{
       background:#f4f4f4;
     }
 
@@ -167,7 +167,7 @@
 
 
     /* =========================================================
-       FIXED 1600PX DESIGN ARTBOARD
+       FIXED 1600PX ARTBOARD
        ========================================================= */
 
     .collage-artboard{
@@ -199,13 +199,11 @@
       user-select:none;
 
       touch-action:none;
-
-      cursor:default;
     }
 
 
 
-    /* subtle center guide */
+    /* CENTER GUIDE */
 
     .collage-center-line{
       position:absolute;
@@ -226,7 +224,7 @@
 
 
     /* =========================================================
-       ARTWORK ITEM
+       ARTWORK
        ========================================================= */
 
     .collage-item{
@@ -236,16 +234,11 @@
 
       cursor:grab;
 
-      /*
-        outline is used for selection,
-        so border doesn't affect dimensions.
-      */
-
       outline:
         2px solid transparent;
 
       outline-offset:
-        3px;
+        4px;
 
       touch-action:none;
     }
@@ -258,10 +251,7 @@
 
 
     /*
-      MULTI-SELECTION
-
-      Every selected artwork gets
-      a permanent black outline.
+      Selected artwork stays visibly outlined.
     */
 
     .collage-item.selected{
@@ -300,8 +290,8 @@
     .collage-resize{
       position:absolute;
 
-      right:-10px;
-      bottom:-10px;
+      right:-11px;
+      bottom:-11px;
 
       width:22px;
       height:22px;
@@ -319,15 +309,18 @@
     }
 
 
-    .collage-item:hover .collage-resize,
-    .collage-item.selected .collage-resize{
+    .collage-item:hover
+    .collage-resize,
+
+    .collage-item.selected
+    .collage-resize{
       opacity:1;
     }
 
 
 
     /* =========================================================
-       PATH LABEL
+       IMAGE PATH LABEL
        ========================================================= */
 
     .collage-label{
@@ -336,7 +329,7 @@
       left:0;
       bottom:100%;
 
-      margin-bottom:6px;
+      margin-bottom:7px;
 
       max-width:300px;
 
@@ -368,8 +361,11 @@
     }
 
 
-    .collage-item:hover .collage-label,
-    .collage-item.selected .collage-label{
+    .collage-item:hover
+    .collage-label,
+
+    .collage-item.selected
+    .collage-label{
       opacity:1;
     }
 
@@ -425,7 +421,9 @@
     ){
 
       if(!value){
+
         return [];
+
       }
 
 
@@ -440,7 +438,9 @@
       }
 
 
-      return Array.isArray(value)
+      return Array.isArray(
+        value
+      )
         ? value
         : [];
 
@@ -449,15 +449,16 @@
 
 
     /* =========================================================
-       CUSTOM COLLAGE CONTROL
+       COLLAGE CONTROL
        ========================================================= */
 
     const CollageControl =
       createClass({
 
 
+
         /* =====================================================
-           STATE
+           INITIAL STATE
            ===================================================== */
 
         getInitialState:
@@ -473,22 +474,7 @@
 
               scale:1,
 
-
-              /*
-                MULTI-SELECTION
-
-                Instead of only one activeIndex,
-                we now keep an array.
-              */
-
               selectedIndices:[],
-
-
-              /*
-                activeIndex is still useful for
-                showing which artwork initiated
-                the current drag/resize.
-              */
 
               activeIndex:null
 
@@ -499,11 +485,15 @@
 
 
         /* =====================================================
-           MOUNT
+           COMPONENT MOUNT
            ===================================================== */
 
         componentDidMount:
           function(){
+
+            this.shiftDown =
+              false;
+
 
             this.loadArtwork();
 
@@ -513,12 +503,66 @@
               this.updateScale
             );
 
+
+            /*
+              -----------------------------------------
+              GLOBAL SHIFT TRACKING
+
+              This is more reliable than depending
+              only on pointerEvent.shiftKey inside
+              the Decap custom React widget.
+              -----------------------------------------
+            */
+
+            this.handleShiftKeyDown =
+              event => {
+
+                if(
+                  event.key ===
+                  "Shift"
+                ){
+
+                  this.shiftDown =
+                    true;
+
+                }
+
+              };
+
+
+            this.handleShiftKeyUp =
+              event => {
+
+                if(
+                  event.key ===
+                  "Shift"
+                ){
+
+                  this.shiftDown =
+                    false;
+
+                }
+
+              };
+
+
+            window.addEventListener(
+              "keydown",
+              this.handleShiftKeyDown
+            );
+
+
+            window.addEventListener(
+              "keyup",
+              this.handleShiftKeyUp
+            );
+
           },
 
 
 
         /* =====================================================
-           UNMOUNT
+           COMPONENT UNMOUNT
            ===================================================== */
 
         componentWillUnmount:
@@ -530,6 +574,18 @@
             );
 
 
+            window.removeEventListener(
+              "keydown",
+              this.handleShiftKeyDown
+            );
+
+
+            window.removeEventListener(
+              "keyup",
+              this.handleShiftKeyUp
+            );
+
+
             this.removePointerListeners();
 
           },
@@ -537,7 +593,7 @@
 
 
         /* =====================================================
-           UPDATE
+           COMPONENT UPDATE
            ===================================================== */
 
         componentDidUpdate:
@@ -566,7 +622,8 @@
 
 
             const availableWidth =
-              this.viewportNode.clientWidth;
+              this.viewportNode
+                .clientWidth;
 
 
             if(
@@ -580,9 +637,12 @@
 
             const nextScale =
               Math.min(
+
                 1,
+
                 availableWidth /
                 DESIGN_WIDTH
+
               );
 
 
@@ -608,7 +668,7 @@
 
 
         /* =====================================================
-           LOAD ARTWORKS
+           LOAD ARTWORK
            ===================================================== */
 
         loadArtwork:
@@ -618,11 +678,14 @@
 
               const response =
                 await fetch(
+
                   "/content/artworks.json?v=" +
                   Date.now(),
+
                   {
                     cache:"no-store"
                   }
+
                 );
 
 
@@ -657,7 +720,7 @@
 
 
               /* =================================================
-                 MIGRATE OLD PERCENTAGE DATA
+                 MIGRATE OLD PERCENT VALUES
                  ================================================= */
 
               const looksLikeOldPercentageData =
@@ -670,7 +733,6 @@
                     ) <= 100
 
                 );
-
 
 
               const savedByImage =
@@ -755,8 +817,50 @@
 
 
               /* =================================================
-                 CREATE ITEMS
+                 STARTING POSITIONS
                  ================================================= */
+
+              const starterPositions = [
+
+                {
+                  x:70,
+                  y:80,
+                  width:390
+                },
+
+                {
+                  x:570,
+                  y:130,
+                  width:400
+                },
+
+                {
+                  x:1150,
+                  y:100,
+                  width:360
+                },
+
+                {
+                  x:240,
+                  y:430,
+                  width:380
+                },
+
+                {
+                  x:780,
+                  y:500,
+                  width:370
+                },
+
+                {
+                  x:1180,
+                  y:500,
+                  width:300
+                }
+
+              ];
+
+
 
               const items =
                 artworks.map(
@@ -778,47 +882,6 @@
                     }
 
 
-                    const starterPositions = [
-
-                      {
-                        x:70,
-                        y:80,
-                        width:390
-                      },
-
-                      {
-                        x:570,
-                        y:130,
-                        width:400
-                      },
-
-                      {
-                        x:1150,
-                        y:100,
-                        width:360
-                      },
-
-                      {
-                        x:240,
-                        y:430,
-                        width:380
-                      },
-
-                      {
-                        x:780,
-                        y:500,
-                        width:370
-                      },
-
-                      {
-                        x:1180,
-                        y:500,
-                        width:300
-                      }
-
-                    ];
-
-
                     const slot =
                       starterPositions[
                         index %
@@ -828,8 +891,10 @@
 
                     const band =
                       Math.floor(
+
                         index /
                         starterPositions.length
+
                       );
 
 
@@ -930,20 +995,26 @@
 
             const lowestY =
               this.state.items.reduce(
+
                 function(
                   result,
                   item
                 ){
 
                   return Math.max(
+
                     result,
+
                     Number(
                       item.y
                     ) || 0
+
                   );
 
                 },
+
                 0
+
               );
 
 
@@ -955,6 +1026,52 @@
               800
 
             );
+
+          },
+
+
+
+        /* =====================================================
+           SHIFT DETECTION
+           ===================================================== */
+
+        isShiftPressed:
+          function(event){
+
+            if(
+              this.shiftDown ===
+              true
+            ){
+
+              return true;
+
+            }
+
+
+            if(
+              event &&
+              event.shiftKey ===
+              true
+            ){
+
+              return true;
+
+            }
+
+
+            if(
+              event &&
+              event.nativeEvent &&
+              event.nativeEvent.shiftKey ===
+              true
+            ){
+
+              return true;
+
+            }
+
+
+            return false;
 
           },
 
@@ -980,16 +1097,16 @@
 
 
         /* =====================================================
-           CLICK EMPTY ARTBOARD
+           CLICK EMPTY CANVAS
            ===================================================== */
 
         handleArtboardPointerDown:
           function(event){
 
             /*
-              Artwork pointer events stop propagation,
-              so this only fires when clicking
-              empty canvas space.
+              Artwork pointer events use
+              stopPropagation(), so this should
+              fire only when empty canvas is clicked.
             */
 
             if(
@@ -1028,14 +1145,22 @@
 
 
             let selected =
-              this.state.selectedIndices.slice();
+              this.state.selectedIndices
+                .slice();
+
+
+            const shiftPressed =
+              this.isShiftPressed(
+                event
+              );
 
 
 
             /* =================================================
-               RESIZING
+               RESIZE
 
-               Resize stays single-item only.
+               Resize only the item whose handle
+               you actually grabbed.
                ================================================= */
 
             if(
@@ -1044,8 +1169,8 @@
             ){
 
               /*
-                Keep existing multi-selection visible,
-                but resize only this artwork.
+                If the item is not currently
+                selected, select it by itself.
               */
 
               if(
@@ -1064,7 +1189,7 @@
 
 
             /* =================================================
-               MOVING / SELECTING
+               MOVE / SELECT
                ================================================= */
 
             if(
@@ -1073,15 +1198,19 @@
             ){
 
 
-              /* -----------------------------------------------
-                 SHIFT + CLICK
-
-                 toggle this artwork in selection
-                 ----------------------------------------------- */
+              /* ===============================================
+                 SHIFT CLICK
+                 =============================================== */
 
               if(
-                event.shiftKey
+                shiftPressed
               ){
+
+
+                /*
+                  If already selected:
+                  remove it.
+                */
 
                 if(
                   selected.includes(
@@ -1089,15 +1218,13 @@
                   )
                 ){
 
-                  /*
-                    Shift-click selected artwork:
-                    remove it.
-                  */
-
                   selected =
                     selected.filter(
-                      value =>
-                        value !== index
+                      selectedIndex =>
+
+                        selectedIndex !==
+                        index
+
                     );
 
 
@@ -1112,40 +1239,43 @@
 
 
                   /*
-                    Do NOT begin dragging the image
-                    we just deselected.
+                    Don't start dragging an item
+                    that was just removed.
                   */
 
                   return;
 
                 }
-                else{
 
-                  /*
-                    Add artwork to selection.
-                  */
 
-                  selected.push(
-                    index
+                /*
+                  Otherwise ADD to selection.
+                */
+
+                selected =
+                  selected.concat(
+                    [index]
                   );
-
-                }
 
               }
 
 
-              /* -----------------------------------------------
+
+              /* ===============================================
                  NORMAL CLICK
-                 ----------------------------------------------- */
+                 =============================================== */
 
               else{
 
-                /*
-                  If the artwork is already part of a
-                  multi-selection, preserve that selection.
 
-                  This allows:
-                  Shift-select several → drag any one of them.
+                /*
+                  If clicked item isn't part of
+                  the current group, replace
+                  selection with just this one.
+
+                  If it IS already selected,
+                  preserve the group so dragging
+                  it moves everything together.
                 */
 
                 if(
@@ -1166,13 +1296,12 @@
 
 
             /*
-              Safety:
-              make sure there is always at least
-              one selected item for this drag.
+              Safety fallback.
             */
 
             if(
-              !selected.length
+              selected.length ===
+              0
             ){
 
               selected =
@@ -1183,7 +1312,8 @@
 
 
             /* =================================================
-               SAVE ORIGINAL POSITIONS OF ALL SELECTED ITEMS
+               STORE ORIGINAL POSITIONS
+               FOR THE WHOLE SELECTED GROUP
                ================================================= */
 
             const originalPositions =
@@ -1233,12 +1363,6 @@
               mode:
                 mode,
 
-              selectedIndices:
-                selected.slice(),
-
-              originalPositions:
-                originalPositions,
-
               startClientX:
                 event.clientX,
 
@@ -1258,7 +1382,13 @@
               originalWidth:
                 Number(
                   item.width
-                ) || 400
+                ) || 400,
+
+              selectedIndices:
+                selected.slice(),
+
+              originalPositions:
+                originalPositions
 
             };
 
@@ -1338,6 +1468,7 @@
             const items =
               this.state.items.map(
                 item =>
+
                   Object.assign(
                     {},
                     item
@@ -1347,21 +1478,13 @@
 
 
             /* =================================================
-               MOVE SELECTED GROUP
+               MOVE GROUP
                ================================================= */
 
             if(
               drag.mode ===
               "move"
             ){
-
-              /*
-                Calculate one allowed dx/dy for the
-                ENTIRE group.
-
-                This preserves relative positions if
-                one selected artwork reaches an edge.
-              */
 
               let minimumDx =
                 -Infinity;
@@ -1376,50 +1499,56 @@
 
 
 
-              drag.selectedIndices.forEach(
-                selectedIndex => {
+              /*
+                Determine how far the WHOLE
+                group is allowed to move.
+              */
 
-                  const original =
-                    drag.originalPositions[
-                      selectedIndex
-                    ];
+              drag.selectedIndices
+                .forEach(
+                  selectedIndex => {
 
-
-                  minimumDx =
-                    Math.max(
-
-                      minimumDx,
-
-                      -original.x
-
-                    );
+                    const original =
+                      drag.originalPositions[
+                        selectedIndex
+                      ];
 
 
-                  maximumDx =
-                    Math.min(
+                    minimumDx =
+                      Math.max(
 
-                      maximumDx,
+                        minimumDx,
 
-                      DESIGN_WIDTH -
-                      (
-                        original.x +
-                        original.width
-                      )
+                        -original.x
 
-                    );
+                      );
 
 
-                  minimumDy =
-                    Math.max(
+                    maximumDx =
+                      Math.min(
 
-                      minimumDy,
+                        maximumDx,
 
-                      -original.y
+                        DESIGN_WIDTH -
+                        (
+                          original.x +
+                          original.width
+                        )
 
-                    );
+                      );
 
-                }
-              );
+
+                    minimumDy =
+                      Math.max(
+
+                        minimumDy,
+
+                        -original.y
+
+                      );
+
+                  }
+                );
 
 
 
@@ -1440,41 +1569,42 @@
 
 
               /*
-                Apply the SAME movement delta to
-                every selected artwork.
+                Apply exactly the same delta
+                to every selected artwork.
               */
 
-              drag.selectedIndices.forEach(
-                selectedIndex => {
+              drag.selectedIndices
+                .forEach(
+                  selectedIndex => {
 
-                  const original =
-                    drag.originalPositions[
+                    const original =
+                      drag.originalPositions[
+                        selectedIndex
+                      ];
+
+
+                    items[
                       selectedIndex
-                    ];
+                    ].x =
+                      original.x +
+                      dx;
 
 
-                  items[
-                    selectedIndex
-                  ].x =
-                    original.x +
-                    dx;
+                    items[
+                      selectedIndex
+                    ].y =
+                      original.y +
+                      dy;
 
-
-                  items[
-                    selectedIndex
-                  ].y =
-                    original.y +
-                    dy;
-
-                }
-              );
+                  }
+                );
 
             }
 
 
 
             /* =================================================
-               RESIZE ONE ITEM
+               RESIZE
                ================================================= */
 
             if(
@@ -1557,7 +1687,7 @@
 
 
             /*
-              Save x/y/width changes into Decap.
+              Save new coordinates to Decap.
             */
 
             this.props.onChange(
@@ -1569,7 +1699,7 @@
 
 
         /* =====================================================
-           REMOVE POINTER LISTENERS
+           POINTER CLEANUP
            ===================================================== */
 
         removePointerListeners:
@@ -1591,7 +1721,7 @@
 
 
         /* =====================================================
-           RESET
+           RESET LAYOUT
            ===================================================== */
 
         resetLayout:
@@ -1654,8 +1784,10 @@
 
                   const band =
                     Math.floor(
+
                       index /
                       starterPositions.length
+
                     );
 
 
@@ -1702,7 +1834,7 @@
 
 
         /* =====================================================
-           RENDER ONE ARTWORK
+           RENDER ARTWORK
            ===================================================== */
 
         renderItem:
@@ -1711,15 +1843,18 @@
             index
           ){
 
-            const active =
-              this.state.activeIndex ===
-              index;
-
-
             const selected =
-              this.state.selectedIndices.includes(
-                index
-              );
+              this.state
+                .selectedIndices
+                .includes(
+                  index
+                );
+
+
+            const active =
+              this.state
+                .activeIndex ===
+              index;
 
 
             let className =
@@ -1790,7 +1925,7 @@
 
 
 
-              /* PATH LABEL */
+              /* IMAGE PATH */
 
               h(
 
@@ -1826,7 +1961,7 @@
 
 
 
-              /* RESIZE HANDLE */
+              /* RESIZE */
 
               h(
 
@@ -1919,7 +2054,9 @@
 
 
             const selectedCount =
-              this.state.selectedIndices.length;
+              this.state
+                .selectedIndices
+                .length;
 
 
 
@@ -1948,6 +2085,7 @@
                 },
 
 
+
                 h(
 
                   "div",
@@ -1957,7 +2095,7 @@
                       "collage-help"
                   },
 
-                  "Click an artwork to select it. Hold Shift and click additional artworks to multi-select. Drag any selected artwork to move the whole group. Shift-click a selected artwork to remove it from the group. Click empty canvas to deselect. Resize handles still resize one artwork only."
+                  "Click an artwork to select it. Hold Shift and click other artworks to add them to the selection. Release Shift, then drag any selected artwork to move the entire group. Shift-click a selected artwork to remove it. Click empty canvas to clear the selection."
 
                 ),
 
@@ -1969,7 +2107,7 @@
 
                   {
                     className:
-                      "collage-toolbar-actions"
+                      "collage-toolbar-right"
                   },
 
 
@@ -1977,23 +2115,47 @@
 
                     ? h(
 
-                        "div",
+                        "span",
 
                         {
                           className:
-                            "collage-selection-count"
+                            "selection-count"
                         },
 
                         selectedCount +
-                        (
-                          selectedCount === 1
-                            ? " selected"
-                            : " selected"
-                        )
+                        " selected"
 
                       )
 
                     : null,
+
+
+
+                  selectedCount > 0
+
+                    ? h(
+
+                        "button",
+
+                        {
+
+                          type:
+                            "button",
+
+                          className:
+                            "collage-button",
+
+                          onClick:
+                            this.clearSelection
+
+                        },
+
+                        "Deselect"
+
+                      )
+
+                    : null,
+
 
 
                   h(
@@ -2002,10 +2164,11 @@
 
                     {
 
-                      type:"button",
+                      type:
+                        "button",
 
                       className:
-                        "collage-reset",
+                        "collage-button",
 
                       onClick:
                         this.resetLayout
@@ -2058,9 +2221,9 @@
 
 
 
-                /* ===============================================
+                /* =================================================
                    ARTBOARD
-                   =============================================== */
+                   ================================================= */
 
                 h(
 
@@ -2091,6 +2254,8 @@
 
 
 
+                  /* CENTER GUIDE */
+
                   h(
 
                     "div",
@@ -2103,6 +2268,8 @@
                   ),
 
 
+
+                  /* ARTWORK */
 
                   this.state.items.map(
                     this.renderItem
@@ -2121,7 +2288,7 @@
 
 
     /* =========================================================
-       REGISTER WIDGET
+       REGISTER CUSTOM WIDGET
        ========================================================= */
 
     window.CMS.registerWidget(
