@@ -1,0 +1,86 @@
+{
+  "collections": [
+    {
+      "title": "Simpler Times",
+      "photos": [
+        { "image": "/images/photography/st01.jpg" },
+        { "image": "/images/photography/st02.jpg" },
+        { "image": "/images/photography/st03.jpg" },
+        { "image": "/images/photography/st04.jpg" }
+      ]
+    },
+    {
+      "title": "Beach",
+      "photos": [
+        { "image": "/images/photography/beach01.jpg" },
+        { "image": "/images/photography/beach02.jpg" },
+        { "image": "/images/photography/beach03.jpg" },
+        { "image": "/images/photography/beach04.jpg" },
+        { "image": "/images/photography/beach05.jpg" },
+        { "image": "/images/photography/beach06.jpg" }
+      ]
+    },
+    {
+      "title": "Silhouette",
+      "photos": [
+        { "image": "/images/photography/sil01.jpg" },
+        { "image": "/images/photography/sil02.jpg" },
+        { "image": "/images/photography/sil03.jpg" },
+        { "image": "/images/photography/sil04.jpg" },
+        { "image": "/images/photography/sil05.jpg" },
+        { "image": "/images/photography/sil06.jpg" },
+        { "image": "/images/photography/sil07.jpg" },
+        { "image": "/images/photography/sil08.jpg" },
+        { "image": "/images/photography/sil09.jpg" },
+        { "image": "/images/photography/sil10.jpg" },
+        { "image": "/images/photography/sil11.jpg" },
+        { "image": "/images/photography/sil12.jpg" },
+        { "image": "/images/photography/sil13.jpg" },
+        { "image": "/images/photography/sil14.jpg" },
+        { "image": "/images/photography/sil15.jpg" },
+        { "image": "/images/photography/sil16.jpg" }
+      ]
+    },
+    {
+      "title": "China '25",
+      "photos": [
+        { "image": "/images/photography/cn01.jpg" },
+        { "image": "/images/photography/cn02.jpg" },
+        { "image": "/images/photography/cn03.jpg" },
+        { "image": "/images/photography/cn04.jpg" },
+        { "image": "/images/photography/cn05.jpg" },
+        { "image": "/images/photography/cn06.jpg" },
+        { "image": "/images/photography/cn07.jpg" },
+        { "image": "/images/photography/cn08.jpg" },
+        { "image": "/images/photography/cn09.jpg" },
+        { "image": "/images/photography/cn10.jpg" },
+        { "image": "/images/photography/cn11.jpg" },
+        { "image": "/images/photography/cn12.jpg" },
+        { "image": "/images/photography/cn13.jpg" },
+        { "image": "/images/photography/cn14.jpg" },
+        { "image": "/images/photography/cn15.jpg" },
+        { "image": "/images/photography/cn16.jpg" }
+      ]
+    },
+    {
+      "title": "Home",
+      "photos": [
+        { "image": "/images/photography/home01.jpg" },
+        { "image": "/images/photography/home02.jpg" },
+        { "image": "/images/photography/home03.jpg" },
+        { "image": "/images/photography/home04.jpg" },
+        { "image": "/images/photography/home05.jpg" },
+        { "image": "/images/photography/home06.jpg" },
+        { "image": "/images/photography/home07.jpg" }
+      ]
+    },
+    {
+      "title": "Oasis",
+      "photos": [
+        { "image": "/images/photography/oasis01.jpg" },
+        { "image": "/images/photography/oasis02.jpg" },
+        { "image": "/images/photography/oasis03.jpg" }
+      ]
+    }
+  ]
+}
