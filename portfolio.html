@@ -1096,14 +1096,10 @@
         const data =
           await response.json();
 
-
         artworkData =
-          Array.isArray(
-            data.artworks
-          )
-            ? data.artworks
+          Array.isArray(data.artworks)
+            ? [...data.artworks].reverse()
             : [];
-
 
         buildGallery();
 
