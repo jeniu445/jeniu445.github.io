@@ -31,6 +31,20 @@
       "url": "/paper-forms.html",
       "description": "",
       "blocks": []
+    },
+    {
+      "title": "test",
+      "slug": "testing",
+      "banner": "/images/projects/img_8875.jpg",
+      "description": "test",
+      "blocks": [
+        {
+          "type": "image",
+          "width": "small",
+          "image": "/images/projects/screenshot-2026-08-03-at-5.22.31 pm.png",
+          "caption": "test"
+        }
+      ]
     }
   ]
 }
