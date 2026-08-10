@@ -2,20 +2,20 @@
   "layout": [
     {
       "image": "/images/portfolio44.jpg",
-      "x": 5,
-      "y": 80,
+      "x": 0,
+      "y": 33.40625,
       "width": 26
     },
     {
       "image": "/images/portfolio42.jpg",
-      "x": 28.86572265625,
-      "y": 175.88671875,
+      "x": 19.88037109375,
+      "y": 95.9765625,
       "width": 42.322265625
     },
     {
       "image": "/images/portfolio38.jpg",
-      "x": 69,
-      "y": 80,
+      "x": 74,
+      "y": 8.57421875,
       "width": 26
     },
     {
