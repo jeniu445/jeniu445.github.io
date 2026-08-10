@@ -67,9 +67,6 @@
       "image": "/images/portfolio21.jpg"
     },
     {
-      "image": "/images/portfolio20.jpg"
-    },
-    {
       "image": "/images/portfolio19.jpg"
     },
     {
@@ -85,6 +82,9 @@
       "image": "/images/portfolio14.jpg"
     },
     {
+      "image": "/images/new_yrs.jpg"
+    },
+    {
       "image": "/images/portfolio12.jpg"
     },
     {
@@ -92,9 +92,6 @@
     },
     {
       "image": "/images/portfolio40.jpg"
-    },
-    {
-      "image": "/images/portfolio11.jpg"
     },
     {
       "image": "/images/portfolio10.jpg"
@@ -119,12 +116,6 @@
     },
     {
       "image": "/images/portfolio03.jpg"
-    },
-    {
-      "image": "/images/portfolio02.jpg"
-    },
-    {
-      "image": "/images/portfolio01.jpg"
     }
   ]
 }
