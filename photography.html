@@ -1,12 +1,21 @@
 <!doctype html>
 <html lang="en">
 <head>
+
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  />
+
   <title>Photography — Jennifer Niu</title>
 
   <style>
-    /* ===== FONT ===== */
+
+    /* =====================================
+       FONT
+       ===================================== */
+
     @font-face{
       font-family:"SpaceMono";
       src:url("fonts/SpaceMono-Regular.woff2") format("woff2");
@@ -14,6 +23,7 @@
       font-style:normal;
       font-display:swap;
     }
+
     @font-face{
       font-family:"SpaceMono";
       src:url("fonts/SpaceMono-Bold.woff2") format("woff2");
@@ -22,543 +32,1944 @@
       font-display:swap;
     }
 
+
+    /* =====================================
+       VARIABLES
+       ===================================== */
+
     :root{
+
       --bg:#fff;
       --text:#111;
 
-      --gutter: 28px;
-      --gallery-width: 1020px;
+      --gutter:28px;
+      --gallery-width:1020px;
 
-      --divider: rgba(0,0,0,.12); /* line separators */
+      --divider:rgba(0,0,0,.12);
 
-      --panel-pad-y: 18px;        /* spacing inside each section */
-      --thumb-gap: 10px;
+      --panel-pad-y:18px;
 
-      /* Arrow styling */
-      --arrow-size: 28px;         /* clickable area */
-      --arrow-pad: 10px;          /* space between arrow and images */
-      --arrow-opacity: .55;
-      --arrow-hover: .95;
+      --thumb-gap:10px;
+
+      --arrow-size:28px;
+      --arrow-pad:10px;
+
+      --arrow-opacity:.55;
+      --arrow-hover:.95;
+
     }
 
-    *{box-sizing:border-box;}
+
+    *{
+      box-sizing:border-box;
+    }
+
+
+    html{
+      scrollbar-gutter:stable;
+    }
+
 
     body{
+
       margin:0;
-      font-family:"SpaceMono","Courier New",Courier,monospace;
+
+      font-family:
+        "SpaceMono",
+        "Courier New",
+        Courier,
+        monospace;
+
       background:var(--bg);
+
       color:var(--text);
+
     }
 
-    /* ===== TOP NAV ===== */
+
+
+    /* =====================================
+       TOP NAV
+       ===================================== */
+
     nav{
+
       position:absolute;
-      top:0;left:0;
+
+      top:0;
+      left:0;
+
       width:100%;
+
       display:flex;
+
       justify-content:center;
+
       gap:2.2rem;
+
       padding:.9rem 0;
+
       z-index:10;
+
     }
+
+
     nav a{
+
       text-decoration:none;
+
       color:var(--text);
+
       font-size:.95rem;
+
       font-weight:700;
+
       padding:.35rem .75rem;
+
       border-radius:999px;
-      transition:background 150ms,transform 150ms, opacity 150ms;
+
+      transition:
+        background 150ms,
+        transform 150ms,
+        opacity 150ms;
+
       user-select:none;
+
     }
+
+
     nav a:hover{
-      background:rgba(0,0,0,.06);
-      transform:translateY(-1px);
+
+      background:
+        rgba(0,0,0,.06);
+
+      transform:
+        translateY(-1px);
+
     }
+
+
+
+    /* =====================================
+       PAGE
+       ===================================== */
 
     main{
+
       min-height:100dvh;
-      padding:4.6rem 0 2rem;
+
+      padding:
+        4.6rem 0 2rem;
+
     }
+
 
     .layout{
+
       width:100%;
-      padding-left:var(--gutter);
-      padding-right:var(--gutter);
+
+      padding-left:
+        var(--gutter);
+
+      padding-right:
+        var(--gutter);
+
       display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
+
+      justify-content:
+        space-between;
+
+      align-items:
+        flex-start;
+
       gap:16px;
+
     }
 
-    /* LEFT TABS */
+
+
+    /* =====================================
+       LEFT TABS
+       ===================================== */
+
     .side{
+
       display:flex;
-      flex-direction:column;
+
+      flex-direction:
+        column;
+
       gap:10px;
+
       padding-top:2px;
+
     }
+
+
     .side a{
+
       text-decoration:none;
+
       color:#000;
+
       font-size:1.1rem;
+
       font-weight:700;
+
       letter-spacing:.15em;
-      text-transform:uppercase;
+
+      text-transform:
+        uppercase;
+
       line-height:1;
-      transition:opacity 160ms ease;
+
+      transition:
+        opacity 160ms ease;
+
       width:fit-content;
+
       user-select:none;
+
     }
-    .side a:hover{opacity:.55;}
+
+
+    .side a:hover{
+
+      opacity:.55;
+
+    }
+
+
     .side a.current{
+
       opacity:.35;
+
       pointer-events:none;
+
     }
 
-    /* RIGHT COLUMN */
+
+
+    /* =====================================
+       RIGHT COLUMN
+       ===================================== */
+
     .gallery{
-      width:var(--gallery-width);
-      flex:0 0 var(--gallery-width);
+
+      width:
+        var(--gallery-width);
+
+      flex:
+        0 0 var(--gallery-width);
+
     }
 
-    /* ===== LINES INSTEAD OF BOXES ===== */
+
+
+    /* =====================================
+       COLLECTION DIVIDERS
+       ===================================== */
+
     .stack{
-      border-top:1px solid var(--divider);
-      border-bottom:1px solid var(--divider);
+
+      border-top:
+        1px solid var(--divider);
+
+      border-bottom:
+        1px solid var(--divider);
+
       display:flex;
-      flex-direction:column;
+
+      flex-direction:
+        column;
+
     }
+
 
     .carousel{
-      padding: var(--panel-pad-y) 0;
-      border-top:1px solid var(--divider); /* line between each section */
+
+      padding:
+        var(--panel-pad-y) 0;
+
+      border-top:
+        1px solid var(--divider);
+
       cursor:pointer;
+
       background:#fff;
+
       user-select:none;
+
     }
-    /* remove extra line at very top (stack already has it) */
-    .carousel:first-child{ border-top:none; }
+
+
+    .carousel:first-child{
+
+      border-top:none;
+
+    }
+
+
+
+    /* =====================================
+       COLLECTION TITLE
+       ===================================== */
 
     .car-title{
-      margin:0 0 12px 0;
+
+      margin:
+        0 0 12px 0;
+
       font-size:.95rem;
+
       font-weight:700;
+
       letter-spacing:.12em;
-      text-transform:uppercase;
+
+      text-transform:
+        uppercase;
+
       color:#000;
+
     }
 
-    /* ===== ARROWS OUTSIDE IMAGE AREA ===== */
+
+
+    /* =====================================
+       CAROUSEL
+       ===================================== */
+
     .viewport{
+
       display:grid;
-      grid-template-columns: auto 1fr auto; /* left arrow gutter, images, right arrow gutter */
+
+      grid-template-columns:
+        auto 1fr auto;
+
       align-items:center;
-      column-gap: var(--arrow-pad);
+
+      column-gap:
+        var(--arrow-pad);
+
     }
+
+
+
+    /* When collection has <= 3 photos */
+
+    .viewport.no-arrows{
+
+      grid-template-columns:
+        1fr;
+
+    }
+
+
 
     .track-clip{
-      overflow:hidden; /* clips the moving track */
+
+      overflow:hidden;
+
       width:100%;
+
     }
+
 
     .track{
+
       display:flex;
-      gap: var(--thumb-gap);
-      transform:translateX(0);
-      transition:transform 260ms ease;
-      will-change:transform;
+
+      gap:
+        var(--thumb-gap);
+
+      transform:
+        translateX(0);
+
+      transition:
+        transform 260ms ease;
+
+      will-change:
+        transform;
+
     }
+
+
+
+    /* Three visible photos */
 
     .thumb{
-      flex:0 0 calc((100% - (2 * var(--thumb-gap))) / 3); /* 3 across */
+
+      flex:
+        0 0
+        calc(
+          (100% - (2 * var(--thumb-gap))) / 3
+        );
+
       background:#fff;
+
     }
+
+
     .thumb img{
+
       width:100%;
+
       height:260px;
+
       object-fit:contain;
+
       display:block;
+
       background:#fff;
-      pointer-events:none;
+
+      cursor:zoom-in;
+
     }
 
-    /* thin arrows, no border, do not overlap images */
+
+
+    /* =====================================
+       CAROUSEL ARROWS
+       ===================================== */
+
     .arrow{
-      width: var(--arrow-size);
-      height: var(--arrow-size);
+
+      width:
+        var(--arrow-size);
+
+      height:
+        var(--arrow-size);
+
       display:flex;
+
       align-items:center;
+
       justify-content:center;
-      border:none;            /* ✅ no border */
-      background:transparent; /* ✅ no background box */
+
+      border:none;
+
+      background:transparent;
+
       padding:0;
+
       cursor:pointer;
-      opacity: var(--arrow-opacity);
-      transition:opacity 140ms ease, transform 140ms ease;
+
+      opacity:
+        var(--arrow-opacity);
+
+      transition:
+        opacity 140ms ease,
+        transform 140ms ease;
+
     }
+
+
     .arrow:hover{
-      opacity: var(--arrow-hover);
-      transform:scale(1.04);
+
+      opacity:
+        var(--arrow-hover);
+
+      transform:
+        scale(1.04);
+
     }
 
-    /* make the svg thinner */
+
     .arrow svg{
+
       width:18px;
+
       height:18px;
+
       display:block;
-      stroke-width:1.4; /* ✅ thinner */
+
+      stroke-width:1.4;
+
     }
 
-    /* hide arrows completely when we decide (Oasis) */
-    .viewport.no-arrows{
-      grid-template-columns: 1fr; /* only images */
-    }
-    .viewport.no-arrows .arrow{
-      display:none;
+
+
+    /* =====================================
+       LOADING MESSAGE
+       ===================================== */
+
+    .loading{
+
+      padding:
+        18px 0;
+
+      font-size:.8rem;
+
+      font-weight:700;
+
+      letter-spacing:.1em;
+
+      text-transform:
+        uppercase;
+
+      opacity:.35;
+
     }
 
-    /* ===== MODAL ===== */
+
+
+    /* =====================================
+       MODAL
+       ===================================== */
+
     .modal{
+
       position:fixed;
+
       inset:0;
-      background:rgba(0,0,0,.58);
+
+      background:
+        rgba(0,0,0,.58);
+
       display:none;
+
       align-items:center;
+
       justify-content:center;
+
       z-index:999;
+
       padding:24px;
+
     }
-    .modal.open{display:flex;}
+
+
+    .modal.open{
+
+      display:flex;
+
+    }
+
+
 
     .modal-panel{
-      width:min(1200px,96vw);
-      height:min(820px,88vh);
+
+      width:
+        min(1200px,96vw);
+
+      height:
+        min(820px,88vh);
+
       background:#fff;
+
       display:flex;
-      flex-direction:column;
+
+      flex-direction:
+        column;
+
       border-radius:0;
-      box-shadow:0 24px 80px rgba(0,0,0,.30);
+
+      box-shadow:
+        0 24px 80px
+        rgba(0,0,0,.30);
+
       overflow:hidden;
+
     }
+
+
 
     .modal-top{
+
       display:flex;
+
       align-items:center;
-      justify-content:space-between;
+
+      justify-content:
+        space-between;
+
       padding:14px;
-      border-bottom:1px solid rgba(0,0,0,.08);
+
+      border-bottom:
+        1px solid
+        rgba(0,0,0,.08);
+
     }
+
+
+
     .modal-title{
+
       margin:0;
+
       font-size:.95rem;
+
       font-weight:700;
+
       letter-spacing:.12em;
-      text-transform:uppercase;
+
+      text-transform:
+        uppercase;
+
       color:#000;
+
     }
+
+
 
     .close{
+
       border:none;
-      background:transparent;
+
+      background:
+        transparent;
+
+      font-family:
+        "SpaceMono",
+        monospace;
+
       font-size:22px;
+
       cursor:pointer;
+
       opacity:.7;
-      transition:opacity 160ms ease, transform 160ms ease;
+
+      transition:
+        opacity 160ms ease,
+        transform 160ms ease;
+
     }
-    .close:hover{opacity:1; transform:scale(1.05);}
+
+
+    .close:hover{
+
+      opacity:1;
+
+      transform:
+        scale(1.05);
+
+    }
+
+
 
     .modal-body{
+
       position:relative;
+
       flex:1;
+
       display:flex;
+
       align-items:center;
+
       justify-content:center;
+
       overflow:hidden;
+
       background:#fff;
+
     }
+
+
 
     .modal-img{
-      max-width:calc(100% - 120px);
-      max-height:calc(100% - 40px);
+
+      max-width:
+        calc(100% - 120px);
+
+      max-height:
+        calc(100% - 40px);
+
       width:auto;
+
       height:auto;
+
       object-fit:contain;
+
       display:block;
+
     }
+
+
+
+    /* =====================================
+       MODAL ARROWS
+       ===================================== */
 
     .modal-arrow{
+
       position:absolute;
+
       top:50%;
-      transform:translateY(-50%);
-      width:44px;height:44px;
-      border:none;                 /* ✅ no border */
-      background:rgba(255,255,255,.92);
+
+      transform:
+        translateY(-50%);
+
+      width:44px;
+
+      height:44px;
+
+      border:none;
+
+      background:
+        rgba(255,255,255,.92);
+
       display:flex;
+
       align-items:center;
+
       justify-content:center;
+
       cursor:pointer;
+
       opacity:.92;
-      transition:transform 140ms ease, opacity 140ms ease;
+
+      transition:
+        transform 140ms ease,
+        opacity 140ms ease;
+
       user-select:none;
+
     }
-    .modal-arrow:hover{transform:translateY(-50%) scale(1.04); opacity:1;}
-    .modal-arrow.left{left:14px;}
-    .modal-arrow.right{right:14px;}
-    .modal-arrow svg{width:20px;height:20px;display:block;stroke-width:1.6;}
+
+
+    .modal-arrow:hover{
+
+      transform:
+        translateY(-50%)
+        scale(1.04);
+
+      opacity:1;
+
+    }
+
+
+    .modal-arrow.left{
+
+      left:14px;
+
+    }
+
+
+    .modal-arrow.right{
+
+      right:14px;
+
+    }
+
+
+    .modal-arrow svg{
+
+      width:20px;
+
+      height:20px;
+
+      display:block;
+
+      stroke-width:1.6;
+
+    }
+
+
+
+    /* =====================================
+       RESPONSIVE
+       ===================================== */
 
     @media (max-width:1180px){
-      .layout{flex-direction:column;align-items:center;gap:6px;}
-      .side{flex-direction:row;flex-wrap:wrap;gap:12px;padding-top:0;}
-      .gallery{width:min(100%,var(--gallery-width));flex:0 1 auto;}
+
+      .layout{
+
+        flex-direction:
+          column;
+
+        align-items:center;
+
+        gap:6px;
+
+      }
+
+
+      .side{
+
+        flex-direction:
+          row;
+
+        flex-wrap:
+          wrap;
+
+        gap:12px;
+
+        padding-top:0;
+
+      }
+
+
+      .gallery{
+
+        width:
+          min(
+            100%,
+            var(--gallery-width)
+          );
+
+        flex:
+          0 1 auto;
+
+      }
+
     }
+
+
 
     @media (max-width:980px){
-      .thumb img{height:220px;}
+
+      .thumb img{
+
+        height:220px;
+
+      }
+
     }
 
+
+
     @media (max-width:520px){
+
       .viewport{
-        grid-template-columns: auto 1fr auto;
+
+        grid-template-columns:
+          auto 1fr auto;
+
       }
-      .thumb{flex:0 0 100%;}
-      .track{gap:8px;}
-      .thumb img{height:240px;}
+
+
+      .viewport.no-arrows{
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+
+      .thumb{
+
+        flex:
+          0 0 100%;
+
+      }
+
+
+      .track{
+
+        gap:8px;
+
+      }
+
+
+      .thumb img{
+
+        height:240px;
+
+      }
+
     }
+
   </style>
 </head>
 
+
+
 <body>
+
+
+  <!-- =====================================
+       TOP NAV
+       ===================================== -->
+
   <nav>
-    <a href="index.html">Home</a>
-    <a href="portfolio.html">Portfolio</a>
-    <a href="about.html">About</a>
+
+    <a href="index.html">
+      Home
+    </a>
+
+    <a href="portfolio.html">
+      Portfolio
+    </a>
+
+    <a href="about.html">
+      About
+    </a>
+
   </nav>
 
+
+
   <main>
+
     <div class="layout">
+
+
+      <!-- LEFT -->
+
       <aside class="side">
-        <a href="portfolio.html">Artworks</a>
-        <a href="projects.html">Projects</a>
-        <a href="photography.html" class="current">Photography</a>
+
+        <a href="portfolio.html">
+          Artworks
+        </a>
+
+        <a href="projects.html">
+          Projects
+        </a>
+
+        <a
+          href="photography.html"
+          class="current"
+        >
+          Photography
+        </a>
+
       </aside>
 
+
+
+      <!-- RIGHT -->
+
       <div class="gallery">
-        <div class="stack" id="stack"></div>
+
+        <div
+          class="stack"
+          id="stack"
+        >
+
+          <div class="loading">
+            Loading photography...
+          </div>
+
+        </div>
+
       </div>
+
+
     </div>
+
   </main>
 
-  <!-- Modal -->
-  <div class="modal" id="modal" aria-hidden="true">
-    <div class="modal-panel" role="dialog" aria-modal="true">
+
+
+  <!-- =====================================
+       MODAL
+       ===================================== -->
+
+  <div
+    class="modal"
+    id="modal"
+    aria-hidden="true"
+  >
+
+    <div
+      class="modal-panel"
+      role="dialog"
+      aria-modal="true"
+    >
+
       <div class="modal-top">
-        <h3 class="modal-title" id="modalTitle"></h3>
-        <button class="close" id="closeBtn" aria-label="Close">×</button>
+
+        <h3
+          class="modal-title"
+          id="modalTitle"
+        ></h3>
+
+        <button
+          class="close"
+          id="closeBtn"
+          aria-label="Close"
+        >
+          ×
+        </button>
+
       </div>
+
+
       <div class="modal-body">
-        <button class="modal-arrow left" id="prevBtn" aria-label="Previous">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18l-6-6 6-6"/></svg>
+
+
+        <button
+          class="modal-arrow left"
+          id="prevBtn"
+          aria-label="Previous"
+        >
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+          >
+            <path
+              d="M15 18l-6-6 6-6"
+            />
+          </svg>
+
         </button>
-        <img class="modal-img" id="modalImg" alt="">
-        <button class="modal-arrow right" id="nextBtn" aria-label="Next">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 6l6 6-6 6"/></svg>
+
+
+
+        <img
+          class="modal-img"
+          id="modalImg"
+          alt=""
+        >
+
+
+
+        <button
+          class="modal-arrow right"
+          id="nextBtn"
+          aria-label="Next"
+        >
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+          >
+            <path
+              d="M9 6l6 6-6 6"
+            />
+          </svg>
+
         </button>
+
+
       </div>
+
     </div>
+
   </div>
 
+
+
   <script>
-    // images live in /images/photography/
-    const basePath = "images/photography/";
 
-    const carousels = [
-      { title:"Simpler Times", files:["st01","st02","st03","st04"] },
-      { title:"Beach", files:["beach01","beach02","beach03","beach04","beach05","beach06"] },
-      { title:"Silhouette", files:[...Array(16)].map((_,i)=>`sil${String(i+1).padStart(2,"0")}`) },
-      { title:"China '25", files:[...Array(16)].map((_,i)=>`cn${String(i+1).padStart(2,"0")}`) },
-      { title:"Home", files:[...Array(7)].map((_,i)=>`home${String(i+1).padStart(2,"0")}`) },
-      { title:"Oasis", files:["oasis01","oasis02","oasis03"] } // no arrows
-    ];
+    /* =====================================
+       ELEMENTS
+       ===================================== */
 
-    const stack = document.getElementById("stack");
+    const stack =
+      document.getElementById(
+        "stack"
+      );
 
-    const modal = document.getElementById("modal");
-    const modalImg = document.getElementById("modalImg");
-    const modalTitle = document.getElementById("modalTitle");
-    const closeBtn = document.getElementById("closeBtn");
-    const prevBtn = document.getElementById("prevBtn");
-    const nextBtn = document.getElementById("nextBtn");
+    const modal =
+      document.getElementById(
+        "modal"
+      );
 
-    let activeCarousel = 0, activeIndex = 0;
+    const modalImg =
+      document.getElementById(
+        "modalImg"
+      );
 
-    function createCarousel(idx, data){
-      const wrap = document.createElement("div");
-      wrap.className = "carousel";
+    const modalTitle =
+      document.getElementById(
+        "modalTitle"
+      );
 
-      const title = document.createElement("h3");
-      title.className = "car-title";
-      title.textContent = data.title;
+    const closeBtn =
+      document.getElementById(
+        "closeBtn"
+      );
 
-      const viewport = document.createElement("div");
-      viewport.className = "viewport";
+    const prevBtn =
+      document.getElementById(
+        "prevBtn"
+      );
 
-      const left = document.createElement("button");
-      left.className = "arrow left";
-      left.type = "button";
-      left.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18l-6-6 6-6"/></svg>`;
+    const nextBtn =
+      document.getElementById(
+        "nextBtn"
+      );
 
-      const right = document.createElement("button");
-      right.className = "arrow right";
-      right.type = "button";
-      right.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 6l6 6-6 6"/></svg>`;
 
-      const clip = document.createElement("div");
-      clip.className = "track-clip";
 
-      const track = document.createElement("div");
-      track.className = "track";
+    /* Data loaded from Decap */
 
-      data.files.forEach(name=>{
-        const t = document.createElement("div");
-        t.className = "thumb";
+    let collections = [];
 
-        const img = document.createElement("img");
-        img.alt = `${data.title} photo`;
-        img.loading = "lazy";
-        img.src = basePath + name + ".jpg";
-        img.onerror = () => console.error("Missing image:", img.src);
+    let activeCarousel = 0;
 
-        t.appendChild(img);
-        track.appendChild(t);
-      });
+    let activeIndex = 0;
 
-      clip.appendChild(track);
 
-      // ✅ remove arrows for Oasis (and any carousel with <=3 images)
-      const noArrows = (data.title.toLowerCase() === "oasis") || (data.files.length <= 3);
-      if(noArrows){
-        viewport.classList.add("no-arrows");
-        viewport.appendChild(clip);
-      }else{
-        viewport.appendChild(left);
-        viewport.appendChild(clip);
-        viewport.appendChild(right);
+
+    /* =====================================
+       LOAD CMS DATA
+       ===================================== */
+
+    async function loadPhotography(){
+
+      try{
+
+        const response =
+          await fetch(
+            "/content/photography.json",
+            {
+              cache:"no-store"
+            }
+          );
+
+
+        if(!response.ok){
+
+          throw new Error(
+            "Could not load photography.json"
+          );
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        collections =
+          data.collections || [];
+
+
+        stack.innerHTML = "";
+
+
+        if(
+          collections.length === 0
+        ){
+
+          stack.innerHTML =
+            `
+              <div class="loading">
+                No photography collections yet.
+              </div>
+            `;
+
+          return;
+
+        }
+
+
+        collections.forEach(
+          (collection,index) => {
+
+            createCarousel(
+              index,
+              collection
+            );
+
+          }
+        );
+
+
+      }
+      catch(error){
+
+        console.error(
+          "Photography loading error:",
+          error
+        );
+
+
+        stack.innerHTML =
+          `
+            <div class="loading">
+              Photography could not load.
+            </div>
+          `;
+
       }
 
-      wrap.appendChild(title);
-      wrap.appendChild(viewport);
-      stack.appendChild(wrap);
+    }
 
-      // carousel state
-      let index = 0;
+
+
+    /* =====================================
+       CREATE COLLECTION
+       ===================================== */
+
+    function createCarousel(
+      collectionIndex,
+      data
+    ){
+
+      const photos =
+        data.photos || [];
+
+
+      /* COLLECTION WRAPPER */
+
+      const wrap =
+        document.createElement(
+          "div"
+        );
+
+      wrap.className =
+        "carousel";
+
+
+
+      /* TITLE */
+
+      const title =
+        document.createElement(
+          "h3"
+        );
+
+      title.className =
+        "car-title";
+
+      title.textContent =
+        data.title || "Untitled";
+
+
+
+      /* VIEWPORT */
+
+      const viewport =
+        document.createElement(
+          "div"
+        );
+
+      viewport.className =
+        "viewport";
+
+
+
+      /* LEFT ARROW */
+
+      const left =
+        document.createElement(
+          "button"
+        );
+
+      left.className =
+        "arrow left";
+
+      left.type =
+        "button";
+
+      left.setAttribute(
+        "aria-label",
+        "Previous photos"
+      );
+
+      left.innerHTML =
+        `
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+          >
+            <path
+              d="M15 18l-6-6 6-6"
+            />
+          </svg>
+        `;
+
+
+
+      /* RIGHT ARROW */
+
+      const right =
+        document.createElement(
+          "button"
+        );
+
+      right.className =
+        "arrow right";
+
+      right.type =
+        "button";
+
+      right.setAttribute(
+        "aria-label",
+        "Next photos"
+      );
+
+      right.innerHTML =
+        `
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+          >
+            <path
+              d="M9 6l6 6-6 6"
+            />
+          </svg>
+        `;
+
+
+
+      /* CLIPPING WINDOW */
+
+      const clip =
+        document.createElement(
+          "div"
+        );
+
+      clip.className =
+        "track-clip";
+
+
+
+      /* MOVING TRACK */
+
+      const track =
+        document.createElement(
+          "div"
+        );
+
+      track.className =
+        "track";
+
+
+
+      /* =====================================
+         CREATE PHOTOS
+         ===================================== */
+
+      photos.forEach(
+        (photo,photoIndex) => {
+
+
+          const thumb =
+            document.createElement(
+              "div"
+            );
+
+          thumb.className =
+            "thumb";
+
+
+          const img =
+            document.createElement(
+              "img"
+            );
+
+
+          img.src =
+            photo.image;
+
+
+          img.alt =
+            photo.alt ||
+            `${data.title} photo ${photoIndex + 1}`;
+
+
+          img.loading =
+            "lazy";
+
+
+          img.addEventListener(
+            "error",
+            () => {
+
+              console.error(
+                "Missing photo:",
+                photo.image
+              );
+
+            }
+          );
+
+
+          /*
+            Clicking the ACTUAL photo opens
+            that particular image in modal.
+          */
+
+          img.addEventListener(
+            "click",
+            event => {
+
+              event.stopPropagation();
+
+              openModal(
+                collectionIndex,
+                photoIndex
+              );
+
+            }
+          );
+
+
+          thumb.appendChild(
+            img
+          );
+
+
+          track.appendChild(
+            thumb
+          );
+
+        }
+      );
+
+
+
+      clip.appendChild(
+        track
+      );
+
+
+
+      /* =====================================
+         ARROW BEHAVIOR
+
+         <= 3 photos = automatically no arrows
+         > 3 photos = carousel
+         ===================================== */
+
+      const noArrows =
+        photos.length <= 3;
+
+
+      if(noArrows){
+
+        viewport
+          .classList
+          .add(
+            "no-arrows"
+          );
+
+
+        viewport.appendChild(
+          clip
+        );
+
+      }
+      else{
+
+        viewport.appendChild(
+          left
+        );
+
+        viewport.appendChild(
+          clip
+        );
+
+        viewport.appendChild(
+          right
+        );
+
+      }
+
+
+
+      wrap.appendChild(
+        title
+      );
+
+
+      wrap.appendChild(
+        viewport
+      );
+
+
+      stack.appendChild(
+        wrap
+      );
+
+
+
+      /* =====================================
+         CAROUSEL POSITION
+         ===================================== */
+
+      let position = 0;
+
+
 
       function maxIndex(){
-        return Math.max(0, data.files.length - 3);
+
+        return Math.max(
+          0,
+          photos.length - 3
+        );
+
       }
+
+
 
       function update(){
-        if(!track.children.length) return;
-        const thumbWidth = track.children[0].getBoundingClientRect().width;
-        const gap = parseFloat(getComputedStyle(track).gap) || 10;
-        track.style.transform = `translateX(${-index * (thumbWidth + gap)}px)`;
+
+        if(
+          !track.children.length
+        ){
+          return;
+        }
+
+
+        const thumbWidth =
+          track
+            .children[0]
+            .getBoundingClientRect()
+            .width;
+
+
+        const gap =
+          parseFloat(
+            getComputedStyle(
+              track
+            ).gap
+          ) || 10;
+
+
+        track.style.transform =
+          `translateX(${
+            -position *
+            (thumbWidth + gap)
+          }px)`;
+
 
         if(!noArrows){
-          left.style.opacity = index <= 0 ? "0.22" : getComputedStyle(document.documentElement).getPropertyValue("--arrow-opacity") || "0.55";
-          right.style.opacity = index >= maxIndex() ? "0.22" : getComputedStyle(document.documentElement).getPropertyValue("--arrow-opacity") || "0.55";
+
+          left.style.opacity =
+            position <= 0
+              ? ".22"
+              : ".55";
+
+
+          right.style.opacity =
+            position >= maxIndex()
+              ? ".22"
+              : ".55";
+
         }
+
       }
+
+
+
+      /* LEFT */
 
       if(!noArrows){
-        left.addEventListener("click", e => {
-          e.stopPropagation();
-          index = Math.max(0, index - 1);
-          update();
-        });
-        right.addEventListener("click", e => {
-          e.stopPropagation();
-          index = Math.min(maxIndex(), index + 1);
-          update();
-        });
 
-        // scroll wheel inside the clip
-        clip.addEventListener("wheel", (e) => {
-          const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-          if (Math.abs(delta) < 4) return;
-          e.preventDefault();
-          if (delta > 0) index = Math.min(maxIndex(), index + 1);
-          else index = Math.max(0, index - 1);
-          update();
-        }, { passive:false });
+        left.addEventListener(
+          "click",
+          event => {
+
+            event.stopPropagation();
+
+            position =
+              Math.max(
+                0,
+                position - 1
+              );
+
+            update();
+
+          }
+        );
+
+
+
+        /* RIGHT */
+
+        right.addEventListener(
+          "click",
+          event => {
+
+            event.stopPropagation();
+
+            position =
+              Math.min(
+                maxIndex(),
+                position + 1
+              );
+
+            update();
+
+          }
+        );
+
+
+
+        /* MOUSE / TRACKPAD SCROLL */
+
+        clip.addEventListener(
+          "wheel",
+          event => {
+
+            const delta =
+              Math.abs(event.deltaX) >
+              Math.abs(event.deltaY)
+                ? event.deltaX
+                : event.deltaY;
+
+
+            if(
+              Math.abs(delta) < 4
+            ){
+              return;
+            }
+
+
+            event.preventDefault();
+
+
+            if(delta > 0){
+
+              position =
+                Math.min(
+                  maxIndex(),
+                  position + 1
+                );
+
+            }
+            else{
+
+              position =
+                Math.max(
+                  0,
+                  position - 1
+                );
+
+            }
+
+
+            update();
+
+          },
+          {
+            passive:false
+          }
+        );
+
       }
 
-      // open modal on click
-      wrap.addEventListener("click", () => openModal(idx, 0));
 
-      window.addEventListener("resize", () => requestAnimationFrame(update));
-      requestAnimationFrame(update);
+
+      window.addEventListener(
+        "resize",
+        () => {
+
+          requestAnimationFrame(
+            update
+          );
+
+        }
+      );
+
+
+      requestAnimationFrame(
+        update
+      );
+
     }
 
-    carousels.forEach((c,i)=>createCarousel(i,c));
+
+
+    /* =====================================
+       MODAL
+       ===================================== */
 
     function setModal(){
-      const c = carousels[activeCarousel];
-      modalTitle.textContent = c.title;
-      modalImg.src = basePath + c.files[activeIndex] + ".jpg";
-      prevBtn.style.opacity = activeIndex === 0 ? "0.25" : "0.95";
-      nextBtn.style.opacity = activeIndex === c.files.length - 1 ? "0.25" : "0.95";
+
+      const collection =
+        collections[
+          activeCarousel
+        ];
+
+
+      if(!collection){
+        return;
+      }
+
+
+      const photos =
+        collection.photos || [];
+
+
+      if(!photos[activeIndex]){
+        return;
+      }
+
+
+      modalTitle.textContent =
+        collection.title || "";
+
+
+      modalImg.src =
+        photos[
+          activeIndex
+        ].image;
+
+
+      modalImg.alt =
+        photos[
+          activeIndex
+        ].alt ||
+        `${collection.title} photo ${activeIndex + 1}`;
+
+
+
+      prevBtn.style.opacity =
+        activeIndex === 0
+          ? ".25"
+          : ".95";
+
+
+      nextBtn.style.opacity =
+        activeIndex ===
+        photos.length - 1
+          ? ".25"
+          : ".95";
+
     }
 
-    function openModal(car, idx){
-      activeCarousel = car;
-      activeIndex = idx;
+
+
+    function openModal(
+      collectionIndex,
+      photoIndex
+    ){
+
+      activeCarousel =
+        collectionIndex;
+
+      activeIndex =
+        photoIndex;
+
+
       setModal();
-      modal.classList.add("open");
-      modal.setAttribute("aria-hidden","false");
-      document.body.style.overflow = "hidden";
+
+
+      modal
+        .classList
+        .add(
+          "open"
+        );
+
+
+      modal.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
+
+      document.body.style.overflow =
+        "hidden";
+
     }
+
+
 
     function closeModal(){
-      modal.classList.remove("open");
-      modal.setAttribute("aria-hidden","true");
-      document.body.style.overflow = "";
+
+      modal
+        .classList
+        .remove(
+          "open"
+        );
+
+
+      modal.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+
+      document.body.style.overflow =
+        "";
+
     }
 
-    function prev(){
-      if(activeIndex > 0){
+
+
+    function previousPhoto(){
+
+      if(
+        activeIndex > 0
+      ){
+
         activeIndex--;
+
         setModal();
+
       }
+
     }
 
-    function next(){
-      const c = carousels[activeCarousel];
-      if(activeIndex < c.files.length - 1){
+
+
+    function nextPhoto(){
+
+      const collection =
+        collections[
+          activeCarousel
+        ];
+
+
+      if(!collection){
+        return;
+      }
+
+
+      const photos =
+        collection.photos || [];
+
+
+      if(
+        activeIndex <
+        photos.length - 1
+      ){
+
         activeIndex++;
+
         setModal();
+
       }
+
     }
 
-    closeBtn.addEventListener("click", closeModal);
-    prevBtn.addEventListener("click", prev);
-    nextBtn.addEventListener("click", next);
 
-    modal.addEventListener("click", e => { if(e.target === modal) closeModal(); });
 
-    modal.addEventListener("wheel",(e)=>{
-      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      if (Math.abs(delta) < 4) return;
-      e.preventDefault();
-      if (delta > 0) next();
-      else prev();
-    }, { passive:false });
+    /* =====================================
+       MODAL CONTROLS
+       ===================================== */
 
-    window.addEventListener("keydown", e => {
-      if(!modal.classList.contains("open")) return;
-      if(e.key === "Escape") closeModal();
-      if(e.key === "ArrowLeft") prev();
-      if(e.key === "ArrowRight") next();
-    });
+    closeBtn.addEventListener(
+      "click",
+      closeModal
+    );
+
+
+    prevBtn.addEventListener(
+      "click",
+      previousPhoto
+    );
+
+
+    nextBtn.addEventListener(
+      "click",
+      nextPhoto
+    );
+
+
+
+    /* Click dark background */
+
+    modal.addEventListener(
+      "click",
+      event => {
+
+        if(
+          event.target ===
+          modal
+        ){
+
+          closeModal();
+
+        }
+
+      }
+    );
+
+
+
+    /* Mouse / trackpad inside modal */
+
+    modal.addEventListener(
+      "wheel",
+      event => {
+
+        const delta =
+          Math.abs(event.deltaX) >
+          Math.abs(event.deltaY)
+            ? event.deltaX
+            : event.deltaY;
+
+
+        if(
+          Math.abs(delta) < 4
+        ){
+          return;
+        }
+
+
+        event.preventDefault();
+
+
+        if(delta > 0){
+
+          nextPhoto();
+
+        }
+        else{
+
+          previousPhoto();
+
+        }
+
+      },
+      {
+        passive:false
+      }
+    );
+
+
+
+    /* Keyboard */
+
+    window.addEventListener(
+      "keydown",
+      event => {
+
+        if(
+          !modal
+            .classList
+            .contains(
+              "open"
+            )
+        ){
+          return;
+        }
+
+
+        if(
+          event.key ===
+          "Escape"
+        ){
+
+          closeModal();
+
+        }
+
+
+        if(
+          event.key ===
+          "ArrowLeft"
+        ){
+
+          previousPhoto();
+
+        }
+
+
+        if(
+          event.key ===
+          "ArrowRight"
+        ){
+
+          nextPhoto();
+
+        }
+
+      }
+    );
+
+
+
+    /* =====================================
+       START
+       ===================================== */
+
+    loadPhotography();
+
   </script>
+
 </body>
 </html>
