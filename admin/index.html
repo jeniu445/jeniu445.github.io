@@ -12,16 +12,32 @@
 
   <title>Jennifer Portfolio Admin</title>
 
-  <!-- Netlify Identity -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
-  <!-- Prevent Decap from starting before widget registration -->
+  <!-- =========================================================
+       NETLIFY IDENTITY
+       ========================================================= -->
+
+  <script
+    src="https://identity.netlify.com/v1/netlify-identity-widget.js">
+  </script>
+
+
+  <!-- =========================================================
+       MANUAL DECAP INITIALIZATION
+       ========================================================= -->
+
   <script>
     window.CMS_MANUAL_INIT = true;
   </script>
 
-  <!-- Decap CMS -->
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+  <!-- =========================================================
+       DECAP CMS
+       ========================================================= -->
+
+  <script
+    src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js">
+  </script>
 
 
   <style>
@@ -35,6 +51,7 @@
       margin-top:12px;
     }
 
+
     .collage-toolbar{
       display:flex;
       align-items:center;
@@ -45,7 +62,10 @@
       margin-bottom:12px;
     }
 
+
     .collage-help{
+      max-width:720px;
+
       font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -53,10 +73,11 @@
         sans-serif;
 
       font-size:13px;
-      line-height:1.45;
+      line-height:1.5;
 
       color:#555;
     }
+
 
     .collage-reset{
       flex:0 0 auto;
@@ -79,9 +100,11 @@
       cursor:pointer;
     }
 
+
     .collage-reset:hover{
-      background:#f5f5f5;
+      background:#f4f4f4;
     }
+
 
     .collage-status{
       padding:24px;
@@ -102,35 +125,59 @@
     }
 
 
+
     /* =========================================================
-       CANVAS
+       VIEWPORT
+
+       This is the visible area inside Decap.
+
+       The actual design artboard underneath is ALWAYS
+       1600px wide. We merely scale it visually.
        ========================================================= */
 
-    .collage-canvas{
+    .collage-viewport{
       position:relative;
 
       width:100%;
 
-      min-height:900px;
-
       overflow:hidden;
 
-      border:1px solid #d7d7d7;
+      border:1px solid #d4d4d4;
+
+      background:#fff;
+    }
+
+
+
+    /* =========================================================
+       FIXED 1600PX DESIGN ARTBOARD
+       ========================================================= */
+
+    .collage-artboard{
+      position:absolute;
+
+      top:0;
+      left:0;
+
+      width:1600px;
+
+      transform-origin:
+        top left;
 
       background:
         linear-gradient(
           to right,
-          rgba(0,0,0,.025) 1px,
+          rgba(0,0,0,.035) 1px,
           transparent 1px
         ),
         linear-gradient(
           to bottom,
-          rgba(0,0,0,.025) 1px,
+          rgba(0,0,0,.035) 1px,
           transparent 1px
         );
 
       background-size:
-        40px 40px;
+        80px 80px;
 
       user-select:none;
 
@@ -138,7 +185,8 @@
     }
 
 
-    /* subtle center guide */
+
+    /* subtle horizontal center guide */
 
     .collage-center-line{
       position:absolute;
@@ -146,18 +194,20 @@
       top:0;
       bottom:0;
 
-      left:50%;
+      left:800px;
 
       width:1px;
 
-      background:rgba(0,0,0,.06);
+      background:
+        rgba(0,0,0,.08);
 
       pointer-events:none;
     }
 
 
+
     /* =========================================================
-       IMAGE ITEMS
+       ARTWORK ITEM
        ========================================================= */
 
     .collage-item{
@@ -167,22 +217,27 @@
 
       cursor:grab;
 
-      border:1px solid transparent;
+      border:
+        2px solid transparent;
 
       touch-action:none;
     }
 
+
     .collage-item:hover{
-      border-color:rgba(0,0,0,.35);
+      border-color:
+        rgba(0,0,0,.35);
     }
 
-    .collage-item.dragging{
-      cursor:grabbing;
 
+    .collage-item.dragging{
       z-index:1000;
+
+      cursor:grabbing;
 
       border-color:#111;
     }
+
 
     .collage-item img{
       display:block;
@@ -198,6 +253,7 @@
     }
 
 
+
     /* =========================================================
        RESIZE HANDLE
        ========================================================= */
@@ -205,13 +261,13 @@
     .collage-resize{
       position:absolute;
 
-      right:-6px;
-      bottom:-6px;
+      right:-10px;
+      bottom:-10px;
 
-      width:14px;
-      height:14px;
+      width:22px;
+      height:22px;
 
-      border:2px solid #111;
+      border:3px solid #111;
 
       background:#fff;
 
@@ -219,8 +275,10 @@
 
       opacity:0;
 
-      transition:opacity 100ms ease;
+      transition:
+        opacity 100ms ease;
     }
+
 
     .collage-item:hover .collage-resize,
     .collage-item.dragging .collage-resize{
@@ -228,8 +286,9 @@
     }
 
 
+
     /* =========================================================
-       IMAGE LABEL
+       PATH LABEL
        ========================================================= */
 
     .collage-label{
@@ -238,19 +297,21 @@
       left:0;
       bottom:100%;
 
-      margin-bottom:4px;
+      margin-bottom:6px;
 
-      max-width:200px;
+      max-width:300px;
+
+      padding:
+        5px 8px;
 
       overflow:hidden;
 
-      text-overflow:ellipsis;
-
       white-space:nowrap;
 
-      padding:3px 5px;
+      text-overflow:ellipsis;
 
-      background:rgba(0,0,0,.72);
+      background:
+        rgba(0,0,0,.75);
 
       color:#fff;
 
@@ -260,12 +321,13 @@
         "Segoe UI",
         sans-serif;
 
-      font-size:10px;
+      font-size:14px;
 
       opacity:0;
 
       pointer-events:none;
     }
+
 
     .collage-item:hover .collage-label{
       opacity:1;
@@ -280,6 +342,25 @@
 
 
   <script>
+
+    /* =========================================================
+       SHARED DESIGN SYSTEM
+
+       IMPORTANT:
+
+       portfolio.html uses this SAME width.
+
+       Never change one without changing the other.
+       ========================================================= */
+
+    const DESIGN_WIDTH =
+      1600;
+
+
+    const MIN_DESIGN_HEIGHT =
+      1100;
+
+
 
     /* =========================================================
        HELPERS
@@ -300,6 +381,7 @@
       );
 
     }
+
 
 
     function normalizeValue(
@@ -331,7 +413,7 @@
 
 
     /* =========================================================
-       COLLAGE CONTROL
+       CUSTOM COLLAGE CONTROL
        ========================================================= */
 
     const CollageControl =
@@ -347,9 +429,9 @@
 
               error:null,
 
-              artworks:[],
-
               items:[],
+
+              scale:1,
 
               activeIndex:null
 
@@ -364,6 +446,12 @@
 
             this.loadArtwork();
 
+
+            window.addEventListener(
+              "resize",
+              this.updateScale
+            );
+
           },
 
 
@@ -371,14 +459,92 @@
         componentWillUnmount:
           function(){
 
+            window.removeEventListener(
+              "resize",
+              this.updateScale
+            );
+
+
             this.removePointerListeners();
 
           },
 
 
 
+        componentDidUpdate:
+          function(){
+
+            /*
+              After Decap changes the editor width,
+              keep the virtual artboard fitted.
+            */
+
+            this.updateScale();
+
+          },
+
+
+
         /* =====================================================
-           LOAD ARTWORKS
+           DETERMINE ARTBOARD SCALE
+           ===================================================== */
+
+        updateScale:
+          function(){
+
+            if(
+              !this.viewportNode
+            ){
+
+              return;
+
+            }
+
+
+            const availableWidth =
+              this.viewportNode.clientWidth;
+
+
+            if(
+              !availableWidth
+            ){
+
+              return;
+
+            }
+
+
+            const nextScale =
+              Math.min(
+                1,
+                availableWidth /
+                DESIGN_WIDTH
+              );
+
+
+            if(
+              Math.abs(
+                nextScale -
+                this.state.scale
+              ) >
+              .001
+            ){
+
+              this.setState({
+
+                scale:
+                  nextScale
+
+              });
+
+            }
+
+          },
+
+
+
+        /* =====================================================
+           LOAD ARTWORKS.JSON
            ===================================================== */
 
         loadArtwork:
@@ -396,7 +562,9 @@
                 );
 
 
-              if(!response.ok){
+              if(
+                !response.ok
+              ){
 
                 throw new Error(
                   "Could not load artworks.json"
@@ -423,6 +591,37 @@
                 );
 
 
+
+              /*
+                ------------------------------------------------
+                MIGRATE YOUR OLD PERCENTAGE LAYOUT AUTOMATICALLY
+
+                Your previous editor stored:
+                  x     = percent
+                  width = percent
+
+                This version stores:
+                  x     = design pixels
+                  width = design pixels
+
+                If every width is <= 100, we assume the old
+                percentage format and convert it once.
+                ------------------------------------------------
+              */
+
+              const looksLikeOldPercentageData =
+                existing.length > 0 &&
+                existing.every(
+                  item =>
+
+                    Number(
+                      item.width
+                    ) <= 100
+
+                );
+
+
+
               const savedByImage =
                 {};
 
@@ -431,20 +630,87 @@
                 function(item){
 
                   if(
-                    item &&
-                    item.image
+                    !item ||
+                    !item.image
                   ){
 
-                    savedByImage[
-                      item.image
-                    ] =
-                      item;
+                    return;
 
                   }
+
+
+                  let x =
+                    Number(
+                      item.x
+                    ) || 0;
+
+
+                  let y =
+                    Number(
+                      item.y
+                    ) || 0;
+
+
+                  let width =
+                    Number(
+                      item.width
+                    ) || 400;
+
+
+
+                  /*
+                    Convert old percentage values
+                    to the new 1600px artboard.
+                  */
+
+                  if(
+                    looksLikeOldPercentageData
+                  ){
+
+                    x =
+                      (
+                        x /
+                        100
+                      ) *
+                      DESIGN_WIDTH;
+
+
+                    width =
+                      (
+                        width /
+                        100
+                      ) *
+                      DESIGN_WIDTH;
+
+                  }
+
+
+                  savedByImage[
+                    item.image
+                  ] = {
+
+                    image:
+                      item.image,
+
+                    x:
+                      x,
+
+                    y:
+                      y,
+
+                    width:
+                      width
+
+                  };
 
                 }
               );
 
+
+
+              /* =================================================
+                 CREATE EDITOR ITEMS
+                 ================================================= */
 
               const items =
                 artworks.map(
@@ -461,40 +727,71 @@
 
                     if(saved){
 
-                      return{
-
-                        image:
-                          artwork.image,
-
-                        x:
-                          Number(
-                            saved.x
-                          ) || 0,
-
-                        y:
-                          Number(
-                            saved.y
-                          ) || 0,
-
-                        width:
-                          Number(
-                            saved.width
-                          ) || 26
-
-                      };
+                      return saved;
 
                     }
 
 
-                    /* starter layout */
 
-                    const column =
-                      index % 3;
+                    /*
+                      Default starter position for a
+                      newly uploaded artwork.
+
+                      This does NOT affect single-column view.
+                    */
+
+                    const starterPositions = [
+
+                      {
+                        x:70,
+                        y:80,
+                        width:390
+                      },
+
+                      {
+                        x:570,
+                        y:130,
+                        width:400
+                      },
+
+                      {
+                        x:1150,
+                        y:100,
+                        width:360
+                      },
+
+                      {
+                        x:240,
+                        y:430,
+                        width:380
+                      },
+
+                      {
+                        x:780,
+                        y:500,
+                        width:370
+                      },
+
+                      {
+                        x:1180,
+                        y:500,
+                        width:300
+                      }
+
+                    ];
 
 
-                    const row =
+                    const slot =
+                      starterPositions[
+                        index %
+                        starterPositions.length
+                      ];
+
+
+                    const band =
                       Math.floor(
-                        index / 3
+                        index /
+                        starterPositions.length
                       );
 
 
@@ -504,19 +801,15 @@
                         artwork.image,
 
                       x:
-                        [
-                          4,
-                          37,
-                          70
-                        ][column],
+                        slot.x,
 
                       y:
-                        90 +
-                        row *
-                        310,
+                        slot.y +
+                        band *
+                        700,
 
                       width:
-                        25
+                        slot.width
 
                     };
 
@@ -524,23 +817,36 @@
                 );
 
 
-              this.setState({
 
-                loading:false,
+              this.setState(
 
-                error:null,
+                {
 
-                artworks:
-                  artworks,
+                  loading:false,
 
-                items:
-                  items
+                  error:null,
 
-              });
+                  items:
+                    items
+
+                },
 
 
-              this.props.onChange(
-                items
+                () => {
+
+                  this.updateScale();
+
+
+                  /*
+                    Save migrated/new items into Decap.
+                  */
+
+                  this.props.onChange(
+                    items
+                  );
+
+                }
+
               );
 
 
@@ -558,7 +864,7 @@
                 loading:false,
 
                 error:
-                  "Could not load artwork. Make sure artworks.json is published on this branch."
+                  "Could not load artwork. Make sure artworks.json exists on this branch."
 
               });
 
@@ -569,27 +875,23 @@
 
 
         /* =====================================================
-           CANVAS HEIGHT
+           ARTBOARD HEIGHT
            ===================================================== */
 
-        getCanvasHeight:
+        getDesignHeight:
           function(){
 
-            const items =
-              this.state.items;
-
-
             if(
-              !items.length
+              !this.state.items.length
             ){
 
-              return 900;
+              return MIN_DESIGN_HEIGHT;
 
             }
 
 
-            const maximumY =
-              items.reduce(
+            const lowestY =
+              this.state.items.reduce(
                 function(
                   result,
                   item
@@ -608,9 +910,12 @@
 
 
             return Math.max(
-              900,
-              maximumY +
-              700
+
+              MIN_DESIGN_HEIGHT,
+
+              lowestY +
+              800
+
             );
 
           },
@@ -633,20 +938,6 @@
             event.stopPropagation();
 
 
-            const canvas =
-              this.canvasNode;
-
-
-            if(!canvas){
-              return;
-            }
-
-
-            const rect =
-              canvas
-                .getBoundingClientRect();
-
-
             const item =
               this.state.items[
                 index
@@ -667,9 +958,6 @@
               startClientY:
                 event.clientY,
 
-              canvasWidth:
-                rect.width,
-
               originalX:
                 Number(
                   item.x
@@ -683,7 +971,7 @@
               originalWidth:
                 Number(
                   item.width
-                ) || 25
+                ) || 400
 
             };
 
@@ -716,9 +1004,7 @@
            ===================================================== */
 
         handlePointerMove:
-          function(
-            event
-          ){
+          function(event){
 
             if(
               !this.dragData
@@ -736,34 +1022,44 @@
               this.dragData;
 
 
+            /*
+              Convert actual mouse movement into
+              DESIGN-SPACE movement.
+
+              Example:
+              if editor is displayed at 50% scale,
+              moving mouse 50px = moving artwork 100
+              design pixels.
+            */
+
+            const scale =
+              this.state.scale ||
+              1;
+
+
             const dx =
-              event.clientX -
-              drag.startClientX;
+              (
+                event.clientX -
+                drag.startClientX
+              ) /
+              scale;
 
 
             const dy =
-              event.clientY -
-              drag.startClientY;
-
-
-            const dxPercent =
               (
-                dx /
-                drag.canvasWidth
-              ) *
-              100;
+                event.clientY -
+                drag.startClientY
+              ) /
+              scale;
 
 
             const items =
               this.state.items.map(
-                function(item){
-
-                  return Object.assign(
+                item =>
+                  Object.assign(
                     {},
                     item
-                  );
-
-                }
+                  )
               );
 
 
@@ -783,19 +1079,26 @@
 
               item.x =
                 clamp(
+
                   drag.originalX +
-                  dxPercent,
+                  dx,
+
                   0,
-                  100 -
+
+                  DESIGN_WIDTH -
                   item.width
+
                 );
 
 
               item.y =
                 Math.max(
+
                   0,
+
                   drag.originalY +
                   dy
+
                 );
 
             }
@@ -809,23 +1112,31 @@
               "resize"
             ){
 
-              const newWidth =
+              const desiredWidth =
                 clamp(
+
                   drag.originalWidth +
-                  dxPercent,
-                  7,
-                  70
+                  dx,
+
+                  100,
+
+                  1100
+
                 );
 
 
               item.width =
                 Math.min(
-                  newWidth,
-                  100 -
+
+                  desiredWidth,
+
+                  DESIGN_WIDTH -
                   item.x
+
                 );
 
             }
+
 
 
             this.setState({
@@ -864,14 +1175,17 @@
 
             this.setState({
 
-              activeIndex:
-                null
+              activeIndex:null
 
             });
 
 
             /*
-              Tell Decap layout changed.
+              This is what tells Decap the field
+              has changed.
+
+              Publish saves these exact design-space
+              values into collage.json.
             */
 
             this.props.onChange(
@@ -901,11 +1215,52 @@
 
 
         /* =====================================================
-           RESET LAYOUT
+           RESET
            ===================================================== */
 
         resetLayout:
           function(){
+
+            const starterPositions = [
+
+              {
+                x:70,
+                y:80,
+                width:390
+              },
+
+              {
+                x:570,
+                y:130,
+                width:400
+              },
+
+              {
+                x:1150,
+                y:100,
+                width:360
+              },
+
+              {
+                x:240,
+                y:430,
+                width:380
+              },
+
+              {
+                x:780,
+                y:500,
+                width:370
+              },
+
+              {
+                x:1180,
+                y:500,
+                width:300
+              }
+
+            ];
+
 
             const items =
               this.state.items.map(
@@ -914,13 +1269,17 @@
                   index
                 ){
 
-                  const column =
-                    index % 3;
+                  const slot =
+                    starterPositions[
+                      index %
+                      starterPositions.length
+                    ];
 
 
-                  const row =
+                  const band =
                     Math.floor(
-                      index / 3
+                      index /
+                      starterPositions.length
                     );
 
 
@@ -930,19 +1289,15 @@
                       item.image,
 
                     x:
-                      [
-                        4,
-                        37,
-                        70
-                      ][column],
+                      slot.x,
 
                     y:
-                      90 +
-                      row *
-                      310,
+                      slot.y +
+                      band *
+                      700,
 
                     width:
-                      25
+                      slot.width
 
                   };
 
@@ -967,7 +1322,7 @@
 
 
         /* =====================================================
-           RENDER ITEM
+           RENDER ONE ARTWORK
            ===================================================== */
 
         renderItem:
@@ -1002,7 +1357,7 @@
 
                   left:
                     item.x +
-                    "%",
+                    "px",
 
                   top:
                     item.y +
@@ -1010,7 +1365,7 @@
 
                   width:
                     item.width +
-                    "%"
+                    "px"
 
                 },
 
@@ -1028,6 +1383,7 @@
               },
 
 
+
               h(
 
                 "div",
@@ -1042,6 +1398,7 @@
               ),
 
 
+
               h(
 
                 "img",
@@ -1051,12 +1408,12 @@
                   src:
                     item.image,
 
-                  alt:
-                    ""
+                  alt:""
 
                 }
 
               ),
+
 
 
               h(
@@ -1119,6 +1476,7 @@
             }
 
 
+
             if(
               this.state.error
             ){
@@ -1139,6 +1497,15 @@
             }
 
 
+
+            const designHeight =
+              this.getDesignHeight();
+
+
+            const scale =
+              this.state.scale;
+
+
             return h(
 
               "div",
@@ -1148,6 +1515,9 @@
                   "collage-editor"
               },
 
+
+
+              /* TOOLBAR */
 
               h(
 
@@ -1168,7 +1538,7 @@
                       "collage-help"
                   },
 
-                  "Drag an artwork to move it. Drag the small square at the bottom-right to resize it. This only affects the collage view."
+                  "Drag artwork to move it. Drag the square at the bottom-right to resize. The editor and public collage use the exact same 1600px design canvas."
 
                 ),
 
@@ -1179,8 +1549,7 @@
 
                   {
 
-                    type:
-                      "button",
+                    type:"button",
 
                     className:
                       "collage-reset",
@@ -1198,6 +1567,8 @@
 
 
 
+              /* SCALED VIEWPORT */
+
               h(
 
                 "div",
@@ -1205,12 +1576,12 @@
                 {
 
                   className:
-                    "collage-canvas",
+                    "collage-viewport",
 
                   ref:
                     function(node){
 
-                      this.canvasNode =
+                      this.viewportNode =
                         node;
 
                     }.bind(this),
@@ -1218,7 +1589,10 @@
                   style:{
 
                     height:
-                      this.getCanvasHeight() +
+                      (
+                        designHeight *
+                        scale
+                      ) +
                       "px"
 
                   }
@@ -1226,20 +1600,52 @@
                 },
 
 
+
+                /* FIXED DESIGN ARTBOARD */
+
                 h(
 
                   "div",
 
                   {
+
                     className:
-                      "collage-center-line"
-                  }
+                      "collage-artboard",
 
-                ),
+                    style:{
+
+                      height:
+                        designHeight +
+                        "px",
+
+                      transform:
+                        "scale(" +
+                        scale +
+                        ")"
+
+                    }
+
+                  },
 
 
-                this.state.items.map(
-                  this.renderItem
+
+                  h(
+
+                    "div",
+
+                    {
+                      className:
+                        "collage-center-line"
+                    }
+
+                  ),
+
+
+
+                  this.state.items.map(
+                    this.renderItem
+                  )
+
                 )
 
               )
@@ -1248,16 +1654,15 @@
 
           }
 
-
       });
 
 
 
     /* =========================================================
-       REGISTER WIDGET
+       REGISTER CUSTOM WIDGET
        ========================================================= */
 
-    CMS.registerWidget(
+    window.CMS.registerWidget(
       "collage_layout",
       CollageControl
     );
@@ -1266,9 +1671,11 @@
 
     /* =========================================================
        START DECAP
+
+       Official script-tag manual-init API exposes initCMS.
        ========================================================= */
 
-    CMS.init();
+    window.initCMS();
 
   </script>
 
