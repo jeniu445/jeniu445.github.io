@@ -8,6 +8,10 @@
 
   <style>
 
+    /* =========================
+       FONT
+       ========================= */
+
     @font-face{
       font-family:"SpaceMono";
       src:url("fonts/SpaceMono-Regular.woff2") format("woff2");
@@ -24,6 +28,11 @@
       font-display:swap;
     }
 
+
+    /* =========================
+       VARIABLES
+       ========================= */
+
     :root{
       --bg:#fff;
       --text:#111;
@@ -32,19 +41,22 @@
       --gallery-width:1020px;
       --gutter:28px;
 
-      /* spacing between artworks */
-      --gap:10px;
+      /* space between artworks */
+      --gap:14px;
 
       --links-width:190px;
     }
+
 
     *{
       box-sizing:border-box;
     }
 
+
     html{
       scrollbar-gutter:stable;
     }
+
 
     body{
       margin:0;
@@ -64,19 +76,20 @@
         opacity var(--t) ease;
     }
 
+
     body.page-loaded{
       opacity:1;
     }
+
 
     body.page-exit{
       opacity:0;
     }
 
+
     body.lock-scroll{
       overflow:hidden;
-
-      padding-right:
-        var(--sbw,0px);
+      padding-right:var(--sbw,0px);
     }
 
 
@@ -102,13 +115,13 @@
       z-index:10;
     }
 
+
     nav a{
       text-decoration:none;
 
       color:var(--text);
 
       font-size:.95rem;
-
       font-weight:700;
 
       padding:.35rem .75rem;
@@ -122,6 +135,7 @@
 
       user-select:none;
     }
+
 
     nav a:hover{
       background:rgba(0,0,0,.06);
@@ -142,22 +156,17 @@
         4.6rem 0 1.2rem;
     }
 
+
     .layout{
       width:100%;
 
-      padding-left:
-        var(--gutter);
-
-      padding-right:
-        var(--gutter);
+      padding-left:var(--gutter);
+      padding-right:var(--gutter);
 
       display:flex;
 
-      justify-content:
-        space-between;
-
-      align-items:
-        flex-start;
+      justify-content:space-between;
+      align-items:flex-start;
 
       gap:16px;
     }
@@ -168,21 +177,19 @@
        ========================= */
 
     .side{
-      width:
-        var(--links-width);
+      width:var(--links-width);
 
       flex:
         0 0 var(--links-width);
 
       display:flex;
-
-      flex-direction:
-        column;
+      flex-direction:column;
 
       gap:10px;
 
       padding-top:2px;
     }
+
 
     .side a{
       text-decoration:none;
@@ -190,13 +197,11 @@
       color:#000;
 
       font-size:1.1rem;
-
       font-weight:700;
 
       letter-spacing:.15em;
 
-      text-transform:
-        uppercase;
+      text-transform:uppercase;
 
       line-height:1;
 
@@ -208,13 +213,14 @@
       user-select:none;
     }
 
+
     .side a:hover{
       opacity:.55;
     }
 
+
     .side a.current{
       opacity:.35;
-
       pointer-events:none;
     }
 
@@ -224,8 +230,7 @@
        ========================= */
 
     .gallery{
-      width:
-        var(--gallery-width);
+      width:var(--gallery-width);
 
       flex:
         0 0 var(--gallery-width);
@@ -237,15 +242,27 @@
        ========================= */
 
     .artwork-stack{
-      width:100%;
+
+      /*
+        Images use 78% of the gallery width
+        instead of filling the entire 1020px.
+
+        Change 78% if you ever want to
+        adjust their size.
+      */
+
+      width:78%;
+
+      margin:
+        0 auto;
 
       display:flex;
-
       flex-direction:column;
 
       gap:var(--gap);
 
-      padding:var(--gap);
+      padding:
+        var(--gap) 0;
     }
 
 
@@ -255,16 +272,17 @@
 
     .tile{
       width:100%;
-
       margin:0;
     }
+
 
     .media{
       display:block;
 
       width:100%;
 
-      transform:scale(1);
+      transform:
+        scale(1);
 
       transition:
         transform 220ms ease;
@@ -274,16 +292,17 @@
       cursor:zoom-in;
     }
 
+
     .tile:hover .media{
       transform:
         scale(.985);
     }
 
+
     .media img{
       display:block;
 
       width:100%;
-
       height:auto;
 
       cursor:zoom-in;
@@ -322,7 +341,6 @@
       display:flex;
 
       align-items:center;
-
       justify-content:center;
 
       opacity:0;
@@ -335,19 +353,18 @@
       z-index:9999;
     }
 
+
     .lightbox.open{
       opacity:1;
-
       pointer-events:auto;
     }
 
+
     .lightbox img{
       max-width:90vw;
-
       max-height:90vh;
 
       width:auto;
-
       height:auto;
 
       object-fit:contain;
@@ -367,12 +384,14 @@
         opacity;
     }
 
+
     .lightbox.open img{
       transform:
         scale(1);
 
       opacity:1;
     }
+
 
     .lightbox-close{
       position:absolute;
@@ -385,11 +404,9 @@
         monospace;
 
       font-size:32px;
-
       font-weight:400;
 
       background:none;
-
       border:none;
 
       color:white;
@@ -405,6 +422,7 @@
         transform 140ms ease;
     }
 
+
     .lightbox-close:hover{
       opacity:1;
 
@@ -414,23 +432,20 @@
 
 
     /* =========================
-       RESPONSIVE
+       TABLET
        ========================= */
 
     @media (max-width:1180px){
 
       .layout{
-        flex-direction:
-          column;
+        flex-direction:column;
 
-        align-items:
-          center;
-
-        justify-content:
-          flex-start;
+        align-items:center;
+        justify-content:flex-start;
 
         gap:6px;
       }
+
 
       .side{
         width:
@@ -442,16 +457,15 @@
         flex:
           0 1 auto;
 
-        flex-direction:
-          row;
+        flex-direction:row;
 
-        flex-wrap:
-          wrap;
+        flex-wrap:wrap;
 
         gap:12px;
 
         padding-top:0;
       }
+
 
       .gallery{
         width:
@@ -466,14 +480,41 @@
 
     }
 
-  </style>
 
+    /* =========================
+       MOBILE
+       ========================= */
+
+    @media (max-width:700px){
+
+      /*
+        On a phone, use nearly all the
+        available width so the artwork
+        doesn't become too tiny.
+      */
+
+      .artwork-stack{
+        width:100%;
+      }
+
+
+      .layout{
+        padding-left:16px;
+        padding-right:16px;
+      }
+
+    }
+
+  </style>
 </head>
+
 
 <body>
 
 
-  <!-- TOP NAV -->
+  <!-- =========================
+       TOP NAV
+       ========================= -->
 
   <nav>
 
@@ -498,7 +539,9 @@
   </nav>
 
 
-  <!-- LIGHTBOX -->
+  <!-- =========================
+       LIGHTBOX
+       ========================= -->
 
   <div
     class="lightbox"
@@ -520,14 +563,16 @@
   </div>
 
 
-  <!-- PAGE -->
+  <!-- =========================
+       PAGE
+       ========================= -->
 
   <main>
 
     <div class="layout">
 
 
-      <!-- LEFT -->
+      <!-- LEFT NAV -->
 
       <aside class="side">
 
@@ -552,7 +597,7 @@
       </aside>
 
 
-      <!-- RIGHT -->
+      <!-- ARTWORKS -->
 
       <div class="gallery">
 
@@ -576,24 +621,27 @@
 
   <script>
 
-    /* ===================================
+    /* =========================
        ELEMENTS
-       =================================== */
+       ========================= */
 
     const gallery =
       document.getElementById(
         "artworkGallery"
       );
 
+
     const lightbox =
       document.getElementById(
         "lightbox"
       );
 
+
     const lightboxImg =
       document.getElementById(
         "lightboxImg"
       );
+
 
     const lightboxClose =
       document.getElementById(
@@ -601,9 +649,9 @@
       );
 
 
-    /* ===================================
+    /* =========================
        PAGE FADE
-       =================================== */
+       ========================= */
 
     window.addEventListener(
       "load",
@@ -619,9 +667,9 @@
     );
 
 
-    /* ===================================
+    /* =========================
        NAVIGATION FADE
-       =================================== */
+       ========================= */
 
     document
       .querySelectorAll(
@@ -635,11 +683,13 @@
 
             event.preventDefault();
 
+
             document.body
               .classList
               .add(
                 "page-exit"
               );
+
 
             setTimeout(
               () => {
@@ -657,9 +707,9 @@
       });
 
 
-    /* ===================================
-       LOAD ARTWORK
-       =================================== */
+    /* =========================
+       LOAD ARTWORKS
+       ========================= */
 
     async function loadArtworks(){
 
@@ -718,16 +768,21 @@
         /*
           IMPORTANT:
 
-          No reverse here.
+          The page displays artwork in
+          EXACTLY the order Decap stores it.
 
-          Decap now inserts new artwork
-          at index 0, so this order is:
+          Because your Decap list uses:
+
+          add_to_top: true
+
+          new artwork will automatically be:
 
           NEW
           Artwork 1
           Artwork 2
           Artwork 3
-        */
+      */
+
 
         artworks.forEach(
           (artwork,index) => {
@@ -740,6 +795,7 @@
                 "div"
               );
 
+
             tile.className =
               "tile";
 
@@ -750,6 +806,7 @@
               document.createElement(
                 "div"
               );
+
 
             media.className =
               "media";
@@ -776,6 +833,8 @@
               "lazy";
 
 
+            /* Missing image debug */
+
             img.addEventListener(
               "error",
               () => {
@@ -789,7 +848,7 @@
             );
 
 
-            /* FULLSCREEN CLICK */
+            /* Click image → fullscreen */
 
             img.addEventListener(
               "click",
@@ -844,9 +903,9 @@
     }
 
 
-    /* ===================================
+    /* =========================
        LIGHTBOX
-       =================================== */
+       ========================= */
 
     function getScrollbarWidth(){
 
@@ -938,7 +997,7 @@
     }
 
 
-    /* CLOSE BUTTON */
+    /* Close button */
 
     lightboxClose
       .addEventListener(
@@ -955,7 +1014,7 @@
       );
 
 
-    /* CLICK DARK BACKGROUND */
+    /* Click outside image */
 
     lightbox
       .addEventListener(
@@ -975,7 +1034,7 @@
       );
 
 
-    /* ESC */
+    /* Escape key */
 
     window.addEventListener(
       "keydown",
@@ -999,14 +1058,13 @@
     );
 
 
-    /* ===================================
+    /* =========================
        START
-       =================================== */
+       ========================= */
 
     loadArtworks();
 
   </script>
-
 
 </body>
 </html>
