@@ -64,7 +64,7 @@
 
 
     .collage-help{
-      max-width:780px;
+      max-width:820px;
 
       font-family:
         -apple-system,
@@ -199,11 +199,15 @@
       user-select:none;
 
       touch-action:none;
+
+      cursor:default;
     }
 
 
 
-    /* CENTER GUIDE */
+    /* =========================================================
+       CENTER GUIDE
+       ========================================================= */
 
     .collage-center-line{
       position:absolute;
@@ -219,6 +223,28 @@
         rgba(0,0,0,.08);
 
       pointer-events:none;
+    }
+
+
+
+    /* =========================================================
+       MARQUEE / BOX SELECTION
+       ========================================================= */
+
+    .collage-marquee{
+      position:absolute;
+
+      z-index:5000;
+
+      border:
+        2px solid rgba(17,17,17,.8);
+
+      background:
+        rgba(17,17,17,.06);
+
+      pointer-events:none;
+
+      box-sizing:border-box;
     }
 
 
@@ -249,10 +275,6 @@
         rgba(0,0,0,.25);
     }
 
-
-    /*
-      Selected artwork stays visibly outlined.
-    */
 
     .collage-item.selected{
       outline-color:#111;
@@ -320,7 +342,7 @@
 
 
     /* =========================================================
-       IMAGE PATH LABEL
+       IMAGE LABEL
        ========================================================= */
 
     .collage-label{
@@ -381,8 +403,6 @@
 
     /* =========================================================
        SHARED DESIGN SYSTEM
-
-       MUST MATCH portfolio.html
        ========================================================= */
 
     const DESIGN_WIDTH =
@@ -448,6 +468,29 @@
 
 
 
+    function rectanglesIntersect(
+      first,
+      second
+    ){
+
+      return !(
+        first.right <
+        second.left ||
+
+        first.left >
+        second.right ||
+
+        first.bottom <
+        second.top ||
+
+        first.top >
+        second.bottom
+      );
+
+    }
+
+
+
     /* =========================================================
        COLLAGE CONTROL
        ========================================================= */
@@ -476,7 +519,14 @@
 
               selectedIndices:[],
 
-              activeIndex:null
+              activeIndex:null,
+
+              /*
+                null when no box selection
+                is currently visible.
+              */
+
+              marqueeRect:null
 
             };
 
@@ -504,15 +554,10 @@
             );
 
 
-            /*
-              -----------------------------------------
-              GLOBAL SHIFT TRACKING
 
-              This is more reliable than depending
-              only on pointerEvent.shiftKey inside
-              the Decap custom React widget.
-              -----------------------------------------
-            */
+            /* ===============================================
+               GLOBAL SHIFT TRACKING
+               =============================================== */
 
             this.handleShiftKeyDown =
               event => {
@@ -587,6 +632,8 @@
 
 
             this.removePointerListeners();
+
+            this.removeMarqueeListeners();
 
           },
 
@@ -934,7 +981,9 @@
 
                   selectedIndices:[],
 
-                  activeIndex:null
+                  activeIndex:null,
+
+                  marqueeRect:null
 
                 },
 
@@ -1088,7 +1137,9 @@
 
               selectedIndices:[],
 
-              activeIndex:null
+              activeIndex:null,
+
+              marqueeRect:null
 
             });
 
@@ -1097,24 +1148,503 @@
 
 
         /* =====================================================
-           CLICK EMPTY CANVAS
+           CONVERT POINTER TO DESIGN COORDINATES
            ===================================================== */
 
-        handleArtboardPointerDown:
+        getDesignPointerPosition:
+          function(event){
+
+            if(
+              !this.artboardNode
+            ){
+
+              return{
+                x:0,
+                y:0
+              };
+
+            }
+
+
+            const rect =
+              this.artboardNode
+                .getBoundingClientRect();
+
+
+            const scale =
+              this.state.scale ||
+              1;
+
+
+            return{
+
+              x:
+                (
+                  event.clientX -
+                  rect.left
+                ) /
+                scale,
+
+              y:
+                (
+                  event.clientY -
+                  rect.top
+                ) /
+                scale
+
+            };
+
+          },
+
+
+
+        /* =====================================================
+           START MARQUEE
+           ===================================================== */
+
+        startMarquee:
           function(event){
 
             /*
-              Artwork pointer events use
-              stopPropagation(), so this should
-              fire only when empty canvas is clicked.
+              Only start if clicking directly
+              on empty artboard.
             */
 
             if(
-              event.target ===
+              event.target !==
               event.currentTarget
             ){
 
-              this.clearSelection();
+              return;
+
+            }
+
+
+            event.preventDefault();
+
+
+            const position =
+              this.getDesignPointerPosition(
+                event
+              );
+
+
+            const shiftPressed =
+              this.isShiftPressed(
+                event
+              );
+
+
+            this.marqueeData = {
+
+              startX:
+                position.x,
+
+              startY:
+                position.y,
+
+              shiftPressed:
+                shiftPressed,
+
+              /*
+                Remember selection before box drag
+                when Shift is being used.
+              */
+
+              originalSelection:
+                this.state
+                  .selectedIndices
+                  .slice(),
+
+              moved:false
+
+            };
+
+
+            this.setState({
+
+              activeIndex:null,
+
+              marqueeRect:{
+
+                left:
+                  position.x,
+
+                top:
+                  position.y,
+
+                width:0,
+
+                height:0
+
+              }
+
+            });
+
+
+            window.addEventListener(
+              "pointermove",
+              this.handleMarqueeMove
+            );
+
+
+            window.addEventListener(
+              "pointerup",
+              this.handleMarqueeUp
+            );
+
+          },
+
+
+
+        /* =====================================================
+           MARQUEE MOVE
+           ===================================================== */
+
+        handleMarqueeMove:
+          function(event){
+
+            if(
+              !this.marqueeData
+            ){
+
+              return;
+
+            }
+
+
+            event.preventDefault();
+
+
+            const position =
+              this.getDesignPointerPosition(
+                event
+              );
+
+
+            const startX =
+              this.marqueeData.startX;
+
+
+            const startY =
+              this.marqueeData.startY;
+
+
+            const currentX =
+              clamp(
+                position.x,
+                0,
+                DESIGN_WIDTH
+              );
+
+
+            const currentY =
+              Math.max(
+                0,
+                position.y
+              );
+
+
+            const left =
+              Math.min(
+                startX,
+                currentX
+              );
+
+
+            const top =
+              Math.min(
+                startY,
+                currentY
+              );
+
+
+            const right =
+              Math.max(
+                startX,
+                currentX
+              );
+
+
+            const bottom =
+              Math.max(
+                startY,
+                currentY
+              );
+
+
+            const width =
+              right -
+              left;
+
+
+            const height =
+              bottom -
+              top;
+
+
+
+            if(
+              width > 3 ||
+              height > 3
+            ){
+
+              this.marqueeData.moved =
+                true;
+
+            }
+
+
+
+            /* =================================================
+               FIND ARTWORK TOUCHING THE BOX
+               ================================================= */
+
+            const marqueeBounds = {
+
+              left:
+                left,
+
+              top:
+                top,
+
+              right:
+                right,
+
+              bottom:
+                bottom
+
+            };
+
+
+            const boxSelected =
+              [];
+
+
+            this.state.items.forEach(
+              (
+                item,
+                index
+              ) => {
+
+
+                const node =
+                  this.artboardNode
+                    .querySelector(
+                      '[data-collage-index="' +
+                      index +
+                      '"]'
+                    );
+
+
+                if(
+                  !node
+                ){
+
+                  return;
+
+                }
+
+
+                const itemLeft =
+                  Number(
+                    item.x
+                  ) || 0;
+
+
+                const itemTop =
+                  Number(
+                    item.y
+                  ) || 0;
+
+
+                const itemWidth =
+                  Number(
+                    item.width
+                  ) || 0;
+
+
+                /*
+                  offsetHeight is measured in the
+                  unscaled 1600px artboard system.
+                */
+
+                const itemHeight =
+                  node.offsetHeight;
+
+
+                const itemBounds = {
+
+                  left:
+                    itemLeft,
+
+                  top:
+                    itemTop,
+
+                  right:
+                    itemLeft +
+                    itemWidth,
+
+                  bottom:
+                    itemTop +
+                    itemHeight
+
+                };
+
+
+                if(
+                  rectanglesIntersect(
+                    marqueeBounds,
+                    itemBounds
+                  )
+                ){
+
+                  boxSelected.push(
+                    index
+                  );
+
+                }
+
+              }
+            );
+
+
+
+            /* =================================================
+               SHIFT + BOX
+               Adds to existing selection.
+
+               NORMAL BOX
+               Replaces current selection.
+               ================================================= */
+
+            let selected;
+
+
+            if(
+              this.marqueeData
+                .shiftPressed
+            ){
+
+              selected =
+                Array.from(
+                  new Set(
+                    this.marqueeData
+                      .originalSelection
+                      .concat(
+                        boxSelected
+                      )
+                  )
+                );
+
+            }
+            else{
+
+              selected =
+                boxSelected;
+
+            }
+
+
+
+            this.setState({
+
+              selectedIndices:
+                selected,
+
+              marqueeRect:{
+
+                left:
+                  left,
+
+                top:
+                  top,
+
+                width:
+                  width,
+
+                height:
+                  height
+
+              }
+
+            });
+
+          },
+
+
+
+        /* =====================================================
+           MARQUEE END
+           ===================================================== */
+
+        handleMarqueeUp:
+          function(){
+
+            if(
+              !this.marqueeData
+            ){
+
+              return;
+
+            }
+
+
+            const moved =
+              this.marqueeData.moved;
+
+
+            const shiftPressed =
+              this.marqueeData
+                .shiftPressed;
+
+
+            const originalSelection =
+              this.marqueeData
+                .originalSelection;
+
+
+            this.marqueeData =
+              null;
+
+
+            this.removeMarqueeListeners();
+
+
+
+            /*
+              Simple empty click:
+              clear selection unless Shift
+              was held.
+            */
+
+            if(
+              !moved
+            ){
+
+              this.setState({
+
+                selectedIndices:
+                  shiftPressed
+                    ? originalSelection
+                    : [],
+
+                marqueeRect:null,
+
+                activeIndex:null
+
+              });
+
+            }
+            else{
+
+              this.setState({
+
+                marqueeRect:null,
+
+                activeIndex:null
+
+              });
 
             }
 
@@ -1123,7 +1653,29 @@
 
 
         /* =====================================================
-           START POINTER
+           REMOVE MARQUEE LISTENERS
+           ===================================================== */
+
+        removeMarqueeListeners:
+          function(){
+
+            window.removeEventListener(
+              "pointermove",
+              this.handleMarqueeMove
+            );
+
+
+            window.removeEventListener(
+              "pointerup",
+              this.handleMarqueeUp
+            );
+
+          },
+
+
+
+        /* =====================================================
+           START POINTER ON ARTWORK
            ===================================================== */
 
         startPointer:
@@ -1158,20 +1710,12 @@
 
             /* =================================================
                RESIZE
-
-               Resize only the item whose handle
-               you actually grabbed.
                ================================================= */
 
             if(
               mode ===
               "resize"
             ){
-
-              /*
-                If the item is not currently
-                selected, select it by itself.
-              */
 
               if(
                 !selected.includes(
@@ -1189,7 +1733,7 @@
 
 
             /* =================================================
-               MOVE / SELECT
+               MOVE / SELECTION
                ================================================= */
 
             if(
@@ -1206,11 +1750,6 @@
                 shiftPressed
               ){
 
-
-                /*
-                  If already selected:
-                  remove it.
-                */
 
                 if(
                   selected.includes(
@@ -1238,19 +1777,10 @@
                   });
 
 
-                  /*
-                    Don't start dragging an item
-                    that was just removed.
-                  */
-
                   return;
 
                 }
 
-
-                /*
-                  Otherwise ADD to selection.
-                */
 
                 selected =
                   selected.concat(
@@ -1266,17 +1796,6 @@
                  =============================================== */
 
               else{
-
-
-                /*
-                  If clicked item isn't part of
-                  the current group, replace
-                  selection with just this one.
-
-                  If it IS already selected,
-                  preserve the group so dragging
-                  it moves everything together.
-                */
 
                 if(
                   !selected.includes(
@@ -1295,10 +1814,6 @@
 
 
 
-            /*
-              Safety fallback.
-            */
-
             if(
               selected.length ===
               0
@@ -1312,8 +1827,7 @@
 
 
             /* =================================================
-               STORE ORIGINAL POSITIONS
-               FOR THE WHOLE SELECTED GROUP
+               SAVE ORIGINAL GROUP POSITIONS
                ================================================= */
 
             const originalPositions =
@@ -1400,7 +1914,9 @@
                 selected,
 
               activeIndex:
-                index
+                index,
+
+              marqueeRect:null
 
             });
 
@@ -1422,7 +1938,7 @@
 
 
         /* =====================================================
-           POINTER MOVE
+           ARTWORK POINTER MOVE
            ===================================================== */
 
         handlePointerMove:
@@ -1478,7 +1994,7 @@
 
 
             /* =================================================
-               MOVE GROUP
+               MOVE SELECTED GROUP
                ================================================= */
 
             if(
@@ -1498,11 +2014,6 @@
                 -Infinity;
 
 
-
-              /*
-                Determine how far the WHOLE
-                group is allowed to move.
-              */
 
               drag.selectedIndices
                 .forEach(
@@ -1568,11 +2079,6 @@
 
 
 
-              /*
-                Apply exactly the same delta
-                to every selected artwork.
-              */
-
               drag.selectedIndices
                 .forEach(
                   selectedIndex => {
@@ -1604,7 +2110,7 @@
 
 
             /* =================================================
-               RESIZE
+               RESIZE ONE ARTWORK
                ================================================= */
 
             if(
@@ -1657,7 +2163,7 @@
 
 
         /* =====================================================
-           POINTER END
+           ARTWORK POINTER END
            ===================================================== */
 
         handlePointerUp:
@@ -1686,10 +2192,6 @@
             });
 
 
-            /*
-              Save new coordinates to Decap.
-            */
-
             this.props.onChange(
               this.state.items
             );
@@ -1699,7 +2201,7 @@
 
 
         /* =====================================================
-           POINTER CLEANUP
+           REMOVE ARTWORK POINTER LISTENERS
            ===================================================== */
 
         removePointerListeners:
@@ -1820,7 +2322,9 @@
 
               selectedIndices:[],
 
-              activeIndex:null
+              activeIndex:null,
+
+              marqueeRect:null
 
             });
 
@@ -1894,6 +2398,9 @@
                 className:
                   className,
 
+                "data-collage-index":
+                  index,
+
                 style:{
 
                   left:
@@ -1925,8 +2432,6 @@
 
 
 
-              /* IMAGE PATH */
-
               h(
 
                 "div",
@@ -1941,8 +2446,6 @@
               ),
 
 
-
-              /* IMAGE */
 
               h(
 
@@ -1960,8 +2463,6 @@
               ),
 
 
-
-              /* RESIZE */
 
               h(
 
@@ -2059,6 +2560,11 @@
                 .length;
 
 
+            const marquee =
+              this.state
+                .marqueeRect;
+
+
 
             return h(
 
@@ -2095,7 +2601,7 @@
                       "collage-help"
                   },
 
-                  "Click an artwork to select it. Hold Shift and click other artworks to add them to the selection. Release Shift, then drag any selected artwork to move the entire group. Shift-click a selected artwork to remove it. Click empty canvas to clear the selection."
+                  "Drag over empty canvas to box-select multiple artworks. Hold Shift while box-selecting to add to your current selection. Shift-click also adds/removes individual artworks. Drag any selected artwork to move the whole group."
 
                 ),
 
@@ -2234,8 +2740,16 @@
                     className:
                       "collage-artboard",
 
+                    ref:
+                      function(node){
+
+                        this.artboardNode =
+                          node;
+
+                      }.bind(this),
+
                     onPointerDown:
-                      this.handleArtboardPointerDown,
+                      this.startMarquee,
 
                     style:{
 
@@ -2254,7 +2768,7 @@
 
 
 
-                  /* CENTER GUIDE */
+                  /* CENTER LINE */
 
                   h(
 
@@ -2273,7 +2787,48 @@
 
                   this.state.items.map(
                     this.renderItem
-                  )
+                  ),
+
+
+
+                  /* MARQUEE RECTANGLE */
+
+                  marquee
+
+                    ? h(
+
+                        "div",
+
+                        {
+
+                          className:
+                            "collage-marquee",
+
+                          style:{
+
+                            left:
+                              marquee.left +
+                              "px",
+
+                            top:
+                              marquee.top +
+                              "px",
+
+                            width:
+                              marquee.width +
+                              "px",
+
+                            height:
+                              marquee.height +
+                              "px"
+
+                          }
+
+                        }
+
+                      )
+
+                    : null
 
                 )
 
@@ -2288,7 +2843,7 @@
 
 
     /* =========================================================
-       REGISTER CUSTOM WIDGET
+       REGISTER WIDGET
        ========================================================= */
 
     window.CMS.registerWidget(
