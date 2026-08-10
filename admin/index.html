@@ -12,33 +12,266 @@
 
   <title>Jennifer Portfolio Admin</title>
 
+  <!-- Netlify Identity -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
-  <!-- ======================================================
-       NETLIFY IDENTITY
-       ====================================================== -->
-
-  <script
-    src="https://identity.netlify.com/v1/netlify-identity-widget.js">
-  </script>
-
-
-  <!-- ======================================================
-       IMPORTANT:
-       STOP DECAP FROM INITIALIZING AUTOMATICALLY
-       ====================================================== -->
-
+  <!-- Prevent Decap from starting before widget registration -->
   <script>
     window.CMS_MANUAL_INIT = true;
   </script>
 
+  <!-- Decap CMS -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 
-  <!-- ======================================================
-       DECAP CMS
-       ====================================================== -->
 
-  <script
-    src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js">
-  </script>
+  <style>
+
+    /* =========================================================
+       COLLAGE EDITOR
+       ========================================================= */
+
+    .collage-editor{
+      width:100%;
+      margin-top:12px;
+    }
+
+    .collage-toolbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      gap:16px;
+
+      margin-bottom:12px;
+    }
+
+    .collage-help{
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      font-size:13px;
+      line-height:1.45;
+
+      color:#555;
+    }
+
+    .collage-reset{
+      flex:0 0 auto;
+
+      border:1px solid #bbb;
+      border-radius:4px;
+
+      background:#fff;
+
+      padding:7px 11px;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      font-size:12px;
+
+      cursor:pointer;
+    }
+
+    .collage-reset:hover{
+      background:#f5f5f5;
+    }
+
+    .collage-status{
+      padding:24px;
+
+      border:1px solid #ddd;
+
+      background:#fafafa;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      font-size:14px;
+
+      color:#666;
+    }
+
+
+    /* =========================================================
+       CANVAS
+       ========================================================= */
+
+    .collage-canvas{
+      position:relative;
+
+      width:100%;
+
+      min-height:900px;
+
+      overflow:hidden;
+
+      border:1px solid #d7d7d7;
+
+      background:
+        linear-gradient(
+          to right,
+          rgba(0,0,0,.025) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          to bottom,
+          rgba(0,0,0,.025) 1px,
+          transparent 1px
+        );
+
+      background-size:
+        40px 40px;
+
+      user-select:none;
+
+      touch-action:none;
+    }
+
+
+    /* subtle center guide */
+
+    .collage-center-line{
+      position:absolute;
+
+      top:0;
+      bottom:0;
+
+      left:50%;
+
+      width:1px;
+
+      background:rgba(0,0,0,.06);
+
+      pointer-events:none;
+    }
+
+
+    /* =========================================================
+       IMAGE ITEMS
+       ========================================================= */
+
+    .collage-item{
+      position:absolute;
+
+      box-sizing:border-box;
+
+      cursor:grab;
+
+      border:1px solid transparent;
+
+      touch-action:none;
+    }
+
+    .collage-item:hover{
+      border-color:rgba(0,0,0,.35);
+    }
+
+    .collage-item.dragging{
+      cursor:grabbing;
+
+      z-index:1000;
+
+      border-color:#111;
+    }
+
+    .collage-item img{
+      display:block;
+
+      width:100%;
+      height:auto;
+
+      pointer-events:none;
+
+      user-select:none;
+
+      -webkit-user-drag:none;
+    }
+
+
+    /* =========================================================
+       RESIZE HANDLE
+       ========================================================= */
+
+    .collage-resize{
+      position:absolute;
+
+      right:-6px;
+      bottom:-6px;
+
+      width:14px;
+      height:14px;
+
+      border:2px solid #111;
+
+      background:#fff;
+
+      cursor:nwse-resize;
+
+      opacity:0;
+
+      transition:opacity 100ms ease;
+    }
+
+    .collage-item:hover .collage-resize,
+    .collage-item.dragging .collage-resize{
+      opacity:1;
+    }
+
+
+    /* =========================================================
+       IMAGE LABEL
+       ========================================================= */
+
+    .collage-label{
+      position:absolute;
+
+      left:0;
+      bottom:100%;
+
+      margin-bottom:4px;
+
+      max-width:200px;
+
+      overflow:hidden;
+
+      text-overflow:ellipsis;
+
+      white-space:nowrap;
+
+      padding:3px 5px;
+
+      background:rgba(0,0,0,.72);
+
+      color:#fff;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      font-size:10px;
+
+      opacity:0;
+
+      pointer-events:none;
+    }
+
+    .collage-item:hover .collage-label{
+      opacity:1;
+    }
+
+  </style>
 
 </head>
 
@@ -48,103 +281,994 @@
 
   <script>
 
-    /* ======================================================
-       COLLAGE TEST WIDGET
-       ======================================================
+    /* =========================================================
+       HELPERS
+       ========================================================= */
 
-       For now this is intentionally simple.
+    function clamp(
+      value,
+      min,
+      max
+    ){
 
-       We are ONLY testing whether Decap recognizes
-       our custom "collage_layout" widget.
+      return Math.min(
+        Math.max(
+          value,
+          min
+        ),
+        max
+      );
 
-       Once this works, we will replace this box
-       with the actual drag-and-resize editor.
-       ====================================================== */
-
-
-    const CollageControl = createClass({
-
-
-      render: function(){
-
-
-        return h(
-
-          "div",
+    }
 
 
-          /* BOX STYLING */
+    function normalizeValue(
+      value
+    ){
 
-          {
+      if(!value){
+        return [];
+      }
 
-            style: {
 
-              padding: "40px",
+      if(
+        typeof value.toJS ===
+        "function"
+      ){
 
-              marginTop: "15px",
+        value =
+          value.toJS();
 
-              border: "2px solid #111",
+      }
 
-              background: "#ffffff",
 
-              color: "#111111",
+      return Array.isArray(value)
+        ? value
+        : [];
 
-              fontFamily:
-                "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    }
 
-              fontSize: "18px",
 
-              lineHeight: "1.5"
+
+    /* =========================================================
+       COLLAGE CONTROL
+       ========================================================= */
+
+    const CollageControl =
+      createClass({
+
+
+        getInitialState:
+          function(){
+
+            return{
+
+              loading:true,
+
+              error:null,
+
+              artworks:[],
+
+              items:[],
+
+              activeIndex:null
+
+            };
+
+          },
+
+
+
+        componentDidMount:
+          function(){
+
+            this.loadArtwork();
+
+          },
+
+
+
+        componentWillUnmount:
+          function(){
+
+            this.removePointerListeners();
+
+          },
+
+
+
+        /* =====================================================
+           LOAD ARTWORKS
+           ===================================================== */
+
+        loadArtwork:
+          async function(){
+
+            try{
+
+              const response =
+                await fetch(
+                  "/content/artworks.json?v=" +
+                  Date.now(),
+                  {
+                    cache:"no-store"
+                  }
+                );
+
+
+              if(!response.ok){
+
+                throw new Error(
+                  "Could not load artworks.json"
+                );
+
+              }
+
+
+              const data =
+                await response.json();
+
+
+              const artworks =
+                Array.isArray(
+                  data.artworks
+                )
+                  ? data.artworks
+                  : [];
+
+
+              const existing =
+                normalizeValue(
+                  this.props.value
+                );
+
+
+              const savedByImage =
+                {};
+
+
+              existing.forEach(
+                function(item){
+
+                  if(
+                    item &&
+                    item.image
+                  ){
+
+                    savedByImage[
+                      item.image
+                    ] =
+                      item;
+
+                  }
+
+                }
+              );
+
+
+              const items =
+                artworks.map(
+                  function(
+                    artwork,
+                    index
+                  ){
+
+                    const saved =
+                      savedByImage[
+                        artwork.image
+                      ];
+
+
+                    if(saved){
+
+                      return{
+
+                        image:
+                          artwork.image,
+
+                        x:
+                          Number(
+                            saved.x
+                          ) || 0,
+
+                        y:
+                          Number(
+                            saved.y
+                          ) || 0,
+
+                        width:
+                          Number(
+                            saved.width
+                          ) || 26
+
+                      };
+
+                    }
+
+
+                    /* starter layout */
+
+                    const column =
+                      index % 3;
+
+
+                    const row =
+                      Math.floor(
+                        index / 3
+                      );
+
+
+                    return{
+
+                      image:
+                        artwork.image,
+
+                      x:
+                        [
+                          4,
+                          37,
+                          70
+                        ][column],
+
+                      y:
+                        90 +
+                        row *
+                        310,
+
+                      width:
+                        25
+
+                    };
+
+                  }
+                );
+
+
+              this.setState({
+
+                loading:false,
+
+                error:null,
+
+                artworks:
+                  artworks,
+
+                items:
+                  items
+
+              });
+
+
+              this.props.onChange(
+                items
+              );
+
+
+            }
+            catch(error){
+
+              console.error(
+                "Collage editor error:",
+                error
+              );
+
+
+              this.setState({
+
+                loading:false,
+
+                error:
+                  "Could not load artwork. Make sure artworks.json is published on this branch."
+
+              });
 
             }
 
           },
 
 
-          /* MESSAGE */
 
-          "Collage editor registered successfully ✓"
+        /* =====================================================
+           CANVAS HEIGHT
+           ===================================================== */
 
-        );
+        getCanvasHeight:
+          function(){
 
-      }
-
-    });
-
+            const items =
+              this.state.items;
 
 
-    /* ======================================================
-       REGISTER OUR CUSTOM WIDGET
+            if(
+              !items.length
+            ){
 
-       The name here:
+              return 900;
 
-       collage_layout
+            }
 
-       MUST match:
 
-       widget: "collage_layout"
+            const maximumY =
+              items.reduce(
+                function(
+                  result,
+                  item
+                ){
 
-       inside config.yml.
-       ====================================================== */
+                  return Math.max(
+                    result,
+                    Number(
+                      item.y
+                    ) || 0
+                  );
+
+                },
+                0
+              );
+
+
+            return Math.max(
+              900,
+              maximumY +
+              700
+            );
+
+          },
+
+
+
+        /* =====================================================
+           POINTER START
+           ===================================================== */
+
+        startPointer:
+          function(
+            index,
+            mode,
+            event
+          ){
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+
+            const canvas =
+              this.canvasNode;
+
+
+            if(!canvas){
+              return;
+            }
+
+
+            const rect =
+              canvas
+                .getBoundingClientRect();
+
+
+            const item =
+              this.state.items[
+                index
+              ];
+
+
+            this.dragData = {
+
+              index:
+                index,
+
+              mode:
+                mode,
+
+              startClientX:
+                event.clientX,
+
+              startClientY:
+                event.clientY,
+
+              canvasWidth:
+                rect.width,
+
+              originalX:
+                Number(
+                  item.x
+                ) || 0,
+
+              originalY:
+                Number(
+                  item.y
+                ) || 0,
+
+              originalWidth:
+                Number(
+                  item.width
+                ) || 25
+
+            };
+
+
+            this.setState({
+
+              activeIndex:
+                index
+
+            });
+
+
+            window.addEventListener(
+              "pointermove",
+              this.handlePointerMove
+            );
+
+
+            window.addEventListener(
+              "pointerup",
+              this.handlePointerUp
+            );
+
+          },
+
+
+
+        /* =====================================================
+           POINTER MOVE
+           ===================================================== */
+
+        handlePointerMove:
+          function(
+            event
+          ){
+
+            if(
+              !this.dragData
+            ){
+
+              return;
+
+            }
+
+
+            event.preventDefault();
+
+
+            const drag =
+              this.dragData;
+
+
+            const dx =
+              event.clientX -
+              drag.startClientX;
+
+
+            const dy =
+              event.clientY -
+              drag.startClientY;
+
+
+            const dxPercent =
+              (
+                dx /
+                drag.canvasWidth
+              ) *
+              100;
+
+
+            const items =
+              this.state.items.map(
+                function(item){
+
+                  return Object.assign(
+                    {},
+                    item
+                  );
+
+                }
+              );
+
+
+            const item =
+              items[
+                drag.index
+              ];
+
+
+
+            /* MOVE */
+
+            if(
+              drag.mode ===
+              "move"
+            ){
+
+              item.x =
+                clamp(
+                  drag.originalX +
+                  dxPercent,
+                  0,
+                  100 -
+                  item.width
+                );
+
+
+              item.y =
+                Math.max(
+                  0,
+                  drag.originalY +
+                  dy
+                );
+
+            }
+
+
+
+            /* RESIZE */
+
+            if(
+              drag.mode ===
+              "resize"
+            ){
+
+              const newWidth =
+                clamp(
+                  drag.originalWidth +
+                  dxPercent,
+                  7,
+                  70
+                );
+
+
+              item.width =
+                Math.min(
+                  newWidth,
+                  100 -
+                  item.x
+                );
+
+            }
+
+
+            this.setState({
+
+              items:
+                items
+
+            });
+
+          },
+
+
+
+        /* =====================================================
+           POINTER END
+           ===================================================== */
+
+        handlePointerUp:
+          function(){
+
+            if(
+              !this.dragData
+            ){
+
+              return;
+
+            }
+
+
+            this.dragData =
+              null;
+
+
+            this.removePointerListeners();
+
+
+            this.setState({
+
+              activeIndex:
+                null
+
+            });
+
+
+            /*
+              Tell Decap layout changed.
+            */
+
+            this.props.onChange(
+              this.state.items
+            );
+
+          },
+
+
+
+        removePointerListeners:
+          function(){
+
+            window.removeEventListener(
+              "pointermove",
+              this.handlePointerMove
+            );
+
+
+            window.removeEventListener(
+              "pointerup",
+              this.handlePointerUp
+            );
+
+          },
+
+
+
+        /* =====================================================
+           RESET LAYOUT
+           ===================================================== */
+
+        resetLayout:
+          function(){
+
+            const items =
+              this.state.items.map(
+                function(
+                  item,
+                  index
+                ){
+
+                  const column =
+                    index % 3;
+
+
+                  const row =
+                    Math.floor(
+                      index / 3
+                    );
+
+
+                  return{
+
+                    image:
+                      item.image,
+
+                    x:
+                      [
+                        4,
+                        37,
+                        70
+                      ][column],
+
+                    y:
+                      90 +
+                      row *
+                      310,
+
+                    width:
+                      25
+
+                  };
+
+                }
+              );
+
+
+            this.setState({
+
+              items:
+                items
+
+            });
+
+
+            this.props.onChange(
+              items
+            );
+
+          },
+
+
+
+        /* =====================================================
+           RENDER ITEM
+           ===================================================== */
+
+        renderItem:
+          function(
+            item,
+            index
+          ){
+
+            const active =
+              this.state.activeIndex ===
+              index;
+
+
+            return h(
+
+              "div",
+
+              {
+
+                key:
+                  item.image,
+
+                className:
+                  "collage-item" +
+                  (
+                    active
+                      ? " dragging"
+                      : ""
+                  ),
+
+                style:{
+
+                  left:
+                    item.x +
+                    "%",
+
+                  top:
+                    item.y +
+                    "px",
+
+                  width:
+                    item.width +
+                    "%"
+
+                },
+
+                onPointerDown:
+                  function(event){
+
+                    this.startPointer(
+                      index,
+                      "move",
+                      event
+                    );
+
+                  }.bind(this)
+
+              },
+
+
+              h(
+
+                "div",
+
+                {
+                  className:
+                    "collage-label"
+                },
+
+                item.image
+
+              ),
+
+
+              h(
+
+                "img",
+
+                {
+
+                  src:
+                    item.image,
+
+                  alt:
+                    ""
+
+                }
+
+              ),
+
+
+              h(
+
+                "div",
+
+                {
+
+                  className:
+                    "collage-resize",
+
+                  title:
+                    "Drag to resize",
+
+                  onPointerDown:
+                    function(event){
+
+                      this.startPointer(
+                        index,
+                        "resize",
+                        event
+                      );
+
+                    }.bind(this)
+
+                }
+
+              )
+
+            );
+
+          },
+
+
+
+        /* =====================================================
+           RENDER
+           ===================================================== */
+
+        render:
+          function(){
+
+            if(
+              this.state.loading
+            ){
+
+              return h(
+
+                "div",
+
+                {
+                  className:
+                    "collage-status"
+                },
+
+                "Loading artwork..."
+
+              );
+
+            }
+
+
+            if(
+              this.state.error
+            ){
+
+              return h(
+
+                "div",
+
+                {
+                  className:
+                    "collage-status"
+                },
+
+                this.state.error
+
+              );
+
+            }
+
+
+            return h(
+
+              "div",
+
+              {
+                className:
+                  "collage-editor"
+              },
+
+
+              h(
+
+                "div",
+
+                {
+                  className:
+                    "collage-toolbar"
+                },
+
+
+                h(
+
+                  "div",
+
+                  {
+                    className:
+                      "collage-help"
+                  },
+
+                  "Drag an artwork to move it. Drag the small square at the bottom-right to resize it. This only affects the collage view."
+
+                ),
+
+
+                h(
+
+                  "button",
+
+                  {
+
+                    type:
+                      "button",
+
+                    className:
+                      "collage-reset",
+
+                    onClick:
+                      this.resetLayout
+
+                  },
+
+                  "Reset layout"
+
+                )
+
+              ),
+
+
+
+              h(
+
+                "div",
+
+                {
+
+                  className:
+                    "collage-canvas",
+
+                  ref:
+                    function(node){
+
+                      this.canvasNode =
+                        node;
+
+                    }.bind(this),
+
+                  style:{
+
+                    height:
+                      this.getCanvasHeight() +
+                      "px"
+
+                  }
+
+                },
+
+
+                h(
+
+                  "div",
+
+                  {
+                    className:
+                      "collage-center-line"
+                  }
+
+                ),
+
+
+                this.state.items.map(
+                  this.renderItem
+                )
+
+              )
+
+            );
+
+          }
+
+
+      });
+
+
+
+    /* =========================================================
+       REGISTER WIDGET
+       ========================================================= */
 
     CMS.registerWidget(
-
       "collage_layout",
-
       CollageControl
-
     );
 
 
 
-    /* ======================================================
-       NOW START DECAP
-
-       We register the custom widget BEFORE Decap initializes.
-       ====================================================== */
+    /* =========================================================
+       START DECAP
+       ========================================================= */
 
     CMS.init();
-
 
   </script>
 
