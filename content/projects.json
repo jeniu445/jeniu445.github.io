@@ -1,3 +1,36 @@
 {
-  "projects": []
+  "projects": [
+    {
+      "title": "Follow the Red",
+      "slug": "follow-the-red",
+      "banner": "/images/follow-the-red.jpg",
+      "url": "/follow-the-red.html",
+      "description": "",
+      "blocks": []
+    },
+    {
+      "title": "Changing",
+      "slug": "changing",
+      "banner": "/images/changing.jpg",
+      "url": "/changing.html",
+      "description": "",
+      "blocks": []
+    },
+    {
+      "title": "Bench",
+      "slug": "bench",
+      "banner": "/images/bench.jpg",
+      "url": "/bench.html",
+      "description": "",
+      "blocks": []
+    },
+    {
+      "title": "Paper Forms",
+      "slug": "paper-forms",
+      "banner": "/images/paper-forms.jpg",
+      "url": "/paper-forms.html",
+      "description": "",
+      "blocks": []
+    }
+  ]
 }
