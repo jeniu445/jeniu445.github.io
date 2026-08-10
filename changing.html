@@ -32,6 +32,10 @@
 
     *{box-sizing:border-box;}
 
+    html{
+      scrollbar-gutter:stable;
+    }
+
     body{
       margin:0;
       font-family:"Courier New",Courier,monospace;
@@ -120,12 +124,6 @@
       transform:translateY(-1px);
     }
 
-    .media{
-      width:100%;
-      display:block;
-      background:#fff;
-    }
-
     .hero-gif{
       width:100%;
       overflow:hidden;
@@ -202,6 +200,10 @@
       display:block;
     }
 
+    main img{
+      cursor:zoom-in;
+    }
+
     .back-bottom{
       display:inline-block;
       width:fit-content;
@@ -219,6 +221,62 @@
       opacity:.45;
     }
 
+    .project-lightbox{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      background:rgba(0,0,0,.88);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity 220ms ease;
+      z-index:9999;
+    }
+
+    .project-lightbox.open{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .project-lightbox img{
+      max-width:92vw;
+      max-height:92vh;
+      width:auto;
+      height:auto;
+      object-fit:contain;
+      opacity:0;
+      transform:scale(.955);
+      transition:
+        opacity 240ms ease,
+        transform 240ms cubic-bezier(.2,.8,.2,1);
+    }
+
+    .project-lightbox.open img{
+      opacity:1;
+      transform:scale(1);
+    }
+
+    .project-lightbox-close{
+      position:absolute;
+      top:20px;
+      right:26px;
+      border:0;
+      background:transparent;
+      color:#fff;
+      font-family:"Courier New",Courier,monospace;
+      font-size:32px;
+      cursor:pointer;
+      opacity:.7;
+      transition:opacity 140ms ease,transform 140ms ease;
+    }
+
+    .project-lightbox-close:hover{
+      opacity:1;
+      transform:scale(1.08);
+    }
+
     @media (max-width:980px){
       .pair{
         grid-template-columns:1fr;
@@ -232,6 +290,19 @@
 </head>
 
 <body>
+
+  <div class="project-lightbox" id="projectLightbox">
+    <button
+      class="project-lightbox-close"
+      id="projectLightboxClose"
+      type="button"
+      aria-label="Close image"
+    >
+      ×
+    </button>
+
+    <img id="projectLightboxImg" src="" alt="">
+  </div>
 
   <nav>
     <a href="index.html" data-nav>Home</a>
@@ -304,6 +375,51 @@
         document.body.classList.add("page-exit");
         setTimeout(()=>location.href=link.href,200);
       });
+    });
+
+    const lightbox = document.getElementById("projectLightbox");
+    const lightboxImg = document.getElementById("projectLightboxImg");
+    const closeBtn = document.getElementById("projectLightboxClose");
+
+    function openLightbox(img){
+      lightboxImg.src = img.currentSrc || img.src;
+      lightboxImg.alt = img.alt || "";
+      lightbox.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox(){
+      lightbox.classList.remove("open");
+      document.body.style.overflow = "";
+
+      setTimeout(()=>{
+        if(!lightbox.classList.contains("open")){
+          lightboxImg.src = "";
+        }
+      },240);
+    }
+
+    document.querySelectorAll("main img").forEach(img=>{
+      img.addEventListener("click",()=>{
+        openLightbox(img);
+      });
+    });
+
+    closeBtn.addEventListener("click",e=>{
+      e.stopPropagation();
+      closeLightbox();
+    });
+
+    lightbox.addEventListener("click",e=>{
+      if(e.target === lightbox){
+        closeLightbox();
+      }
+    });
+
+    window.addEventListener("keydown",e=>{
+      if(e.key === "Escape" && lightbox.classList.contains("open")){
+        closeLightbox();
+      }
     });
 
     document.querySelectorAll("img").forEach(img=>{
