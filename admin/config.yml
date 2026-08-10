@@ -6,6 +6,10 @@ media_folder: "images"
 public_folder: "/images"
 
 collections:
+
+  # =========================
+  # ARTWORKS
+  # =========================
   - name: "artworks"
     label: "Artworks"
 
@@ -26,3 +30,44 @@ collections:
                 name: "image"
                 widget: "image"
                 choose_url: false
+
+
+  # =========================
+  # PHOTOGRAPHY
+  # =========================
+  - name: "photography"
+    label: "Photography"
+
+    files:
+      - name: "photography"
+        label: "Photography Collections"
+        file: "content/photography.json"
+
+        fields:
+
+          - label: "Collections"
+            name: "collections"
+            widget: "list"
+            summary: "{{fields.title}}"
+            collapsed: false
+
+            fields:
+
+              - label: "Collection Title"
+                name: "title"
+                widget: "string"
+
+              - label: "Photos"
+                name: "photos"
+                widget: "list"
+                summary: "{{fields.image}}"
+                collapsed: false
+
+                fields:
+
+                  - label: "Image"
+                    name: "image"
+                    widget: "image"
+                    choose_url: false
+                    media_folder: "/images/photography"
+                    public_folder: "/images/photography"
