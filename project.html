@@ -2,50 +2,66 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8" />
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>Project — Jennifer Niu</title>
 
   <style>
 
-    @font-face{
-      font-family:"SpaceMono";
-      src:url("fonts/SpaceMono-Regular.woff2") format("woff2");
-      font-weight:400;
-      font-style:normal;
-      font-display:swap;
+    /* =========================================================
+       FONT
+       ========================================================= */
+
+    @font-face {
+      font-family: "SpaceMono";
+      src: url("fonts/SpaceMono-Regular.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
     }
 
-    @font-face{
-      font-family:"SpaceMono";
-      src:url("fonts/SpaceMono-Bold.woff2") format("woff2");
-      font-weight:700;
-      font-style:normal;
-      font-display:swap;
+    @font-face {
+      font-family: "SpaceMono";
+      src: url("fonts/SpaceMono-Bold.woff2") format("woff2");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
     }
 
-    :root{
-      --bg:#fff;
-      --text:#111;
 
-      --content:1020px;
-      --gutter:28px;
+    /* =========================================================
+       VARIABLES
+       ========================================================= */
 
-      --block-gap:14px;
+    :root {
+      --bg: #fff;
+      --text: #111;
+
+      --page-width: 1100px;
+      --gutter: 28px;
+
+      --gap: 18px;
+
+      --transition: 200ms;
     }
 
-    *{
-      box-sizing:border-box;
+
+    * {
+      box-sizing: border-box;
     }
 
-    body{
-      margin:0;
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+
+    body {
+      margin: 0;
+
+      background: var(--bg);
+      color: var(--text);
 
       font-family:
         "SpaceMono",
@@ -53,342 +69,509 @@
         Courier,
         monospace;
 
-      background:var(--bg);
-      color:var(--text);
+      opacity: 0;
+
+      transition:
+        opacity var(--transition) ease;
     }
 
-    nav{
-      position:absolute;
 
-      top:0;
-      left:0;
-
-      width:100%;
-
-      display:flex;
-      justify-content:center;
-
-      gap:2.2rem;
-
-      padding:.9rem 0;
-
-      z-index:10;
+    body.page-loaded {
+      opacity: 1;
     }
 
-    nav a{
-      text-decoration:none;
 
-      color:#111;
+    body.page-exit {
+      opacity: 0;
+    }
 
-      font-size:.95rem;
-      font-weight:700;
 
-      padding:.35rem .75rem;
 
-      border-radius:999px;
+    /* =========================================================
+       TOP NAVIGATION
+       ========================================================= */
+
+    nav {
+      position: absolute;
+
+      top: 0;
+      left: 0;
+
+      width: 100%;
+
+      display: flex;
+      justify-content: center;
+
+      gap: 2.2rem;
+
+      padding: .9rem 0;
+
+      z-index: 10;
+    }
+
+
+    nav a {
+      text-decoration: none;
+
+      color: var(--text);
+
+      font-size: .95rem;
+      font-weight: 700;
+
+      padding: .35rem .75rem;
+
+      border-radius: 999px;
 
       transition:
         background 150ms ease,
         transform 150ms ease;
     }
 
-    nav a:hover{
-      background:rgba(0,0,0,.06);
-      transform:translateY(-1px);
+
+    nav a:hover {
+      background: rgba(0,0,0,.06);
+
+      transform:
+        translateY(-1px);
     }
 
-    main{
-      min-height:100dvh;
+
+
+    /* =========================================================
+       PAGE
+       ========================================================= */
+
+    main {
+      min-height: 100vh;
 
       padding:
-        4.6rem var(--gutter) 3rem;
+        5.5rem
+        var(--gutter)
+        4rem;
     }
 
-    .project{
-      width:
-        min(var(--content),100%);
 
-      margin:0 auto;
+    .project {
+      width: min(
+        100%,
+        var(--page-width)
+      );
+
+      margin: 0 auto;
     }
 
-    /* HEADER */
 
-    .project-header{
-      display:flex;
 
-      justify-content:space-between;
+    /* =========================================================
+       PROJECT HEADER
+       ========================================================= */
 
-      align-items:flex-start;
+    .project-header {
+      margin-bottom: 42px;
 
-      gap:20px;
+      border-bottom:
+        1px solid rgba(0,0,0,.16);
 
-      margin-bottom:14px;
+      padding-bottom: 20px;
     }
 
-    .project-title{
-      margin:0;
 
-      font-size:1.55rem;
-      font-weight:700;
+    .project-title {
+      margin:
+        0
+        0
+        12px;
 
-      letter-spacing:.12em;
+      font-size:
+        clamp(
+          2.2rem,
+          5vw,
+          4.5rem
+        );
 
-      text-transform:uppercase;
+      line-height: .95;
 
-      line-height:1.2;
+      letter-spacing: -.04em;
+
+      font-weight: 700;
     }
 
-    .back{
-      text-decoration:none;
 
-      color:#111;
+    .project-description {
+      max-width: 720px;
 
-      font-size:.95rem;
-      font-weight:700;
+      margin: 0;
 
-      letter-spacing:.12em;
+      font-size: .95rem;
+      line-height: 1.7;
 
-      text-transform:uppercase;
-
-      transition:opacity 160ms ease;
+      font-weight: 400;
     }
 
-    .back:hover{
-      opacity:.55;
+
+
+    /* =========================================================
+       CONTENT
+       ========================================================= */
+
+    #projectContent {
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 28px;
     }
 
-    /* BLOCKS */
 
-    .blocks{
-      display:flex;
 
-      flex-direction:column;
+    /* =========================================================
+       GENERAL MEDIA
+       ========================================================= */
 
-      gap:var(--block-gap);
+    .block img,
+    .block video {
+      display: block;
+
+      width: 100%;
+      height: auto;
     }
 
-    /* HEADINGS */
 
-    .block-heading{
-      margin:0;
-
-      font-weight:700;
-
-      text-transform:uppercase;
-
-      letter-spacing:.12em;
+    .block video {
+      background: #000;
     }
 
-    .block-heading.small{
-      font-size:1rem;
+
+
+    /* =========================================================
+       HEADINGS
+       ========================================================= */
+
+    .heading {
+      margin: 12px 0 0;
+
+      font-weight: 700;
+
+      line-height: 1.05;
     }
 
-    .block-heading.medium{
-      font-size:1.25rem;
+
+    .heading.small {
+      font-size: 1.3rem;
     }
 
-    .block-heading.large{
-      font-size:1.7rem;
+
+    .heading.medium {
+      font-size: 2rem;
     }
 
-    /* TEXT */
 
-    .text-block{
-      line-height:1.55;
-      white-space:pre-line;
+    .heading.large {
+      font-size:
+        clamp(
+          2.5rem,
+          5vw,
+          4rem
+        );
     }
 
-    .text-block.narrow{
-      max-width:420px;
+
+
+    /* =========================================================
+       TEXT
+       ========================================================= */
+
+    .text-block {
+      font-size: .95rem;
+
+      line-height: 1.75;
+
+      white-space: pre-line;
+
+      font-weight: 400;
     }
 
-    .text-block.medium{
-      max-width:700px;
+
+    .text-block.narrow {
+      max-width: 520px;
     }
 
-    .text-block.full{
-      max-width:none;
+
+    .text-block.medium {
+      max-width: 760px;
     }
 
-    .align-left{
-      text-align:left;
+
+    .text-block.full {
+      max-width: none;
     }
 
-    .align-center{
-      text-align:center;
-      margin-left:auto;
-      margin-right:auto;
+
+    .text-block.left {
+      margin-right: auto;
+
+      text-align: left;
     }
 
-    .align-right{
-      text-align:right;
-      margin-left:auto;
+
+    .text-block.center {
+      margin-left: auto;
+      margin-right: auto;
+
+      text-align: center;
     }
 
-    /* SINGLE MEDIA */
 
-    figure{
-      margin:0;
+    .text-block.right {
+      margin-left: auto;
+
+      text-align: right;
     }
 
-    .single-media{
-      width:100%;
+
+
+    /* =========================================================
+       SINGLE IMAGE / GIF
+       ========================================================= */
+
+    .single-media {
+      width: 100%;
     }
 
-    .single-media img{
-      width:100%;
-      height:auto;
 
-      display:block;
-
-      object-fit:contain;
+    .single-media.small {
+      width: 35%;
     }
 
-    .single-media.small{
-      width:35%;
+
+    .single-media.medium {
+      width: 55%;
     }
 
-    .single-media.medium{
-      width:55%;
+
+    .single-media.large {
+      width: 75%;
     }
 
-    .single-media.large{
-      width:75%;
+
+    .single-media.full {
+      width: 100%;
     }
 
-    .single-media.full{
-      width:100%;
+
+    .caption {
+      margin-top: 8px;
+
+      font-size: .75rem;
+
+      line-height: 1.5;
+
+      opacity: .55;
     }
 
-    .caption{
-      margin-top:5px;
 
-      font-size:.75rem;
 
-      opacity:.6;
+    /* =========================================================
+       TWO COLUMN LAYOUTS
+       ========================================================= */
+
+    .two-column {
+      display: grid;
+
+      gap: var(--gap);
+
+      align-items: start;
     }
 
-    /* VIDEO */
 
-    .video-block video{
-      width:100%;
-      height:auto;
-
-      display:block;
-    }
-
-    .video-block.medium{
-      width:60%;
-    }
-
-    .video-block.large{
-      width:80%;
-    }
-
-    .video-block.full{
-      width:100%;
-    }
-
-    /* COLUMNS */
-
-    .columns{
-      display:grid;
-
-      gap:var(--block-gap);
-
-      align-items:start;
-    }
-
-    .ratio-1-1{
+    .ratio-1-1 {
       grid-template-columns:
-        1fr 1fr;
+        minmax(0,1fr)
+        minmax(0,1fr);
     }
 
-    .ratio-1-2{
+
+    .ratio-1-2 {
       grid-template-columns:
-        1fr 2fr;
+        minmax(0,1fr)
+        minmax(0,2fr);
     }
 
-    .ratio-2-1{
+
+    .ratio-2-1 {
       grid-template-columns:
-        2fr 1fr;
+        minmax(0,2fr)
+        minmax(0,1fr);
     }
 
-    .ratio-2-3{
+
+    .ratio-2-3 {
       grid-template-columns:
-        2fr 3fr;
+        minmax(0,2fr)
+        minmax(0,3fr);
     }
 
-    .ratio-3-2{
+
+    .ratio-3-2 {
       grid-template-columns:
-        3fr 2fr;
+        minmax(0,3fr)
+        minmax(0,2fr);
     }
 
-    .ratio-5-3{
+
+    .ratio-5-3 {
       grid-template-columns:
-        5fr 3fr;
+        minmax(0,5fr)
+        minmax(0,3fr);
     }
 
-    .ratio-3-5{
+
+    .ratio-3-5 {
       grid-template-columns:
-        3fr 5fr;
+        minmax(0,3fr)
+        minmax(0,5fr);
     }
 
-    .columns img,
-    .columns video{
-      width:100%;
-      height:auto;
 
-      display:block;
 
-      object-fit:contain;
+    /* =========================================================
+       TEXT + IMAGE
+       ========================================================= */
+
+    .text-image-text {
+      font-size: .95rem;
+
+      line-height: 1.75;
+
+      white-space: pre-line;
+
+      font-weight: 400;
     }
 
-    /* THREE IMAGES */
 
-    .three-images{
-      display:grid;
+
+    /* =========================================================
+       THREE IMAGES
+       ========================================================= */
+
+    .three-images {
+      display: grid;
 
       grid-template-columns:
-        repeat(3,1fr);
+        repeat(
+          3,
+          minmax(0,1fr)
+        );
 
-      gap:var(--block-gap);
+      gap: var(--gap);
+
+      align-items: start;
     }
 
-    .three-images img{
-      width:100%;
-      height:auto;
 
-      display:block;
+
+    /* =========================================================
+       SPACERS
+       ========================================================= */
+
+    .spacer.small {
+      height: 18px;
     }
 
-    /* SPACERS */
 
-    .spacer-small{
-      height:10px;
+    .spacer.medium {
+      height: 42px;
     }
 
-    .spacer-medium{
-      height:30px;
+
+    .spacer.large {
+      height: 90px;
     }
 
-    .spacer-large{
-      height:70px;
+
+
+    /* =========================================================
+       BACK BUTTON
+       ========================================================= */
+
+    .back {
+      display: inline-block;
+
+      margin-top: 60px;
+
+      color: #111;
+
+      text-decoration: none;
+
+      font-size: .85rem;
+
+      font-weight: 700;
+
+      text-transform: uppercase;
+
+      letter-spacing: .12em;
+
+      transition: opacity 150ms ease;
     }
 
-    @media(max-width:800px){
 
-      .columns,
-      .three-images{
-        grid-template-columns:1fr;
+    .back:hover {
+      opacity: .45;
+    }
+
+
+
+    /* =========================================================
+       ERROR
+       ========================================================= */
+
+    .error {
+      padding: 50px 0;
+
+      font-size: .95rem;
+
+      line-height: 1.7;
+
+      opacity: .55;
+    }
+
+
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media (max-width: 700px) {
+
+      main {
+        padding:
+          5rem
+          18px
+          3rem;
       }
+
+
+      #projectContent {
+        gap: 20px;
+      }
+
+
+      .two-column,
+      .three-images {
+        grid-template-columns:
+          1fr;
+      }
+
 
       .single-media.small,
       .single-media.medium,
-      .single-media.large,
-      .video-block.medium,
-      .video-block.large{
-        width:100%;
+      .single-media.large {
+        width: 100%;
+      }
+
+
+      .project-header {
+        margin-bottom: 28px;
       }
 
     }
@@ -397,102 +580,659 @@
 
 </head>
 
+
 <body>
 
+
+  <!-- =======================================================
+       NAVIGATION
+       ======================================================= -->
+
   <nav>
-    <a href="index.html">Home</a>
-    <a href="portfolio.html">Portfolio</a>
-    <a href="about.html">About</a>
+
+    <a
+      href="index.html"
+      data-nav>
+      Home
+    </a>
+
+    <a
+      href="portfolio.html"
+      data-nav>
+      Portfolio
+    </a>
+
+    <a
+      href="about.html"
+      data-nav>
+      About
+    </a>
+
   </nav>
 
 
+
+  <!-- =======================================================
+       PROJECT
+       ======================================================= -->
+
   <main>
 
-    <article class="project">
+    <article
+      class="project"
+      id="project">
 
-      <div class="project-header">
+
+      <!-- HEADER -->
+
+      <header
+        class="project-header">
 
         <h1
           class="project-title"
-          id="projectTitle"
-        >
-          Loading...
+          id="projectTitle">
         </h1>
 
-        <a
-          class="back"
-          href="projects.html"
-        >
-          Back
-        </a>
 
+        <p
+          class="project-description"
+          id="projectDescription">
+        </p>
+
+      </header>
+
+
+
+      <!-- CONTENT GENERATED FROM DECAP -->
+
+      <div
+        id="projectContent">
       </div>
 
 
-      <div
-        class="blocks"
-        id="blocks"
-      ></div>
+
+      <!-- BACK -->
+
+      <a
+        class="back"
+        href="projects.html"
+        data-nav>
+
+        ← Back to Projects
+
+      </a>
+
 
     </article>
 
   </main>
 
 
+
   <script>
 
-    const titleElement =
-      document.getElementById(
-        "projectTitle"
-      );
+    /* =========================================================
+       PAGE FADE
+       ========================================================= */
+
+    window.addEventListener(
+      "load",
+      () => {
+
+        document.body
+          .classList
+          .add("page-loaded");
+
+      }
+    );
 
 
-    const blocksElement =
-      document.getElementById(
-        "blocks"
-      );
+
+    /* =========================================================
+       NAVIGATION FADE
+       ========================================================= */
+
+    document
+      .querySelectorAll("[data-nav]")
+      .forEach(link => {
+
+        link.addEventListener(
+          "click",
+          event => {
+
+            event.preventDefault();
+
+            document.body
+              .classList
+              .add("page-exit");
+
+            setTimeout(
+              () => {
+
+                window.location.href =
+                  link.href;
+
+              },
+              200
+            );
+
+          }
+        );
+
+      });
 
 
-    const params =
-      new URLSearchParams(
-        window.location.search
-      );
 
+    /* =========================================================
+       HELPERS
+       ========================================================= */
 
-    const slug =
-      params.get("project");
+    function makeImage(src, alt = "") {
 
+      const img =
+        document.createElement("img");
 
-    let activeProject = null;
+      img.src = src;
 
+      img.alt = alt;
 
-    if(!slug){
+      img.loading = "lazy";
 
-      titleElement.textContent =
-        "Project not found";
+      return img;
 
     }
-    else{
 
-      loadProject();
+
+
+    function makeVideo(src) {
+
+      const video =
+        document.createElement("video");
+
+      video.src = src;
+
+      video.controls = true;
+
+      video.playsInline = true;
+
+      video.preload = "metadata";
+
+      return video;
 
     }
 
 
-    async function loadProject(){
 
-      try{
+    function makeBlock() {
 
-        const response =
-          await fetch(
-            "/content/projects.json",
-            {
-              cache:"no-store"
-            }
+      const block =
+        document.createElement("div");
+
+      block.className = "block";
+
+      return block;
+
+    }
+
+
+
+    /* =========================================================
+       RENDER BLOCK
+       ========================================================= */
+
+    function renderBlock(block) {
+
+      if (!block || !block.type) {
+        return null;
+      }
+
+
+      const wrapper =
+        makeBlock();
+
+
+
+      /* =======================================================
+         HEADING
+         ======================================================= */
+
+      if (block.type === "heading") {
+
+        const heading =
+          document.createElement("h2");
+
+        heading.className =
+          "heading " +
+          (block.size || "medium");
+
+        heading.textContent =
+          block.text || "";
+
+        wrapper.appendChild(
+          heading
+        );
+
+        return wrapper;
+
+      }
+
+
+
+      /* =======================================================
+         TEXT
+         ======================================================= */
+
+      if (block.type === "text") {
+
+        const text =
+          document.createElement("div");
+
+        text.className =
+          "text-block " +
+          (block.width || "medium") +
+          " " +
+          (block.align || "left");
+
+        text.textContent =
+          block.text || "";
+
+        wrapper.appendChild(
+          text
+        );
+
+        return wrapper;
+
+      }
+
+
+
+      /* =======================================================
+         IMAGE
+         ======================================================= */
+
+      if (block.type === "image") {
+
+        const media =
+          document.createElement("div");
+
+        media.className =
+          "single-media " +
+          (block.width || "full");
+
+
+        media.appendChild(
+          makeImage(
+            block.image,
+            block.caption || ""
+          )
+        );
+
+
+        if (block.caption) {
+
+          const caption =
+            document.createElement("div");
+
+          caption.className =
+            "caption";
+
+          caption.textContent =
+            block.caption;
+
+          media.appendChild(
+            caption
+          );
+
+        }
+
+
+        wrapper.appendChild(
+          media
+        );
+
+        return wrapper;
+
+      }
+
+
+
+      /* =======================================================
+         GIF
+         ======================================================= */
+
+      if (block.type === "gif") {
+
+        const media =
+          document.createElement("div");
+
+        media.className =
+          "single-media " +
+          (block.width || "full");
+
+
+        media.appendChild(
+          makeImage(
+            block.image,
+            ""
+          )
+        );
+
+
+        wrapper.appendChild(
+          media
+        );
+
+        return wrapper;
+
+      }
+
+
+
+      /* =======================================================
+         VIDEO
+         ======================================================= */
+
+      if (block.type === "video") {
+
+        const media =
+          document.createElement("div");
+
+        media.className =
+          "single-media " +
+          (block.width || "full");
+
+
+        media.appendChild(
+          makeVideo(
+            block.video
+          )
+        );
+
+
+        wrapper.appendChild(
+          media
+        );
+
+        return wrapper;
+
+      }
+
+
+
+      /* =======================================================
+         TEXT + IMAGE
+         ======================================================= */
+
+      if (block.type === "text_image") {
+
+        const row =
+          document.createElement("div");
+
+        row.className =
+          "two-column ratio-" +
+          (block.ratio || "1-1");
+
+
+        const text =
+          document.createElement("div");
+
+        text.className =
+          "text-image-text";
+
+        text.textContent =
+          block.text || "";
+
+
+        const image =
+          makeImage(
+            block.image,
+            ""
           );
 
 
-        if(!response.ok){
+        if (
+          block.image_position === "left"
+        ) {
+
+          row.appendChild(image);
+
+          row.appendChild(text);
+
+        } else {
+
+          row.appendChild(text);
+
+          row.appendChild(image);
+
+        }
+
+
+        wrapper.appendChild(row);
+
+        return wrapper;
+
+      }
+
+
+
+      /* =======================================================
+         TWO IMAGES
+         ======================================================= */
+
+      if (block.type === "two_images") {
+
+        const row =
+          document.createElement("div");
+
+        row.className =
+          "two-column ratio-" +
+          (block.ratio || "1-1");
+
+
+        row.appendChild(
+          makeImage(
+            block.image1,
+            ""
+          )
+        );
+
+
+        row.appendChild(
+          makeImage(
+            block.image2,
+            ""
+          )
+        );
+
+
+        wrapper.appendChild(row);
+
+        return wrapper;
+
+      }
+
+
+
+      /* =======================================================
+         THREE IMAGES
+         ======================================================= */
+
+      if (block.type === "three_images") {
+
+        const row =
+          document.createElement("div");
+
+        row.className =
+          "three-images";
+
+
+        row.appendChild(
+          makeImage(
+            block.image1,
+            ""
+          )
+        );
+
+
+        row.appendChild(
+          makeImage(
+            block.image2,
+            ""
+          )
+        );
+
+
+        row.appendChild(
+          makeImage(
+            block.image3,
+            ""
+          )
+        );
+
+
+        wrapper.appendChild(row);
+
+        return wrapper;
+
+      }
+
+
+
+      /* =======================================================
+         VIDEO + IMAGE
+         ======================================================= */
+
+      if (block.type === "video_image") {
+
+        const row =
+          document.createElement("div");
+
+        row.className =
+          "two-column ratio-" +
+          (block.ratio || "5-3");
+
+
+        row.appendChild(
+          makeVideo(
+            block.video
+          )
+        );
+
+
+        row.appendChild(
+          makeImage(
+            block.image,
+            ""
+          )
+        );
+
+
+        wrapper.appendChild(row);
+
+        return wrapper;
+
+      }
+
+
+
+      /* =======================================================
+         SPACER
+         ======================================================= */
+
+      if (block.type === "spacer") {
+
+        const spacer =
+          document.createElement("div");
+
+        spacer.className =
+          "spacer " +
+          (block.size || "medium");
+
+
+        wrapper.appendChild(
+          spacer
+        );
+
+        return wrapper;
+
+      }
+
+
+
+      return null;
+
+    }
+
+
+
+    /* =========================================================
+       LOAD PROJECT
+       ========================================================= */
+
+    async function loadProject() {
+
+      const params =
+        new URLSearchParams(
+          window.location.search
+        );
+
+
+      const slug =
+        params.get("project");
+
+
+      const titleElement =
+        document.getElementById(
+          "projectTitle"
+        );
+
+
+      const descriptionElement =
+        document.getElementById(
+          "projectDescription"
+        );
+
+
+      const contentElement =
+        document.getElementById(
+          "projectContent"
+        );
+
+
+
+      /* No slug */
+
+      if (!slug) {
+
+        titleElement.textContent =
+          "Project not found";
+
+        descriptionElement.remove();
+
+        contentElement.innerHTML = `
+          <div class="error">
+            No project was specified.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+
+      try {
+
+        /* prevent stale Netlify/browser cache */
+
+        const response =
+          await fetch(
+            "/content/projects.json?v=" +
+            Date.now()
+          );
+
+
+        if (!response.ok) {
 
           throw new Error(
             "Could not load projects.json"
@@ -505,503 +1245,133 @@
           await response.json();
 
 
-        activeProject =
-          (data.projects || [])
-            .find(
-              project =>
-                project.slug === slug
-            );
+        const projects =
+          Array.isArray(data.projects)
+            ? data.projects
+            : [];
 
 
-        if(!activeProject){
-
-          throw new Error(
-            "Project does not exist"
+        const project =
+          projects.find(
+            item =>
+              item.slug === slug
           );
+
+
+
+        /* Project doesn't exist */
+
+        if (!project) {
+
+          titleElement.textContent =
+            "Project not found";
+
+          descriptionElement.remove();
+
+          contentElement.innerHTML = `
+            <div class="error">
+              This project does not exist.
+            </div>
+          `;
+
+          return;
 
         }
 
 
+
+        /* =====================================================
+           TITLE
+           ===================================================== */
+
         titleElement.textContent =
-          activeProject.title;
+          project.title || "Untitled";
+
 
 
         document.title =
-          `${activeProject.title} — Jennifer Niu`;
+          (project.title || "Project") +
+          " — Jennifer Niu";
 
 
-        renderBlocks(
-          activeProject.blocks || []
-        );
 
-      }
-      catch(error){
+        /* =====================================================
+           DESCRIPTION
+           ===================================================== */
 
-        console.error(error);
+        if (project.description) {
 
-        titleElement.textContent =
-          "Project not found";
+          descriptionElement.textContent =
+            project.description;
 
-      }
+        } else {
 
-    }
-
-
-    function renderBlocks(blocks){
-
-      blocksElement.innerHTML = "";
-
-
-      blocks.forEach(block => {
-
-        switch(block.type){
-
-
-          /* HEADING */
-
-          case "heading": {
-
-            const heading =
-              document.createElement("h2");
-
-
-            heading.className =
-              `block-heading ${
-                block.size || "medium"
-              }`;
-
-
-            heading.textContent =
-              block.text || "";
-
-
-            blocksElement.appendChild(
-              heading
-            );
-
-
-            break;
-          }
-
-
-          /* TEXT */
-
-          case "text": {
-
-            const text =
-              document.createElement("div");
-
-
-            text.className =
-              `text-block ${
-                block.width || "medium"
-              } align-${
-                block.align || "left"
-              }`;
-
-
-            text.textContent =
-              block.text || "";
-
-
-            blocksElement.appendChild(
-              text
-            );
-
-
-            break;
-          }
-
-
-          /* IMAGE / GIF */
-
-          case "image":
-          case "gif": {
-
-            const wrapper =
-              document.createElement(
-                "figure"
-              );
-
-
-            wrapper.className =
-              `single-media ${
-                block.width || "full"
-              }`;
-
-
-            const image =
-              document.createElement(
-                "img"
-              );
-
-
-            image.src =
-              block.image;
-
-
-            image.alt =
-              block.caption ||
-              activeProject.title;
-
-
-            wrapper.appendChild(
-              image
-            );
-
-
-            if(block.caption){
-
-              const caption =
-                document.createElement(
-                  "figcaption"
-                );
-
-
-              caption.className =
-                "caption";
-
-
-              caption.textContent =
-                block.caption;
-
-
-              wrapper.appendChild(
-                caption
-              );
-
-            }
-
-
-            blocksElement.appendChild(
-              wrapper
-            );
-
-
-            break;
-          }
-
-
-          /* VIDEO */
-
-          case "video": {
-
-            const wrapper =
-              document.createElement(
-                "div"
-              );
-
-
-            wrapper.className =
-              `video-block ${
-                block.width || "full"
-              }`;
-
-
-            const video =
-              document.createElement(
-                "video"
-              );
-
-
-            video.src =
-              block.video;
-
-
-            video.controls =
-              true;
-
-
-            video.playsInline =
-              true;
-
-
-            video.preload =
-              "metadata";
-
-
-            wrapper.appendChild(
-              video
-            );
-
-
-            blocksElement.appendChild(
-              wrapper
-            );
-
-
-            break;
-          }
-
-
-          /* TEXT + IMAGE */
-
-          case "text_image": {
-
-            const row =
-              document.createElement(
-                "section"
-              );
-
-
-            row.className =
-              `columns ratio-${
-                block.ratio || "1-1"
-              }`;
-
-
-            const text =
-              document.createElement(
-                "div"
-              );
-
-
-            text.className =
-              "text-block full";
-
-
-            text.textContent =
-              block.text || "";
-
-
-            const image =
-              document.createElement(
-                "img"
-              );
-
-
-            image.src =
-              block.image;
-
-
-            image.alt =
-              activeProject.title;
-
-
-            if(
-              block.image_position ===
-              "left"
-            ){
-
-              row.appendChild(image);
-
-              row.appendChild(text);
-
-            }
-            else{
-
-              row.appendChild(text);
-
-              row.appendChild(image);
-
-            }
-
-
-            blocksElement.appendChild(
-              row
-            );
-
-
-            break;
-          }
-
-
-          /* TWO IMAGES */
-
-          case "two_images": {
-
-            const row =
-              document.createElement(
-                "section"
-              );
-
-
-            row.className =
-              `columns ratio-${
-                block.ratio || "1-1"
-              }`;
-
-
-            [
-              block.image1,
-              block.image2
-            ].forEach(src => {
-
-              if(!src){
-                return;
-              }
-
-
-              const image =
-                document.createElement(
-                  "img"
-                );
-
-
-              image.src = src;
-
-              image.alt =
-                activeProject.title;
-
-
-              row.appendChild(image);
-
-            });
-
-
-            blocksElement.appendChild(
-              row
-            );
-
-
-            break;
-          }
-
-
-          /* THREE IMAGES */
-
-          case "three_images": {
-
-            const row =
-              document.createElement(
-                "section"
-              );
-
-
-            row.className =
-              "three-images";
-
-
-            [
-              block.image1,
-              block.image2,
-              block.image3
-            ].forEach(src => {
-
-              if(!src){
-                return;
-              }
-
-
-              const image =
-                document.createElement(
-                  "img"
-                );
-
-
-              image.src = src;
-
-              image.alt =
-                activeProject.title;
-
-
-              row.appendChild(image);
-
-            });
-
-
-            blocksElement.appendChild(
-              row
-            );
-
-
-            break;
-          }
-
-
-          /* VIDEO + IMAGE */
-
-          case "video_image": {
-
-            const row =
-              document.createElement(
-                "section"
-              );
-
-
-            row.className =
-              `columns ratio-${
-                block.ratio || "5-3"
-              }`;
-
-
-            const video =
-              document.createElement(
-                "video"
-              );
-
-
-            video.src =
-              block.video;
-
-
-            video.controls =
-              true;
-
-
-            video.playsInline =
-              true;
-
-
-            const image =
-              document.createElement(
-                "img"
-              );
-
-
-            image.src =
-              block.image;
-
-
-            image.alt =
-              activeProject.title;
-
-
-            row.appendChild(video);
-
-            row.appendChild(image);
-
-
-            blocksElement.appendChild(
-              row
-            );
-
-
-            break;
-          }
-
-
-          /* SPACER */
-
-          case "spacer": {
-
-            const spacer =
-              document.createElement(
-                "div"
-              );
-
-
-            spacer.className =
-              `spacer-${
-                block.size || "medium"
-              }`;
-
-
-            blocksElement.appendChild(
-              spacer
-            );
-
-
-            break;
-          }
+          descriptionElement.remove();
 
         }
 
-      });
+
+
+        /* =====================================================
+           BLOCKS
+           ===================================================== */
+
+        const blocks =
+          Array.isArray(project.blocks)
+            ? project.blocks
+            : [];
+
+
+        blocks.forEach(block => {
+
+          const rendered =
+            renderBlock(block);
+
+          if (rendered) {
+
+            contentElement
+              .appendChild(rendered);
+
+          }
+
+        });
+
+
+      } catch (error) {
+
+        console.error(
+          "Project loading error:",
+          error
+        );
+
+
+        titleElement.textContent =
+          "Unable to load project";
+
+
+        descriptionElement.remove();
+
+
+        contentElement.innerHTML = `
+          <div class="error">
+            There was a problem loading this project.
+          </div>
+        `;
+
+      }
 
     }
 
+
+
+    /* =========================================================
+       START
+       ========================================================= */
+
+    loadProject();
+
   </script>
+
 
 </body>
 </html>
