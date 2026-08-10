@@ -702,3 +702,47 @@ collections:
 
                           - label: "Large"
                             value: "large"
+
+  # ============================================================
+  # ABOUT
+  # ============================================================
+
+  - name: "about"
+    label: "About"
+
+    files:
+
+      - name: "about"
+        label: "About Page"
+        file: "content/about.json"
+
+        fields:
+
+          - label: "Title"
+            name: "title"
+            widget: "string"
+
+          - label: "Bio Paragraphs"
+            name: "paragraphs"
+            widget: "list"
+            label_singular: "Paragraph"
+            collapsed: false
+            allow_add: true
+            allow_remove: true
+            allow_reorder: true
+
+            field:
+              label: "Paragraph"
+              name: "paragraph"
+              widget: "text"
+
+          - label: "Contact Email"
+            name: "contact"
+            widget: "string"
+
+          - label: "Headshot"
+            name: "headshot"
+            widget: "image"
+            choose_url: false
+            media_folder: "/images"
+            public_folder: "/images"
