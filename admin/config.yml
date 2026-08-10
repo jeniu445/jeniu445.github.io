@@ -1,11 +1,11 @@
 backend:
   name: git-gateway
-  branch: main
+  branch: draft
 
-media_folder: "images/uploads"
-public_folder: "/images/uploads"
+media_folder: "images"
+public_folder: "/images"
 
-collections: 
+collections:
   - name: "artworks"
     label: "Artworks"
 
@@ -15,11 +15,14 @@ collections:
         file: "content/artworks.json"
 
         fields:
-          - label: "Artworks"
+          - label: "Artwork"
             name: "artworks"
             widget: "list"
+            summary: "{{fields.image}}"
+            collapsed: false
 
             fields:
               - label: "Image"
                 name: "image"
                 widget: "image"
+                choose_url: false
