@@ -1,0 +1,1007 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  />
+
+  <title>Project — Jennifer Niu</title>
+
+  <style>
+
+    @font-face{
+      font-family:"SpaceMono";
+      src:url("fonts/SpaceMono-Regular.woff2") format("woff2");
+      font-weight:400;
+      font-style:normal;
+      font-display:swap;
+    }
+
+    @font-face{
+      font-family:"SpaceMono";
+      src:url("fonts/SpaceMono-Bold.woff2") format("woff2");
+      font-weight:700;
+      font-style:normal;
+      font-display:swap;
+    }
+
+    :root{
+      --bg:#fff;
+      --text:#111;
+
+      --content:1020px;
+      --gutter:28px;
+
+      --block-gap:14px;
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+
+      font-family:
+        "SpaceMono",
+        "Courier New",
+        Courier,
+        monospace;
+
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    nav{
+      position:absolute;
+
+      top:0;
+      left:0;
+
+      width:100%;
+
+      display:flex;
+      justify-content:center;
+
+      gap:2.2rem;
+
+      padding:.9rem 0;
+
+      z-index:10;
+    }
+
+    nav a{
+      text-decoration:none;
+
+      color:#111;
+
+      font-size:.95rem;
+      font-weight:700;
+
+      padding:.35rem .75rem;
+
+      border-radius:999px;
+
+      transition:
+        background 150ms ease,
+        transform 150ms ease;
+    }
+
+    nav a:hover{
+      background:rgba(0,0,0,.06);
+      transform:translateY(-1px);
+    }
+
+    main{
+      min-height:100dvh;
+
+      padding:
+        4.6rem var(--gutter) 3rem;
+    }
+
+    .project{
+      width:
+        min(var(--content),100%);
+
+      margin:0 auto;
+    }
+
+    /* HEADER */
+
+    .project-header{
+      display:flex;
+
+      justify-content:space-between;
+
+      align-items:flex-start;
+
+      gap:20px;
+
+      margin-bottom:14px;
+    }
+
+    .project-title{
+      margin:0;
+
+      font-size:1.55rem;
+      font-weight:700;
+
+      letter-spacing:.12em;
+
+      text-transform:uppercase;
+
+      line-height:1.2;
+    }
+
+    .back{
+      text-decoration:none;
+
+      color:#111;
+
+      font-size:.95rem;
+      font-weight:700;
+
+      letter-spacing:.12em;
+
+      text-transform:uppercase;
+
+      transition:opacity 160ms ease;
+    }
+
+    .back:hover{
+      opacity:.55;
+    }
+
+    /* BLOCKS */
+
+    .blocks{
+      display:flex;
+
+      flex-direction:column;
+
+      gap:var(--block-gap);
+    }
+
+    /* HEADINGS */
+
+    .block-heading{
+      margin:0;
+
+      font-weight:700;
+
+      text-transform:uppercase;
+
+      letter-spacing:.12em;
+    }
+
+    .block-heading.small{
+      font-size:1rem;
+    }
+
+    .block-heading.medium{
+      font-size:1.25rem;
+    }
+
+    .block-heading.large{
+      font-size:1.7rem;
+    }
+
+    /* TEXT */
+
+    .text-block{
+      line-height:1.55;
+      white-space:pre-line;
+    }
+
+    .text-block.narrow{
+      max-width:420px;
+    }
+
+    .text-block.medium{
+      max-width:700px;
+    }
+
+    .text-block.full{
+      max-width:none;
+    }
+
+    .align-left{
+      text-align:left;
+    }
+
+    .align-center{
+      text-align:center;
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    .align-right{
+      text-align:right;
+      margin-left:auto;
+    }
+
+    /* SINGLE MEDIA */
+
+    figure{
+      margin:0;
+    }
+
+    .single-media{
+      width:100%;
+    }
+
+    .single-media img{
+      width:100%;
+      height:auto;
+
+      display:block;
+
+      object-fit:contain;
+    }
+
+    .single-media.small{
+      width:35%;
+    }
+
+    .single-media.medium{
+      width:55%;
+    }
+
+    .single-media.large{
+      width:75%;
+    }
+
+    .single-media.full{
+      width:100%;
+    }
+
+    .caption{
+      margin-top:5px;
+
+      font-size:.75rem;
+
+      opacity:.6;
+    }
+
+    /* VIDEO */
+
+    .video-block video{
+      width:100%;
+      height:auto;
+
+      display:block;
+    }
+
+    .video-block.medium{
+      width:60%;
+    }
+
+    .video-block.large{
+      width:80%;
+    }
+
+    .video-block.full{
+      width:100%;
+    }
+
+    /* COLUMNS */
+
+    .columns{
+      display:grid;
+
+      gap:var(--block-gap);
+
+      align-items:start;
+    }
+
+    .ratio-1-1{
+      grid-template-columns:
+        1fr 1fr;
+    }
+
+    .ratio-1-2{
+      grid-template-columns:
+        1fr 2fr;
+    }
+
+    .ratio-2-1{
+      grid-template-columns:
+        2fr 1fr;
+    }
+
+    .ratio-2-3{
+      grid-template-columns:
+        2fr 3fr;
+    }
+
+    .ratio-3-2{
+      grid-template-columns:
+        3fr 2fr;
+    }
+
+    .ratio-5-3{
+      grid-template-columns:
+        5fr 3fr;
+    }
+
+    .ratio-3-5{
+      grid-template-columns:
+        3fr 5fr;
+    }
+
+    .columns img,
+    .columns video{
+      width:100%;
+      height:auto;
+
+      display:block;
+
+      object-fit:contain;
+    }
+
+    /* THREE IMAGES */
+
+    .three-images{
+      display:grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap:var(--block-gap);
+    }
+
+    .three-images img{
+      width:100%;
+      height:auto;
+
+      display:block;
+    }
+
+    /* SPACERS */
+
+    .spacer-small{
+      height:10px;
+    }
+
+    .spacer-medium{
+      height:30px;
+    }
+
+    .spacer-large{
+      height:70px;
+    }
+
+    @media(max-width:800px){
+
+      .columns,
+      .three-images{
+        grid-template-columns:1fr;
+      }
+
+      .single-media.small,
+      .single-media.medium,
+      .single-media.large,
+      .video-block.medium,
+      .video-block.large{
+        width:100%;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="about.html">About</a>
+  </nav>
+
+
+  <main>
+
+    <article class="project">
+
+      <div class="project-header">
+
+        <h1
+          class="project-title"
+          id="projectTitle"
+        >
+          Loading...
+        </h1>
+
+        <a
+          class="back"
+          href="projects.html"
+        >
+          Back
+        </a>
+
+      </div>
+
+
+      <div
+        class="blocks"
+        id="blocks"
+      ></div>
+
+    </article>
+
+  </main>
+
+
+  <script>
+
+    const titleElement =
+      document.getElementById(
+        "projectTitle"
+      );
+
+
+    const blocksElement =
+      document.getElementById(
+        "blocks"
+      );
+
+
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
+
+
+    const slug =
+      params.get("project");
+
+
+    let activeProject = null;
+
+
+    if(!slug){
+
+      titleElement.textContent =
+        "Project not found";
+
+    }
+    else{
+
+      loadProject();
+
+    }
+
+
+    async function loadProject(){
+
+      try{
+
+        const response =
+          await fetch(
+            "/content/projects.json",
+            {
+              cache:"no-store"
+            }
+          );
+
+
+        if(!response.ok){
+
+          throw new Error(
+            "Could not load projects.json"
+          );
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        activeProject =
+          (data.projects || [])
+            .find(
+              project =>
+                project.slug === slug
+            );
+
+
+        if(!activeProject){
+
+          throw new Error(
+            "Project does not exist"
+          );
+
+        }
+
+
+        titleElement.textContent =
+          activeProject.title;
+
+
+        document.title =
+          `${activeProject.title} — Jennifer Niu`;
+
+
+        renderBlocks(
+          activeProject.blocks || []
+        );
+
+      }
+      catch(error){
+
+        console.error(error);
+
+        titleElement.textContent =
+          "Project not found";
+
+      }
+
+    }
+
+
+    function renderBlocks(blocks){
+
+      blocksElement.innerHTML = "";
+
+
+      blocks.forEach(block => {
+
+        switch(block.type){
+
+
+          /* HEADING */
+
+          case "heading": {
+
+            const heading =
+              document.createElement("h2");
+
+
+            heading.className =
+              `block-heading ${
+                block.size || "medium"
+              }`;
+
+
+            heading.textContent =
+              block.text || "";
+
+
+            blocksElement.appendChild(
+              heading
+            );
+
+
+            break;
+          }
+
+
+          /* TEXT */
+
+          case "text": {
+
+            const text =
+              document.createElement("div");
+
+
+            text.className =
+              `text-block ${
+                block.width || "medium"
+              } align-${
+                block.align || "left"
+              }`;
+
+
+            text.textContent =
+              block.text || "";
+
+
+            blocksElement.appendChild(
+              text
+            );
+
+
+            break;
+          }
+
+
+          /* IMAGE / GIF */
+
+          case "image":
+          case "gif": {
+
+            const wrapper =
+              document.createElement(
+                "figure"
+              );
+
+
+            wrapper.className =
+              `single-media ${
+                block.width || "full"
+              }`;
+
+
+            const image =
+              document.createElement(
+                "img"
+              );
+
+
+            image.src =
+              block.image;
+
+
+            image.alt =
+              block.caption ||
+              activeProject.title;
+
+
+            wrapper.appendChild(
+              image
+            );
+
+
+            if(block.caption){
+
+              const caption =
+                document.createElement(
+                  "figcaption"
+                );
+
+
+              caption.className =
+                "caption";
+
+
+              caption.textContent =
+                block.caption;
+
+
+              wrapper.appendChild(
+                caption
+              );
+
+            }
+
+
+            blocksElement.appendChild(
+              wrapper
+            );
+
+
+            break;
+          }
+
+
+          /* VIDEO */
+
+          case "video": {
+
+            const wrapper =
+              document.createElement(
+                "div"
+              );
+
+
+            wrapper.className =
+              `video-block ${
+                block.width || "full"
+              }`;
+
+
+            const video =
+              document.createElement(
+                "video"
+              );
+
+
+            video.src =
+              block.video;
+
+
+            video.controls =
+              true;
+
+
+            video.playsInline =
+              true;
+
+
+            video.preload =
+              "metadata";
+
+
+            wrapper.appendChild(
+              video
+            );
+
+
+            blocksElement.appendChild(
+              wrapper
+            );
+
+
+            break;
+          }
+
+
+          /* TEXT + IMAGE */
+
+          case "text_image": {
+
+            const row =
+              document.createElement(
+                "section"
+              );
+
+
+            row.className =
+              `columns ratio-${
+                block.ratio || "1-1"
+              }`;
+
+
+            const text =
+              document.createElement(
+                "div"
+              );
+
+
+            text.className =
+              "text-block full";
+
+
+            text.textContent =
+              block.text || "";
+
+
+            const image =
+              document.createElement(
+                "img"
+              );
+
+
+            image.src =
+              block.image;
+
+
+            image.alt =
+              activeProject.title;
+
+
+            if(
+              block.image_position ===
+              "left"
+            ){
+
+              row.appendChild(image);
+
+              row.appendChild(text);
+
+            }
+            else{
+
+              row.appendChild(text);
+
+              row.appendChild(image);
+
+            }
+
+
+            blocksElement.appendChild(
+              row
+            );
+
+
+            break;
+          }
+
+
+          /* TWO IMAGES */
+
+          case "two_images": {
+
+            const row =
+              document.createElement(
+                "section"
+              );
+
+
+            row.className =
+              `columns ratio-${
+                block.ratio || "1-1"
+              }`;
+
+
+            [
+              block.image1,
+              block.image2
+            ].forEach(src => {
+
+              if(!src){
+                return;
+              }
+
+
+              const image =
+                document.createElement(
+                  "img"
+                );
+
+
+              image.src = src;
+
+              image.alt =
+                activeProject.title;
+
+
+              row.appendChild(image);
+
+            });
+
+
+            blocksElement.appendChild(
+              row
+            );
+
+
+            break;
+          }
+
+
+          /* THREE IMAGES */
+
+          case "three_images": {
+
+            const row =
+              document.createElement(
+                "section"
+              );
+
+
+            row.className =
+              "three-images";
+
+
+            [
+              block.image1,
+              block.image2,
+              block.image3
+            ].forEach(src => {
+
+              if(!src){
+                return;
+              }
+
+
+              const image =
+                document.createElement(
+                  "img"
+                );
+
+
+              image.src = src;
+
+              image.alt =
+                activeProject.title;
+
+
+              row.appendChild(image);
+
+            });
+
+
+            blocksElement.appendChild(
+              row
+            );
+
+
+            break;
+          }
+
+
+          /* VIDEO + IMAGE */
+
+          case "video_image": {
+
+            const row =
+              document.createElement(
+                "section"
+              );
+
+
+            row.className =
+              `columns ratio-${
+                block.ratio || "5-3"
+              }`;
+
+
+            const video =
+              document.createElement(
+                "video"
+              );
+
+
+            video.src =
+              block.video;
+
+
+            video.controls =
+              true;
+
+
+            video.playsInline =
+              true;
+
+
+            const image =
+              document.createElement(
+                "img"
+              );
+
+
+            image.src =
+              block.image;
+
+
+            image.alt =
+              activeProject.title;
+
+
+            row.appendChild(video);
+
+            row.appendChild(image);
+
+
+            blocksElement.appendChild(
+              row
+            );
+
+
+            break;
+          }
+
+
+          /* SPACER */
+
+          case "spacer": {
+
+            const spacer =
+              document.createElement(
+                "div"
+              );
+
+
+            spacer.className =
+              `spacer-${
+                block.size || "medium"
+              }`;
+
+
+            blocksElement.appendChild(
+              spacer
+            );
+
+
+            break;
+          }
+
+        }
+
+      });
+
+    }
+
+  </script>
+
+</body>
+</html>
