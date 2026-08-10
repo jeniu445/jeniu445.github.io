@@ -34,7 +34,7 @@ collections:
             allow_add: true
             allow_remove: true
             allow_reorder: true
-
+            add_to_top: true
             fields:
 
               - label: "Image"
