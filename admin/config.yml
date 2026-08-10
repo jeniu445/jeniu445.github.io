@@ -71,7 +71,6 @@ collections:
                     choose_url: false
                     media_folder: "/images/photography"
                     public_folder: "/images/photography"
-
   # =========================
   # PROJECTS
   # =========================
@@ -81,11 +80,9 @@ collections:
     label_singular: "Project"
 
     folder: "content/projects"
-
     create: true
 
     extension: "json"
-
     format: "json"
 
     slug: "{{slug}}"
@@ -97,25 +94,27 @@ collections:
 
     fields:
 
-      # PROJECT NAME
+      # =========================
+      # BASIC PROJECT INFO
+      # =========================
+
       - label: "Project Title"
         name: "title"
         widget: "string"
 
-      # BANNER ON PROJECTS PAGE
       - label: "Project Banner"
         name: "banner"
         widget: "image"
         choose_url: false
 
-      # OPTIONAL DESCRIPTION FOR ADMIN
       - label: "Short Description"
         name: "description"
         widget: "text"
         required: false
 
+
       # =========================
-      # FLEXIBLE PAGE BUILDER
+      # FLEXIBLE PAGE CONTENT
       # =========================
 
       - label: "Page Content"
@@ -125,14 +124,14 @@ collections:
         label_singular: "Content Block"
 
         collapsed: true
-
-        summary: "{{fields.type}}"
+        summary: "{{type}}"
 
         types:
 
-          # -------------------------
+
+          # =========================
           # HEADING
-          # -------------------------
+          # =========================
 
           - label: "Heading"
             name: "heading"
@@ -140,7 +139,7 @@ collections:
 
             fields:
 
-              - label: "Text"
+              - label: "Heading"
                 name: "text"
                 widget: "string"
 
@@ -148,15 +147,16 @@ collections:
                 name: "size"
                 widget: "select"
                 default: "medium"
+
                 options:
                   - "small"
                   - "medium"
                   - "large"
 
 
-          # -------------------------
-          # PARAGRAPH
-          # -------------------------
+          # =========================
+          # TEXT
+          # =========================
 
           - label: "Text"
             name: "text"
@@ -172,6 +172,7 @@ collections:
                 name: "width"
                 widget: "select"
                 default: "medium"
+
                 options:
                   - "narrow"
                   - "medium"
@@ -181,15 +182,16 @@ collections:
                 name: "align"
                 widget: "select"
                 default: "left"
+
                 options:
                   - "left"
                   - "center"
                   - "right"
 
 
-          # -------------------------
+          # =========================
           # IMAGE
-          # -------------------------
+          # =========================
 
           - label: "Image"
             name: "image"
@@ -206,6 +208,7 @@ collections:
                 name: "width"
                 widget: "select"
                 default: "full"
+
                 options:
                   - "small"
                   - "medium"
@@ -218,9 +221,9 @@ collections:
                 required: false
 
 
-          # -------------------------
+          # =========================
           # GIF
-          # -------------------------
+          # =========================
 
           - label: "GIF"
             name: "gif"
@@ -237,6 +240,7 @@ collections:
                 name: "width"
                 widget: "select"
                 default: "full"
+
                 options:
                   - "small"
                   - "medium"
@@ -244,9 +248,9 @@ collections:
                   - "full"
 
 
-          # -------------------------
+          # =========================
           # VIDEO
-          # -------------------------
+          # =========================
 
           - label: "Video"
             name: "video"
@@ -254,7 +258,7 @@ collections:
 
             fields:
 
-              - label: "Video File"
+              - label: "Video"
                 name: "video"
                 widget: "file"
                 choose_url: false
@@ -263,15 +267,16 @@ collections:
                 name: "width"
                 widget: "select"
                 default: "full"
+
                 options:
                   - "medium"
                   - "large"
                   - "full"
 
 
-          # -------------------------
+          # =========================
           # TEXT + IMAGE
-          # -------------------------
+          # =========================
 
           - label: "Text + Image"
             name: "text_image"
@@ -292,6 +297,7 @@ collections:
                 name: "image_position"
                 widget: "select"
                 default: "right"
+
                 options:
                   - "left"
                   - "right"
@@ -300,22 +306,27 @@ collections:
                 name: "ratio"
                 widget: "select"
                 default: "1-1"
+
                 options:
                   - label: "1 : 1"
                     value: "1-1"
+
                   - label: "1 : 2"
                     value: "1-2"
+
                   - label: "2 : 1"
                     value: "2-1"
+
                   - label: "2 : 3"
                     value: "2-3"
+
                   - label: "3 : 2"
                     value: "3-2"
 
 
-          # -------------------------
+          # =========================
           # TWO IMAGES
-          # -------------------------
+          # =========================
 
           - label: "Two Images"
             name: "two_images"
@@ -337,22 +348,27 @@ collections:
                 name: "ratio"
                 widget: "select"
                 default: "1-1"
+
                 options:
                   - label: "1 : 1"
                     value: "1-1"
+
                   - label: "2 : 1"
                     value: "2-1"
+
                   - label: "1 : 2"
                     value: "1-2"
+
                   - label: "3 : 2"
                     value: "3-2"
+
                   - label: "2 : 3"
                     value: "2-3"
 
 
-          # -------------------------
+          # =========================
           # THREE IMAGES
-          # -------------------------
+          # =========================
 
           - label: "Three Images"
             name: "three_images"
@@ -376,9 +392,9 @@ collections:
                 choose_url: false
 
 
-          # -------------------------
+          # =========================
           # VIDEO + IMAGE
-          # -------------------------
+          # =========================
 
           - label: "Video + Image"
             name: "video_image"
@@ -400,20 +416,24 @@ collections:
                 name: "ratio"
                 widget: "select"
                 default: "5-3"
+
                 options:
                   - label: "1 : 1"
                     value: "1-1"
+
                   - label: "5 : 3"
                     value: "5-3"
+
                   - label: "3 : 5"
                     value: "3-5"
+
                   - label: "2 : 1"
                     value: "2-1"
 
 
-          # -------------------------
+          # =========================
           # SPACER
-          # -------------------------
+          # =========================
 
           - label: "Spacer"
             name: "spacer"
@@ -425,6 +445,7 @@ collections:
                 name: "size"
                 widget: "select"
                 default: "medium"
+
                 options:
                   - "small"
                   - "medium"
