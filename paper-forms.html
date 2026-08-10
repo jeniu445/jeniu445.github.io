@@ -32,6 +32,10 @@
 
     *{box-sizing:border-box;}
 
+    html{
+      scrollbar-gutter:stable;
+    }
+
     body{
       margin:0;
       font-family:"Courier New",Courier,monospace;
@@ -172,26 +176,24 @@
     }
 
     #pfRef{
-      width:5/7;
-      height:5/7;
+      width:100%;
+      height:auto;
       display:block;
     }
 
     .pfMatch{
-      width:5/7;
-      height:7;
+      width:100%;
       display:block;
       object-fit:contain;
     }
 
     .imgbox img{
       width:100%;
-      height:auto;
       display:block;
     }
 
-    .triple .imgbox img{
-      object-fit:contain;
+    main img{
+      cursor:zoom-in;
     }
 
     .back-bottom{
@@ -209,6 +211,62 @@
 
     .back-bottom:hover{
       opacity:.45;
+    }
+
+    .project-lightbox{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      background:rgba(0,0,0,.88);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity 220ms ease;
+      z-index:9999;
+    }
+
+    .project-lightbox.open{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .project-lightbox img{
+      max-width:92vw;
+      max-height:92vh;
+      width:auto;
+      height:auto;
+      object-fit:contain;
+      opacity:0;
+      transform:scale(.955);
+      transition:
+        opacity 240ms ease,
+        transform 240ms cubic-bezier(.2,.8,.2,1);
+    }
+
+    .project-lightbox.open img{
+      opacity:1;
+      transform:scale(1);
+    }
+
+    .project-lightbox-close{
+      position:absolute;
+      top:20px;
+      right:26px;
+      border:0;
+      background:transparent;
+      color:#fff;
+      font-family:"Courier New",Courier,monospace;
+      font-size:32px;
+      cursor:pointer;
+      opacity:.7;
+      transition:opacity 140ms ease,transform 140ms ease;
+    }
+
+    .project-lightbox-close:hover{
+      opacity:1;
+      transform:scale(1.08);
     }
 
     @media (max-width:980px){
@@ -229,6 +287,19 @@
 </head>
 
 <body>
+
+  <div class="project-lightbox" id="projectLightbox">
+    <button
+      class="project-lightbox-close"
+      id="projectLightboxClose"
+      type="button"
+      aria-label="Close image"
+    >
+      ×
+    </button>
+
+    <img id="projectLightboxImg" src="" alt="">
+  </div>
 
   <nav>
     <a href="index.html" data-nav>Home</a>
@@ -313,34 +384,20 @@
       });
     });
 
-    document.querySelectorAll("img").forEach(img=>{
-      img.addEventListener("error",()=>{
-        console.error("Missing image:",img.src);
-      });
-    });
-  </script>
-
-  <script>
     function syncBottomRowToLeft(){
-
-      const ref =
-        document.getElementById("pfRef");
-
-      const matches =
-        document.querySelectorAll(".pfMatch");
+      const ref = document.getElementById("pfRef");
+      const matches = document.querySelectorAll(".pfMatch");
 
       if(!ref || matches.length === 0) return;
 
-      const refHeight =
-        ref.getBoundingClientRect().height;
+      const refHeight = ref.getBoundingClientRect().height;
 
       if(!refHeight || refHeight < 2) return;
 
       matches.forEach(img=>{
         img.style.height = refHeight + "px";
         img.style.width = "100%";
-        img.style.objectFit =
-          getComputedStyle(img).objectFit || "contain";
+        img.style.objectFit = "contain";
       });
     }
 
@@ -348,20 +405,65 @@
       syncBottomRowToLeft();
     });
 
-    const refImg =
-      document.getElementById("pfRef");
+    const refImg = document.getElementById("pfRef");
 
     if(refImg){
-      refImg.addEventListener(
-        "load",
-        syncBottomRowToLeft
-      );
+      refImg.addEventListener("load",syncBottomRowToLeft);
     }
 
     window.addEventListener("resize",()=>{
-      requestAnimationFrame(
-        syncBottomRowToLeft
-      );
+      requestAnimationFrame(syncBottomRowToLeft);
+    });
+
+    const lightbox = document.getElementById("projectLightbox");
+    const lightboxImg = document.getElementById("projectLightboxImg");
+    const closeBtn = document.getElementById("projectLightboxClose");
+
+    function openLightbox(img){
+      lightboxImg.src = img.currentSrc || img.src;
+      lightboxImg.alt = img.alt || "";
+      lightbox.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox(){
+      lightbox.classList.remove("open");
+      document.body.style.overflow = "";
+
+      setTimeout(()=>{
+        if(!lightbox.classList.contains("open")){
+          lightboxImg.src = "";
+        }
+      },240);
+    }
+
+    document.querySelectorAll("main img").forEach(img=>{
+      img.addEventListener("click",()=>{
+        openLightbox(img);
+      });
+    });
+
+    closeBtn.addEventListener("click",e=>{
+      e.stopPropagation();
+      closeLightbox();
+    });
+
+    lightbox.addEventListener("click",e=>{
+      if(e.target === lightbox){
+        closeLightbox();
+      }
+    });
+
+    window.addEventListener("keydown",e=>{
+      if(e.key === "Escape" && lightbox.classList.contains("open")){
+        closeLightbox();
+      }
+    });
+
+    document.querySelectorAll("img").forEach(img=>{
+      img.addEventListener("error",()=>{
+        console.error("Missing image:",img.src);
+      });
     });
   </script>
 
