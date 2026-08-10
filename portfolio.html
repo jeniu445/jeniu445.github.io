@@ -267,7 +267,7 @@
 
 
     /* =========================================================
-       VIEW ICONS
+       VIEW TOGGLE
        ========================================================= */
 
     .view-toggle{
@@ -354,10 +354,10 @@
 
 
     /* =========================================================
-       FULL / ORBIT VIEW
+       COLLAGE VIEW
        ========================================================= */
 
-    .artwork-stack.orbit-view{
+    .artwork-stack.collage-view{
       width:100%;
 
       margin:0;
@@ -370,13 +370,10 @@
     }
 
 
-    .artwork-stack.orbit-view .tile{
+    .artwork-stack.collage-view .tile{
       position:absolute;
 
       margin:0;
-
-      transition:
-        opacity 220ms ease;
     }
 
 
@@ -427,7 +424,7 @@
 
 
     /* =========================================================
-       LOADING
+       LOADING / ERROR
        ========================================================= */
 
     .gallery-loading{
@@ -620,14 +617,12 @@
 
 
       /*
-        Full view becomes normal stack
-        on small screens.
+        On mobile, collage view falls back
+        to a clean vertical stack.
       */
 
-      .artwork-stack.orbit-view{
+      .artwork-stack.collage-view{
         width:100%;
-
-        position:static;
 
         display:flex;
 
@@ -635,11 +630,13 @@
 
         gap:var(--gap);
 
+        position:static;
+
         min-height:0 !important;
       }
 
 
-      .artwork-stack.orbit-view .tile{
+      .artwork-stack.collage-view .tile{
         position:static;
 
         width:100% !important;
@@ -791,14 +788,14 @@
 
 
 
-          <!-- FULL / ORBIT VIEW -->
+          <!-- COLLAGE -->
 
           <button
             class="view-btn"
-            id="orbitView"
+            id="collageView"
             type="button"
-            aria-label="Full artwork view"
-            title="Full artwork view">
+            aria-label="Collage view"
+            title="Collage view">
 
             <svg
               viewBox="0 0 24 24"
@@ -905,13 +902,18 @@
       );
 
 
-    const orbitView =
+    const collageView =
       document.getElementById(
-        "orbitView"
+        "collageView"
       );
 
 
-    let artworks = [];
+    let artworks =
+      [];
+
+
+    let collageLayout =
+      [];
 
 
     let currentView =
@@ -976,29 +978,6 @@
         );
 
       });
-
-
-
-    /* =========================================================
-       STABLE SEMI-RANDOM NUMBER
-       ========================================================= */
-
-    function seededRandom(seed){
-
-      const value =
-        Math.sin(
-          seed *
-          9283.493
-        ) *
-        43758.5453;
-
-
-      return (
-        value -
-        Math.floor(value)
-      );
-
-    }
 
 
 
@@ -1100,7 +1079,7 @@
 
 
     /* =========================================================
-       BUILD SINGLE COLUMN
+       SINGLE COLUMN
        ========================================================= */
 
     function buildSingleColumn(){
@@ -1142,7 +1121,7 @@
         );
 
 
-      orbitView
+      collageView
         .classList
         .remove(
           "active"
@@ -1153,122 +1132,25 @@
 
 
     /* =========================================================
-       WAIT FOR IMAGES
+       COLLAGE VIEW
        ========================================================= */
 
-    function waitForImages(container){
-
-      const images =
-        [
-          ...container
-            .querySelectorAll(
-              "img"
-            )
-        ];
-
-
-      return Promise.all(
-
-        images.map(img => {
-
-          if(
-            img.complete
-          ){
-
-            return Promise.resolve();
-
-          }
-
-
-          return new Promise(resolve => {
-
-            img.addEventListener(
-              "load",
-              resolve,
-              {
-                once:true
-              }
-            );
-
-
-            img.addEventListener(
-              "error",
-              resolve,
-              {
-                once:true
-              }
-            );
-
-          });
-
-        })
-
-      );
-
-    }
-
-
-
-    /* =========================================================
-       RECTANGLE COLLISION CHECK
-       ========================================================= */
-
-    function rectanglesOverlap(
-      first,
-      second,
-      gap
-    ){
-
-      return !(
-        first.x +
-        first.width +
-        gap <=
-        second.x ||
-
-        first.x >=
-        second.x +
-        second.width +
-        gap ||
-
-        first.y +
-        first.height +
-        gap <=
-        second.y ||
-
-        first.y >=
-        second.y +
-        second.height +
-        gap
-      );
-
-    }
-
-
-
-    /* =========================================================
-       BUILD WIDE ORBIT VIEW
-       ========================================================= */
-
-    async function buildOrbitView(){
+    function buildCollageView(){
 
       currentView =
-        "orbit";
+        "collage";
 
 
       gallery.className =
-        "artwork-stack orbit-view";
+        "artwork-stack collage-view";
 
 
       gallery.innerHTML =
         "";
 
 
-      gallery.style.minHeight =
-        "500px";
-
-
       /*
-        Mobile gets a simple stack.
+        Mobile gets clean vertical layout.
       */
 
       if(
@@ -1289,7 +1171,11 @@
         );
 
 
-        orbitView
+        gallery.style.minHeight =
+          "";
+
+
+        collageView
           .classList
           .add(
             "active"
@@ -1309,24 +1195,122 @@
 
 
 
-      const tiles =
-        [];
+      /*
+        Build lookup by image path.
+
+        This connects:
+        artworks.json
+        ↕
+        collage.json
+      */
+
+      const artworkByImage =
+        {};
+
+
+      artworks.forEach(
+        artwork => {
+
+          if(
+            artwork &&
+            artwork.image
+          ){
+
+            artworkByImage[
+              artwork.image
+            ] =
+              artwork;
+
+          }
+
+        }
+      );
+
 
 
       /*
-        ---------------------------------------------------------
-        CREATE WORKS FIRST
-
-        Scattered images use approximately
-        22% – 32% of the gallery width.
-
-        This allows them to spread across
-        the full canvas.
-        ---------------------------------------------------------
+        If collage.json is empty, show
+        a helpful message rather than
+        generating a random layout.
       */
 
-      artworks.forEach(
-        (artwork,index) => {
+      if(
+        !Array.isArray(
+          collageLayout
+        ) ||
+        collageLayout.length === 0
+      ){
+
+        gallery.innerHTML =
+          `
+          <div class="gallery-loading">
+            Collage layout has not been published yet.
+          </div>
+          `;
+
+
+        gallery.style.minHeight =
+          "200px";
+
+
+        collageView
+          .classList
+          .add(
+            "active"
+          );
+
+
+        singleView
+          .classList
+          .remove(
+            "active"
+          );
+
+
+        return;
+
+      }
+
+
+
+      let maximumBottom =
+        0;
+
+
+
+      collageLayout.forEach(
+        (item,index) => {
+
+
+          if(
+            !item ||
+            !item.image
+          ){
+
+            return;
+
+          }
+
+
+          const artwork =
+            artworkByImage[
+              item.image
+            ];
+
+
+          /*
+            Ignore stale collage entries
+            whose artwork was deleted.
+          */
+
+          if(
+            !artwork
+          ){
+
+            return;
+
+          }
+
 
           const tile =
             createArtworkTile(
@@ -1335,21 +1319,37 @@
             );
 
 
-          const widthPercent =
-            22 +
-            seededRandom(
-              index + 30
-            ) *
-            10;
+          const x =
+            Number(
+              item.x
+            ) || 0;
 
 
-          tile.style.width =
-            widthPercent +
+          const y =
+            Number(
+              item.y
+            ) || 0;
+
+
+          const width =
+            Number(
+              item.width
+            ) || 26;
+
+
+          tile.style.left =
+            x +
             "%";
 
 
-          tile.style.visibility =
-            "hidden";
+          tile.style.top =
+            y +
+            "px";
+
+
+          tile.style.width =
+            width +
+            "%";
 
 
           gallery.appendChild(
@@ -1357,476 +1357,76 @@
           );
 
 
-          tiles.push(
-            tile
-          );
-
-        }
-      );
-
-
-
-      /*
-        Wait until actual image dimensions
-        are available.
-      */
-
-      await waitForImages(
-        gallery
-      );
-
-
-      if(
-        currentView !==
-        "orbit"
-      ){
-
-        return;
-
-      }
-
-
-
-      const canvasWidth =
-        gallery.clientWidth;
-
-
-      /*
-        These horizontal anchor points
-        stretch across almost the entire
-        available gallery.
-
-        They deliberately alternate around
-        the center rather than forming
-        recognizable columns.
-      */
-
-      const horizontalAnchors = [
-
-        0.03,
-
-        0.65,
-
-        0.34,
-
-        0.08,
-
-        0.70,
-
-        0.46,
-
-        0.18,
-
-        0.61,
-
-        0.02,
-
-        0.39,
-
-        0.72,
-
-        0.22,
-
-        0.55,
-
-        0.09,
-
-        0.67,
-
-        0.31
-
-      ];
-
-
-      const placed =
-        [];
-
-
-      const collisionGap =
-        16;
-
-
-
-      tiles.forEach(
-        (tile,index) => {
-
-
-          const tileWidth =
-            tile.offsetWidth;
-
-
-          const tileHeight =
-            tile.offsetHeight;
-
-
 
           /*
-            Desired horizontal position.
+            Update canvas height after image loads.
           */
 
-          let desiredX =
-            horizontalAnchors[
-              index %
-              horizontalAnchors.length
-            ] *
-            canvasWidth;
-
-
-
-          /*
-            Add a little stable variation
-            so repeated patterns do not
-            look mechanically aligned.
-          */
-
-          desiredX +=
-            (
-              seededRandom(
-                index + 100
-              ) -
-              .5
-            ) *
-            canvasWidth *
-            .08;
-
-
-
-          /*
-            Make sure the artwork remains
-            inside the gallery.
-          */
-
-          desiredX =
-            Math.max(
-              0,
-              Math.min(
-                desiredX,
-                canvasWidth -
-                tileWidth
-              )
+          const img =
+            tile.querySelector(
+              "img"
             );
 
 
+          const updateHeight =
+            () => {
 
-          /*
-            New works begin toward the top.
-
-            Every few works establish a
-            loose vertical band, rather
-            than a rigid row.
-          */
-
-          const band =
-            Math.floor(
-              index / 3
-            );
+              const bottom =
+                tile.offsetTop +
+                tile.offsetHeight;
 
 
-          let desiredY =
-            band *
-            165;
-
-
-          desiredY +=
-            seededRandom(
-              index + 200
-            ) *
-            55;
-
-
-
-          /*
-            Alternative x positions.
-
-            If the preferred location
-            collides, we'll try nearby
-            positions before moving down.
-          */
-
-          const xOptions = [
-
-            desiredX,
-
-            canvasWidth *
-            .5 -
-            tileWidth /
-            2,
-
-            canvasWidth *
-            .04,
-
-            canvasWidth -
-            tileWidth -
-            canvasWidth *
-            .04,
-
-            canvasWidth *
-            .22,
-
-            canvasWidth *
-            .58
-
-          ].map(x =>
-
-            Math.max(
-              0,
-              Math.min(
-                x,
-                canvasWidth -
-                tileWidth
-              )
-            )
-
-          );
-
-
-
-          let found =
-            false;
-
-
-          let finalX =
-            desiredX;
-
-
-          let finalY =
-            desiredY;
-
-
-
-          /*
-            Search downward in small steps.
-
-            This guarantees no overlap,
-            but keeps the artwork as close
-            together as possible.
-          */
-
-          for(
-            let yAttempt = 0;
-            yAttempt < 120;
-            yAttempt++
-          ){
-
-            const candidateY =
-              desiredY +
-              yAttempt *
-              12;
-
-
-            for(
-              let xIndex = 0;
-              xIndex <
-              xOptions.length;
-              xIndex++
-            ){
-
-              /*
-                Add tiny offset to avoid
-                obviously repeated anchors.
-              */
-
-              let candidateX =
-                xOptions[
-                  xIndex
-                ];
-
-
-              candidateX +=
-                (
-                  seededRandom(
-                    index * 20 +
-                    xIndex +
-                    400
-                  ) -
-                  .5
-                ) *
-                18;
-
-
-              candidateX =
+              maximumBottom =
                 Math.max(
-                  0,
-                  Math.min(
-                    candidateX,
-                    canvasWidth -
-                    tileWidth
-                  )
+                  maximumBottom,
+                  bottom
                 );
 
 
-              const proposed =
-                {
-                  x:
-                    candidateX,
+              gallery.style.minHeight =
+                (
+                  maximumBottom +
+                  40
+                ) +
+                "px";
 
-                  y:
-                    candidateY,
+            };
 
-                  width:
-                    tileWidth,
-
-                  height:
-                    tileHeight
-                };
-
-
-              const collision =
-                placed.some(
-                  existing =>
-
-                    rectanglesOverlap(
-                      proposed,
-                      existing,
-                      collisionGap
-                    )
-
-                );
-
-
-              if(
-                !collision
-              ){
-
-                finalX =
-                  candidateX;
-
-
-                finalY =
-                  candidateY;
-
-
-                found =
-                  true;
-
-
-                break;
-
-              }
-
-            }
-
-
-            if(
-              found
-            ){
-
-              break;
-
-            }
-
-          }
-
-
-
-          /*
-            Safety fallback.
-
-            Normally the collision search
-            above finds a location long
-            before reaching this.
-          */
 
           if(
-            !found
+            img.complete
           ){
 
-            const previousBottom =
-              placed.reduce(
-                (
-                  maximum,
-                  item
-                ) =>
-
-                  Math.max(
-                    maximum,
-                    item.y +
-                    item.height
-                  ),
-
-                0
-              );
-
-
-            finalX =
-              desiredX;
-
-
-            finalY =
-              previousBottom +
-              collisionGap;
+            updateHeight();
 
           }
+          else{
+
+            img.addEventListener(
+              "load",
+              updateHeight,
+              {
+                once:true
+              }
+            );
 
 
+            img.addEventListener(
+              "error",
+              updateHeight,
+              {
+                once:true
+              }
+            );
 
-          tile.style.left =
-            finalX +
-            "px";
-
-
-          tile.style.top =
-            finalY +
-            "px";
-
-
-          tile.style.visibility =
-            "visible";
-
-
-
-          placed.push(
-            {
-              x:
-                finalX,
-
-              y:
-                finalY,
-
-              width:
-                tileWidth,
-
-              height:
-                tileHeight
-            }
-          );
+          }
 
         }
       );
 
 
 
-      /*
-        Determine required gallery height.
-      */
-
-      const maximumBottom =
-        placed.reduce(
-          (
-            maximum,
-            item
-          ) =>
-
-            Math.max(
-              maximum,
-              item.y +
-              item.height
-            ),
-
-          0
-        );
-
-
-      gallery.style.minHeight =
-        (
-          maximumBottom +
-          30
-        ) +
-        "px";
-
-
-
-      orbitView
+      collageView
         .classList
         .add(
           "active"
@@ -1858,12 +1458,12 @@
       );
 
 
-    orbitView
+    collageView
       .addEventListener(
         "click",
         () => {
 
-          buildOrbitView();
+          buildCollageView();
 
         }
       );
@@ -1871,25 +1471,40 @@
 
 
     /* =========================================================
-       LOAD ARTWORK
+       LOAD ARTWORKS + COLLAGE
        ========================================================= */
 
-    async function loadArtworks(){
+    async function loadPortfolioData(){
 
       try{
 
-        const response =
-          await fetch(
-            "/content/artworks.json",
-            {
-              cache:
-                "no-store"
-            }
-          );
+        const [
+          artworkResponse,
+          collageResponse
+        ] =
+          await Promise.all([
+
+            fetch(
+              "/content/artworks.json?v=" +
+              Date.now(),
+              {
+                cache:"no-store"
+              }
+            ),
+
+            fetch(
+              "/content/collage.json?v=" +
+              Date.now(),
+              {
+                cache:"no-store"
+              }
+            )
+
+          ]);
 
 
         if(
-          !response.ok
+          !artworkResponse.ok
         ){
 
           throw new Error(
@@ -1899,49 +1514,46 @@
         }
 
 
-        const data =
-          await response.json();
-
-
-        artworks =
-          Array.isArray(
-            data.artworks
-          )
-            ? data.artworks
-            : [];
-
-
         if(
-          artworks.length ===
-          0
+          !collageResponse.ok
         ){
 
-          gallery.innerHTML =
-            `
-            <div class="gallery-loading">
-              No artwork yet.
-            </div>
-            `;
-
-
-          return;
+          throw new Error(
+            "Could not load collage.json"
+          );
 
         }
 
 
 
+        const artworkData =
+          await artworkResponse.json();
+
+
+        const collageData =
+          await collageResponse.json();
+
+
+
+        artworks =
+          Array.isArray(
+            artworkData.artworks
+          )
+            ? artworkData.artworks
+            : [];
+
+
+        collageLayout =
+          Array.isArray(
+            collageData.layout
+          )
+            ? collageData.layout
+            : [];
+
+
+
         /*
-          IMPORTANT:
-
-          Artwork order is not reversed.
-
-          With add_to_top: true in Decap:
-
-          newest
-          artwork 1
-          artwork 2
-          artwork 3
-          ...
+          Single column stays the default.
         */
 
         buildSingleColumn();
@@ -1951,7 +1563,7 @@
       catch(error){
 
         console.error(
-          "Artwork loading error:",
+          "Portfolio loading error:",
           error
         );
 
@@ -1959,7 +1571,7 @@
         gallery.innerHTML =
           `
           <div class="gallery-loading">
-            Artwork could not load.
+            Portfolio could not load.
           </div>
           `;
 
@@ -1970,7 +1582,7 @@
 
 
     /* =========================================================
-       RESPONSIVE REBUILD
+       RESIZE
        ========================================================= */
 
     let resizeTimer;
@@ -1991,10 +1603,10 @@
 
               if(
                 currentView ===
-                "orbit"
+                "collage"
               ){
 
-                buildOrbitView();
+                buildCollageView();
 
               }
 
@@ -2104,8 +1716,6 @@
 
 
 
-    /* CLOSE */
-
     lightboxClose
       .addEventListener(
         "click",
@@ -2120,9 +1730,6 @@
         }
       );
 
-
-
-    /* CLICK DARK BACKGROUND */
 
     lightbox
       .addEventListener(
@@ -2141,9 +1748,6 @@
         }
       );
 
-
-
-    /* ESCAPE */
 
     window.addEventListener(
       "keydown",
@@ -2172,7 +1776,7 @@
        START
        ========================================================= */
 
-    loadArtworks();
+    loadPortfolioData();
 
   </script>
 
