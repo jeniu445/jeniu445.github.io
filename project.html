@@ -46,16 +46,14 @@
       --transition: 200ms;
     }
 
-
     * {
       box-sizing: border-box;
     }
 
-
     html {
       scroll-behavior: smooth;
+      scrollbar-gutter: stable;
     }
-
 
     body {
       margin: 0;
@@ -75,16 +73,13 @@
         opacity var(--transition) ease;
     }
 
-
     body.page-loaded {
       opacity: 1;
     }
 
-
     body.page-exit {
       opacity: 0;
     }
-
 
 
     /* =========================================================
@@ -109,7 +104,6 @@
       z-index: 10;
     }
 
-
     nav a {
       text-decoration: none;
 
@@ -127,14 +121,12 @@
         transform 150ms ease;
     }
 
-
     nav a:hover {
       background: rgba(0,0,0,.06);
 
       transform:
         translateY(-1px);
     }
-
 
 
     /* =========================================================
@@ -150,7 +142,6 @@
         4rem;
     }
 
-
     .project {
       width: min(
         100%,
@@ -159,7 +150,6 @@
 
       margin: 0 auto;
     }
-
 
 
     /* =========================================================
@@ -174,7 +164,6 @@
 
       padding-bottom: 20px;
     }
-
 
     .project-title {
       margin:
@@ -196,7 +185,6 @@
       font-weight: 700;
     }
 
-
     .project-description {
       max-width: 720px;
 
@@ -207,7 +195,6 @@
 
       font-weight: 400;
     }
-
 
 
     /* =========================================================
@@ -223,7 +210,6 @@
     }
 
 
-
     /* =========================================================
        GENERAL MEDIA
        ========================================================= */
@@ -236,11 +222,13 @@
       height: auto;
     }
 
+    .block img {
+      cursor: zoom-in;
+    }
 
     .block video {
       background: #000;
     }
-
 
 
     /* =========================================================
@@ -255,16 +243,13 @@
       line-height: 1.05;
     }
 
-
     .heading.small {
       font-size: 1.3rem;
     }
 
-
     .heading.medium {
       font-size: 2rem;
     }
-
 
     .heading.large {
       font-size:
@@ -274,7 +259,6 @@
           4rem
         );
     }
-
 
 
     /* =========================================================
@@ -291,28 +275,23 @@
       font-weight: 400;
     }
 
-
     .text-block.narrow {
       max-width: 520px;
     }
-
 
     .text-block.medium {
       max-width: 760px;
     }
 
-
     .text-block.full {
       max-width: none;
     }
-
 
     .text-block.left {
       margin-right: auto;
 
       text-align: left;
     }
-
 
     .text-block.center {
       margin-left: auto;
@@ -321,13 +300,11 @@
       text-align: center;
     }
 
-
     .text-block.right {
       margin-left: auto;
 
       text-align: right;
     }
-
 
 
     /* =========================================================
@@ -338,26 +315,21 @@
       width: 100%;
     }
 
-
     .single-media.small {
       width: 35%;
     }
-
 
     .single-media.medium {
       width: 55%;
     }
 
-
     .single-media.large {
       width: 75%;
     }
 
-
     .single-media.full {
       width: 100%;
     }
-
 
     .caption {
       margin-top: 8px;
@@ -368,7 +340,6 @@
 
       opacity: .55;
     }
-
 
 
     /* =========================================================
@@ -383,13 +354,11 @@
       align-items: start;
     }
 
-
     .ratio-1-1 {
       grid-template-columns:
         minmax(0,1fr)
         minmax(0,1fr);
     }
-
 
     .ratio-1-2 {
       grid-template-columns:
@@ -397,13 +366,11 @@
         minmax(0,2fr);
     }
 
-
     .ratio-2-1 {
       grid-template-columns:
         minmax(0,2fr)
         minmax(0,1fr);
     }
-
 
     .ratio-2-3 {
       grid-template-columns:
@@ -411,13 +378,11 @@
         minmax(0,3fr);
     }
 
-
     .ratio-3-2 {
       grid-template-columns:
         minmax(0,3fr)
         minmax(0,2fr);
     }
-
 
     .ratio-5-3 {
       grid-template-columns:
@@ -425,13 +390,11 @@
         minmax(0,3fr);
     }
 
-
     .ratio-3-5 {
       grid-template-columns:
         minmax(0,3fr)
         minmax(0,5fr);
     }
-
 
 
     /* =========================================================
@@ -447,7 +410,6 @@
 
       font-weight: 400;
     }
-
 
 
     /* =========================================================
@@ -469,7 +431,6 @@
     }
 
 
-
     /* =========================================================
        SPACERS
        ========================================================= */
@@ -478,16 +439,13 @@
       height: 18px;
     }
 
-
     .spacer.medium {
       height: 42px;
     }
 
-
     .spacer.large {
       height: 90px;
     }
-
 
 
     /* =========================================================
@@ -514,11 +472,121 @@
       transition: opacity 150ms ease;
     }
 
-
     .back:hover {
       opacity: .45;
     }
 
+
+    /* =========================================================
+       LIGHTBOX
+       ========================================================= */
+
+    .project-lightbox {
+      position: fixed;
+
+      inset: 0;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 24px;
+
+      background:
+        rgba(0,0,0,.88);
+
+      opacity: 0;
+
+      pointer-events: none;
+
+      transition:
+        opacity 220ms ease;
+
+      z-index: 9999;
+    }
+
+    .project-lightbox.open {
+      opacity: 1;
+
+      pointer-events: auto;
+    }
+
+    .project-lightbox img {
+      display: block;
+
+      max-width: 92vw;
+      max-height: 92vh;
+
+      width: auto;
+      height: auto;
+
+      object-fit: contain;
+
+      opacity: 0;
+
+      transform:
+        scale(.955);
+
+      transition:
+        opacity 240ms ease,
+        transform 240ms
+        cubic-bezier(.2,.8,.2,1);
+
+      user-select: none;
+
+      -webkit-user-drag: none;
+    }
+
+    .project-lightbox.open img {
+      opacity: 1;
+
+      transform:
+        scale(1);
+    }
+
+    .project-lightbox-close {
+      position: absolute;
+
+      top: 20px;
+      right: 26px;
+
+      width: 42px;
+      height: 42px;
+
+      border: 0;
+
+      background: transparent;
+
+      color: #fff;
+
+      font-family:
+        "SpaceMono",
+        "Courier New",
+        monospace;
+
+      font-size: 30px;
+      font-weight: 400;
+
+      line-height: 1;
+
+      cursor: pointer;
+
+      opacity: .7;
+
+      z-index: 2;
+
+      transition:
+        opacity 140ms ease,
+        transform 140ms ease;
+    }
+
+    .project-lightbox-close:hover {
+      opacity: 1;
+
+      transform:
+        scale(1.08);
+    }
 
 
     /* =========================================================
@@ -536,7 +604,6 @@
     }
 
 
-
     /* =========================================================
        RESPONSIVE
        ========================================================= */
@@ -550,11 +617,9 @@
           3rem;
       }
 
-
       #projectContent {
         gap: 20px;
       }
-
 
       .two-column,
       .three-images {
@@ -562,16 +627,23 @@
           1fr;
       }
 
-
       .single-media.small,
       .single-media.medium,
       .single-media.large {
         width: 100%;
       }
 
-
       .project-header {
         margin-bottom: 28px;
+      }
+
+      .project-lightbox {
+        padding: 12px;
+      }
+
+      .project-lightbox img {
+        max-width: 96vw;
+        max-height: 90vh;
       }
 
     }
@@ -582,6 +654,34 @@
 
 
 <body>
+
+
+  <!-- =======================================================
+       AUTOMATIC FULLSCREEN IMAGE LIGHTBOX
+       ======================================================= -->
+
+  <div
+    class="project-lightbox"
+    id="projectLightbox"
+    aria-hidden="true"
+  >
+
+    <button
+      class="project-lightbox-close"
+      id="projectLightboxClose"
+      aria-label="Close image"
+      type="button"
+    >
+      ×
+    </button>
+
+    <img
+      id="projectLightboxImg"
+      src=""
+      alt=""
+    >
+
+  </div>
 
 
   <!-- =======================================================
@@ -609,7 +709,6 @@
     </a>
 
   </nav>
-
 
 
   <!-- =======================================================
@@ -642,13 +741,11 @@
       </header>
 
 
-
       <!-- CONTENT GENERATED FROM DECAP -->
 
       <div
         id="projectContent">
       </div>
-
 
 
       <!-- BACK -->
@@ -668,7 +765,6 @@
   </main>
 
 
-
   <script>
 
     /* =========================================================
@@ -685,7 +781,6 @@
 
       }
     );
-
 
 
     /* =========================================================
@@ -722,7 +817,6 @@
       });
 
 
-
     /* =========================================================
        HELPERS
        ========================================================= */
@@ -743,7 +837,6 @@
     }
 
 
-
     function makeVideo(src) {
 
       const video =
@@ -762,7 +855,6 @@
     }
 
 
-
     function makeBlock() {
 
       const block =
@@ -773,7 +865,6 @@
       return block;
 
     }
-
 
 
     /* =========================================================
@@ -791,10 +882,7 @@
         makeBlock();
 
 
-
-      /* =======================================================
-         HEADING
-         ======================================================= */
+      /* HEADING */
 
       if (block.type === "heading") {
 
@@ -817,10 +905,7 @@
       }
 
 
-
-      /* =======================================================
-         TEXT
-         ======================================================= */
+      /* TEXT */
 
       if (block.type === "text") {
 
@@ -845,10 +930,7 @@
       }
 
 
-
-      /* =======================================================
-         IMAGE
-         ======================================================= */
+      /* IMAGE */
 
       if (block.type === "image") {
 
@@ -895,10 +977,7 @@
       }
 
 
-
-      /* =======================================================
-         GIF
-         ======================================================= */
+      /* GIF */
 
       if (block.type === "gif") {
 
@@ -927,10 +1006,7 @@
       }
 
 
-
-      /* =======================================================
-         VIDEO
-         ======================================================= */
+      /* VIDEO */
 
       if (block.type === "video") {
 
@@ -958,10 +1034,7 @@
       }
 
 
-
-      /* =======================================================
-         TEXT + IMAGE
-         ======================================================= */
+      /* TEXT + IMAGE */
 
       if (block.type === "text_image") {
 
@@ -1014,10 +1087,7 @@
       }
 
 
-
-      /* =======================================================
-         TWO IMAGES
-         ======================================================= */
+      /* TWO IMAGES */
 
       if (block.type === "two_images") {
 
@@ -1052,10 +1122,7 @@
       }
 
 
-
-      /* =======================================================
-         THREE IMAGES
-         ======================================================= */
+      /* THREE IMAGES */
 
       if (block.type === "three_images") {
 
@@ -1097,10 +1164,7 @@
       }
 
 
-
-      /* =======================================================
-         VIDEO + IMAGE
-         ======================================================= */
+      /* VIDEO + IMAGE */
 
       if (block.type === "video_image") {
 
@@ -1134,10 +1198,7 @@
       }
 
 
-
-      /* =======================================================
-         SPACER
-         ======================================================= */
+      /* SPACER */
 
       if (block.type === "spacer") {
 
@@ -1158,11 +1219,9 @@
       }
 
 
-
       return null;
 
     }
-
 
 
     /* =========================================================
@@ -1199,7 +1258,6 @@
         );
 
 
-
       /* No slug */
 
       if (!slug) {
@@ -1220,10 +1278,7 @@
       }
 
 
-
       try {
-
-        /* prevent stale Netlify/browser cache */
 
         const response =
           await fetch(
@@ -1258,9 +1313,6 @@
           );
 
 
-
-        /* Project doesn't exist */
-
         if (!project) {
 
           titleElement.textContent =
@@ -1279,14 +1331,10 @@
         }
 
 
-
-        /* =====================================================
-           TITLE
-           ===================================================== */
+        /* TITLE */
 
         titleElement.textContent =
           project.title || "Untitled";
-
 
 
         document.title =
@@ -1294,10 +1342,7 @@
           " — Jennifer Niu";
 
 
-
-        /* =====================================================
-           DESCRIPTION
-           ===================================================== */
+        /* DESCRIPTION */
 
         if (project.description) {
 
@@ -1311,10 +1356,7 @@
         }
 
 
-
-        /* =====================================================
-           BLOCKS
-           ===================================================== */
+        /* BLOCKS */
 
         const blocks =
           Array.isArray(project.blocks)
@@ -1362,6 +1404,180 @@
 
     }
 
+
+    /* =========================================================
+       AUTOMATIC LIGHTBOX
+       ========================================================= */
+
+    const projectLightbox =
+      document.getElementById(
+        "projectLightbox"
+      );
+
+
+    const projectLightboxImg =
+      document.getElementById(
+        "projectLightboxImg"
+      );
+
+
+    const projectLightboxClose =
+      document.getElementById(
+        "projectLightboxClose"
+      );
+
+
+    function openProjectLightbox(img) {
+
+      projectLightboxImg.src =
+        img.src;
+
+      projectLightboxImg.alt =
+        img.alt || "";
+
+
+      projectLightbox
+        .classList
+        .add("open");
+
+
+      projectLightbox
+        .setAttribute(
+          "aria-hidden",
+          "false"
+        );
+
+
+      document.body.style.overflow =
+        "hidden";
+
+    }
+
+
+    function closeProjectLightbox() {
+
+      projectLightbox
+        .classList
+        .remove("open");
+
+
+      projectLightbox
+        .setAttribute(
+          "aria-hidden",
+          "true"
+        );
+
+
+      document.body.style.overflow =
+        "";
+
+
+      setTimeout(
+        () => {
+
+          if (
+            !projectLightbox
+              .classList
+              .contains("open")
+          ) {
+
+            projectLightboxImg.src =
+              "";
+
+          }
+
+        },
+        240
+      );
+
+    }
+
+
+    /*
+      This is the important part.
+
+      Because we're listening on the document,
+      images created later by Decap's project
+      renderer automatically work too.
+    */
+
+    document.addEventListener(
+      "click",
+      event => {
+
+        const img =
+          event.target.closest(
+            "#projectContent img"
+          );
+
+
+        if (!img) {
+          return;
+        }
+
+
+        openProjectLightbox(
+          img
+        );
+
+      }
+    );
+
+
+    /* X BUTTON */
+
+    projectLightboxClose
+      .addEventListener(
+        "click",
+        event => {
+
+          event.stopPropagation();
+
+          closeProjectLightbox();
+
+        }
+      );
+
+
+    /* CLICK DARK BACKGROUND */
+
+    projectLightbox
+      .addEventListener(
+        "click",
+        event => {
+
+          if (
+            event.target ===
+            projectLightbox
+          ) {
+
+            closeProjectLightbox();
+
+          }
+
+        }
+      );
+
+
+    /* ESCAPE */
+
+    window.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key === "Escape" &&
+          projectLightbox
+            .classList
+            .contains("open")
+        ) {
+
+          closeProjectLightbox();
+
+        }
+
+      }
+    );
 
 
     /* =========================================================
