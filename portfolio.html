@@ -1,16 +1,22 @@
 <!doctype html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  />
 
   <title>Portfolio — Jennifer Niu</title>
 
   <style>
 
-    /* =========================
+    /* =========================================================
        FONT
-       ========================= */
+       ========================================================= */
 
     @font-face{
       font-family:"SpaceMono";
@@ -29,9 +35,9 @@
     }
 
 
-    /* =========================
+    /* =========================================================
        VARIABLES
-       ========================= */
+       ========================================================= */
 
     :root{
       --bg:#fff;
@@ -41,7 +47,7 @@
       --gallery-width:1020px;
       --gutter:28px;
 
-      /* space between artworks */
+      /* Space between artworks */
       --gap:14px;
 
       --links-width:190px;
@@ -93,9 +99,10 @@
     }
 
 
-    /* =========================
+
+    /* =========================================================
        TOP NAVIGATION
-       ========================= */
+       ========================================================= */
 
     nav{
       position:absolute;
@@ -145,9 +152,10 @@
     }
 
 
-    /* =========================
+
+    /* =========================================================
        PAGE
-       ========================= */
+       ========================================================= */
 
     main{
       min-height:100dvh;
@@ -172,9 +180,10 @@
     }
 
 
-    /* =========================
+
+    /* =========================================================
        LEFT NAVIGATION
-       ========================= */
+       ========================================================= */
 
     .side{
       width:var(--links-width);
@@ -221,13 +230,15 @@
 
     .side a.current{
       opacity:.35;
+
       pointer-events:none;
     }
 
 
-    /* =========================
-       GALLERY
-       ========================= */
+
+    /* =========================================================
+       GALLERY CONTAINER
+       ========================================================= */
 
     .gallery{
       width:var(--gallery-width);
@@ -237,41 +248,138 @@
     }
 
 
-    /* =========================
+
+    /* =========================================================
+       VIEW TOGGLE
+       ========================================================= */
+
+    .view-toggle{
+      width:78%;
+
+      margin:
+        0 auto 10px;
+
+      display:flex;
+
+      justify-content:flex-end;
+
+      align-items:center;
+
+      gap:12px;
+    }
+
+
+    .view-btn{
+      appearance:none;
+
+      border:0;
+
+      background:transparent;
+
+      padding:4px 0;
+
+      font-family:
+        "SpaceMono",
+        "Courier New",
+        Courier,
+        monospace;
+
+      font-size:.68rem;
+
+      font-weight:700;
+
+      letter-spacing:.08em;
+
+      text-transform:uppercase;
+
+      color:#111;
+
+      cursor:pointer;
+
+      opacity:.3;
+
+      transition:
+        opacity 150ms ease;
+    }
+
+
+    .view-btn:hover{
+      opacity:.65;
+    }
+
+
+    .view-btn.active{
+      opacity:1;
+    }
+
+
+
+    /* =========================================================
+       DEFAULT VIEW:
        ONE VERTICAL COLUMN
-       ========================= */
+       ========================================================= */
 
     .artwork-stack{
 
       /*
-        Images use 78% of the gallery width
-        instead of filling the entire 1020px.
+        78% keeps the single-column artwork
+        from feeling too large.
 
-        Change 78% if you ever want to
-        adjust their size.
+        Change this to:
+        85% = larger
+        70% = smaller
       */
 
       width:78%;
 
-      margin:
-        0 auto;
+      margin:0 auto;
 
       display:flex;
+
       flex-direction:column;
 
       gap:var(--gap);
 
       padding:
-        var(--gap) 0;
+        0 0 var(--gap);
     }
 
 
-    /* =========================
+
+    /* =========================================================
+       THREE-COLUMN VIEW
+       ========================================================= */
+
+    .artwork-stack.three-column{
+      width:100%;
+
+      display:grid;
+
+      grid-template-columns:
+        repeat(
+          3,
+          minmax(0,1fr)
+        );
+
+      gap:var(--gap);
+
+      align-items:start;
+    }
+
+
+    .artwork-stack.three-column .tile{
+      width:100%;
+    }
+
+
+
+    /* =========================================================
        ARTWORK
-       ========================= */
+       ========================================================= */
 
     .tile{
       width:100%;
+
       margin:0;
     }
 
@@ -309,9 +417,10 @@
     }
 
 
-    /* =========================
-       LOADING
-       ========================= */
+
+    /* =========================================================
+       LOADING MESSAGE
+       ========================================================= */
 
     .gallery-loading{
       font-size:.8rem;
@@ -326,9 +435,10 @@
     }
 
 
-    /* =========================
+
+    /* =========================================================
        LIGHTBOX
-       ========================= */
+       ========================================================= */
 
     .lightbox{
       position:fixed;
@@ -356,15 +466,18 @@
 
     .lightbox.open{
       opacity:1;
+
       pointer-events:auto;
     }
 
 
     .lightbox img{
       max-width:90vw;
+
       max-height:90vh;
 
       width:auto;
+
       height:auto;
 
       object-fit:contain;
@@ -397,6 +510,7 @@
       position:absolute;
 
       top:20px;
+
       right:26px;
 
       font-family:
@@ -404,9 +518,11 @@
         monospace;
 
       font-size:32px;
+
       font-weight:400;
 
       background:none;
+
       border:none;
 
       color:white;
@@ -431,9 +547,10 @@
     }
 
 
-    /* =========================
+
+    /* =========================================================
        TABLET
-       ========================= */
+       ========================================================= */
 
     @media (max-width:1180px){
 
@@ -441,9 +558,10 @@
         flex-direction:column;
 
         align-items:center;
+
         justify-content:flex-start;
 
-        gap:6px;
+        gap:10px;
       }
 
 
@@ -481,16 +599,47 @@
     }
 
 
-    /* =========================
-       MOBILE
-       ========================= */
 
-    @media (max-width:700px){
+    /* =========================================================
+       SMALL TABLET
+       ========================================================= */
+
+    @media (max-width:800px){
 
       /*
-        On a phone, use nearly all the
-        available width so the artwork
-        doesn't become too tiny.
+        On smaller screens, the "3 column"
+        option becomes 2 columns so the
+        artwork doesn't get too tiny.
+      */
+
+      .artwork-stack.three-column{
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(0,1fr)
+          );
+      }
+
+    }
+
+
+
+    /* =========================================================
+       MOBILE
+       ========================================================= */
+
+    @media (max-width:600px){
+
+      .layout{
+        padding-left:16px;
+
+        padding-right:16px;
+      }
+
+
+      /*
+        Single-column mode fills the available
+        mobile width.
       */
 
       .artwork-stack{
@@ -498,23 +647,37 @@
       }
 
 
-      .layout{
-        padding-left:16px;
-        padding-right:16px;
+      /*
+        Even if 3-column mode was selected,
+        mobile becomes one column.
+      */
+
+      .artwork-stack.three-column{
+        width:100%;
+
+        display:flex;
+
+        flex-direction:column;
+      }
+
+
+      .view-toggle{
+        width:100%;
       }
 
     }
 
   </style>
+
 </head>
 
 
 <body>
 
 
-  <!-- =========================
-       TOP NAV
-       ========================= -->
+  <!-- =========================================================
+       TOP NAVIGATION
+       ========================================================= -->
 
   <nav>
 
@@ -539,9 +702,10 @@
   </nav>
 
 
-  <!-- =========================
+
+  <!-- =========================================================
        LIGHTBOX
-       ========================= -->
+       ========================================================= -->
 
   <div
     class="lightbox"
@@ -563,16 +727,19 @@
   </div>
 
 
-  <!-- =========================
+
+  <!-- =========================================================
        PAGE
-       ========================= -->
+       ========================================================= -->
 
   <main>
 
     <div class="layout">
 
 
-      <!-- LEFT NAV -->
+      <!-- =====================================================
+           LEFT NAVIGATION
+           ===================================================== -->
 
       <aside class="side">
 
@@ -597,9 +764,38 @@
       </aside>
 
 
-      <!-- ARTWORKS -->
+
+      <!-- =====================================================
+           GALLERY
+           ===================================================== -->
 
       <div class="gallery">
+
+
+        <!-- VIEW OPTIONS -->
+
+        <div class="view-toggle">
+
+          <button
+            class="view-btn active"
+            id="singleView"
+            type="button">
+            1 Column
+          </button>
+
+
+          <button
+            class="view-btn"
+            id="gridView"
+            type="button">
+            3 Columns
+          </button>
+
+        </div>
+
+
+
+        <!-- ARTWORK -->
 
         <section
           class="artwork-stack"
@@ -611,6 +807,7 @@
 
         </section>
 
+
       </div>
 
 
@@ -619,11 +816,12 @@
   </main>
 
 
+
   <script>
 
-    /* =========================
+    /* =========================================================
        ELEMENTS
-       ========================= */
+       ========================================================= */
 
     const gallery =
       document.getElementById(
@@ -649,9 +847,22 @@
       );
 
 
-    /* =========================
+    const singleView =
+      document.getElementById(
+        "singleView"
+      );
+
+
+    const gridView =
+      document.getElementById(
+        "gridView"
+      );
+
+
+
+    /* =========================================================
        PAGE FADE
-       ========================= */
+       ========================================================= */
 
     window.addEventListener(
       "load",
@@ -667,9 +878,10 @@
     );
 
 
-    /* =========================
+
+    /* =========================================================
        NAVIGATION FADE
-       ========================= */
+       ========================================================= */
 
     document
       .querySelectorAll(
@@ -707,13 +919,164 @@
       });
 
 
-    /* =========================
+
+    /* =========================================================
+       VIEW SWITCHER
+       ========================================================= */
+
+    function setSingleView(){
+
+      gallery
+        .classList
+        .remove(
+          "three-column"
+        );
+
+
+      singleView
+        .classList
+        .add(
+          "active"
+        );
+
+
+      gridView
+        .classList
+        .remove(
+          "active"
+        );
+
+
+      /*
+        Remember visitor's choice.
+      */
+
+      try{
+
+        localStorage.setItem(
+          "artworkView",
+          "single"
+        );
+
+      }
+      catch(error){
+
+        /* Nothing needed */
+
+      }
+
+    }
+
+
+
+    function setGridView(){
+
+      gallery
+        .classList
+        .add(
+          "three-column"
+        );
+
+
+      gridView
+        .classList
+        .add(
+          "active"
+        );
+
+
+      singleView
+        .classList
+        .remove(
+          "active"
+        );
+
+
+      /*
+        Remember visitor's choice.
+      */
+
+      try{
+
+        localStorage.setItem(
+          "artworkView",
+          "grid"
+        );
+
+      }
+      catch(error){
+
+        /* Nothing needed */
+
+      }
+
+    }
+
+
+
+    singleView
+      .addEventListener(
+        "click",
+        setSingleView
+      );
+
+
+    gridView
+      .addEventListener(
+        "click",
+        setGridView
+      );
+
+
+
+    /* =========================================================
+       RESTORE PREVIOUS VIEW
+       ========================================================= */
+
+    try{
+
+      const savedView =
+        localStorage.getItem(
+          "artworkView"
+        );
+
+
+      if(
+        savedView ===
+        "grid"
+      ){
+
+        setGridView();
+
+      }
+      else{
+
+        setSingleView();
+
+      }
+
+    }
+    catch(error){
+
+      setSingleView();
+
+    }
+
+
+
+    /* =========================================================
        LOAD ARTWORKS
-       ========================= */
+       ========================================================= */
 
     async function loadArtworks(){
 
       try{
+
+        /*
+          no-store helps prevent an old
+          artworks.json from being displayed
+          immediately after publishing.
+        */
 
         const response =
           await fetch(
@@ -724,7 +1087,9 @@
           );
 
 
-        if(!response.ok){
+        if(
+          !response.ok
+        ){
 
           throw new Error(
             "Could not load artworks.json"
@@ -765,30 +1130,36 @@
         }
 
 
+
         /*
           IMPORTANT:
 
-          The page displays artwork in
-          EXACTLY the order Decap stores it.
+          We DO NOT reverse this array.
 
-          Because your Decap list uses:
+          Your Decap configuration uses:
 
           add_to_top: true
 
-          new artwork will automatically be:
+          Therefore a new artwork is already
+          stored as the first item.
+
+          Example:
 
           NEW
           Artwork 1
           Artwork 2
           Artwork 3
-      */
 
+          Both views preserve this same order.
+        */
 
         artworks.forEach(
           (artwork,index) => {
 
 
-            /* TILE */
+            /* =============================
+               TILE
+               ============================= */
 
             const tile =
               document.createElement(
@@ -800,7 +1171,10 @@
               "tile";
 
 
-            /* MEDIA */
+
+            /* =============================
+               MEDIA
+               ============================= */
 
             const media =
               document.createElement(
@@ -812,7 +1186,10 @@
               "media";
 
 
-            /* IMAGE */
+
+            /* =============================
+               IMAGE
+               ============================= */
 
             const img =
               document.createElement(
@@ -830,10 +1207,24 @@
 
 
             img.loading =
-              "lazy";
+              index < 2
+                ? "eager"
+                : "lazy";
 
 
-            /* Missing image debug */
+            /*
+              Helps reduce layout shifting
+              while images load.
+            */
+
+            img.decoding =
+              "async";
+
+
+
+            /* =============================
+               MISSING IMAGE DEBUG
+               ============================= */
 
             img.addEventListener(
               "error",
@@ -848,7 +1239,10 @@
             );
 
 
-            /* Click image → fullscreen */
+
+            /* =============================
+               FULLSCREEN
+               ============================= */
 
             img.addEventListener(
               "click",
@@ -863,6 +1257,11 @@
               }
             );
 
+
+
+            /* =============================
+               BUILD
+               ============================= */
 
             media.appendChild(
               img
@@ -903,9 +1302,10 @@
     }
 
 
-    /* =========================
+
+    /* =========================================================
        LIGHTBOX
-       ========================= */
+       ========================================================= */
 
     function getScrollbarWidth(){
 
@@ -917,6 +1317,7 @@
       );
 
     }
+
 
 
     function openLightbox(
@@ -931,6 +1332,11 @@
       lightboxImg.alt =
         alt || "";
 
+
+      /*
+        Prevent page shifting when the
+        scrollbar disappears.
+      */
 
       document
         .documentElement
@@ -956,6 +1362,7 @@
         );
 
     }
+
 
 
     function closeLightbox(){
@@ -997,7 +1404,10 @@
     }
 
 
-    /* Close button */
+
+    /* =========================================================
+       CLOSE BUTTON
+       ========================================================= */
 
     lightboxClose
       .addEventListener(
@@ -1014,7 +1424,10 @@
       );
 
 
-    /* Click outside image */
+
+    /* =========================================================
+       CLICK DARK BACKGROUND
+       ========================================================= */
 
     lightbox
       .addEventListener(
@@ -1034,7 +1447,10 @@
       );
 
 
-    /* Escape key */
+
+    /* =========================================================
+       ESCAPE KEY
+       ========================================================= */
 
     window.addEventListener(
       "keydown",
@@ -1058,13 +1474,15 @@
     );
 
 
-    /* =========================
+
+    /* =========================================================
        START
-       ========================= */
+       ========================================================= */
 
     loadArtworks();
 
   </script>
 
 </body>
+
 </html>
