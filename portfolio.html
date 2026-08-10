@@ -47,8 +47,7 @@
       --gallery-width:1020px;
       --gutter:28px;
 
-      /* Space between artworks */
-      --gap:14px;
+      --gap:18px;
 
       --links-width:190px;
     }
@@ -101,7 +100,7 @@
 
 
     /* =========================================================
-       TOP NAVIGATION
+       TOP NAV
        ========================================================= */
 
     nav{
@@ -137,8 +136,7 @@
 
       transition:
         background 150ms,
-        transform 150ms,
-        opacity 150ms;
+        transform 150ms;
 
       user-select:none;
     }
@@ -147,8 +145,7 @@
     nav a:hover{
       background:rgba(0,0,0,.06);
 
-      transform:
-        translateY(-1px);
+      transform:translateY(-1px);
     }
 
 
@@ -182,7 +179,7 @@
 
 
     /* =========================================================
-       LEFT NAVIGATION
+       LEFT NAV
        ========================================================= */
 
     .side{
@@ -237,7 +234,7 @@
 
 
     /* =========================================================
-       GALLERY CONTAINER
+       GALLERY
        ========================================================= */
 
     .gallery{
@@ -250,22 +247,20 @@
 
 
     /* =========================================================
-       VIEW TOGGLE
+       ICON VIEW TOGGLE
        ========================================================= */
 
     .view-toggle{
       width:78%;
 
       margin:
-        0 auto 10px;
+        0 auto 14px;
 
       display:flex;
 
       justify-content:flex-end;
 
-      align-items:center;
-
-      gap:12px;
+      gap:10px;
     }
 
 
@@ -273,38 +268,27 @@
       appearance:none;
 
       border:0;
-
       background:transparent;
 
-      padding:4px 0;
-
-      font-family:
-        "SpaceMono",
-        "Courier New",
-        Courier,
-        monospace;
-
-      font-size:.68rem;
-
-      font-weight:700;
-
-      letter-spacing:.08em;
-
-      text-transform:uppercase;
+      padding:3px;
 
       color:#111;
 
       cursor:pointer;
 
-      opacity:.3;
+      opacity:.25;
 
       transition:
-        opacity 150ms ease;
+        opacity 150ms ease,
+        transform 150ms ease;
     }
 
 
     .view-btn:hover{
-      opacity:.65;
+      opacity:.6;
+
+      transform:
+        translateY(-1px);
     }
 
 
@@ -313,61 +297,65 @@
     }
 
 
+    .view-btn svg{
+      width:20px;
+      height:20px;
+
+      fill:none;
+      stroke:currentColor;
+
+      stroke-width:1.6;
+
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+
+
 
     /* =========================================================
-       DEFAULT VIEW:
-       ONE VERTICAL COLUMN
+       ONE-COLUMN VIEW
        ========================================================= */
 
     .artwork-stack{
-
-      /*
-        78% keeps the single-column artwork
-        from feeling too large.
-
-        Change this to:
-        85% = larger
-        70% = smaller
-      */
-
       width:78%;
 
       margin:0 auto;
 
       display:flex;
-
       flex-direction:column;
 
       gap:var(--gap);
-
-      padding:
-        0 0 var(--gap);
     }
 
 
 
     /* =========================================================
-       THREE-COLUMN VIEW
+       SCATTERED FULL VIEW
        ========================================================= */
 
-    .artwork-stack.three-column{
+    .artwork-stack.scattered{
       width:100%;
 
-      display:grid;
+      margin:0;
 
-      grid-template-columns:
-        repeat(
-          3,
-          minmax(0,1fr)
-        );
+      position:relative;
 
-      gap:var(--gap);
+      display:block;
 
-      align-items:start;
+      min-height:500px;
     }
 
 
-    .artwork-stack.three-column .tile{
+    .artwork-stack.scattered .tile{
+      position:absolute;
+
+      transition:
+        transform 220ms ease,
+        opacity 220ms ease;
+    }
+
+
+    .artwork-stack.scattered .media{
       width:100%;
     }
 
@@ -389,8 +377,7 @@
 
       width:100%;
 
-      transform:
-        scale(1);
+      transform:scale(1);
 
       transition:
         transform 220ms ease;
@@ -411,6 +398,7 @@
       display:block;
 
       width:100%;
+
       height:auto;
 
       cursor:zoom-in;
@@ -419,7 +407,7 @@
 
 
     /* =========================================================
-       LOADING MESSAGE
+       LOADING
        ========================================================= */
 
     .gallery-loading{
@@ -477,7 +465,6 @@
       max-height:90vh;
 
       width:auto;
-
       height:auto;
 
       object-fit:contain;
@@ -491,10 +478,6 @@
         transform 240ms
         cubic-bezier(.2,.8,.2,1),
         opacity 240ms ease;
-
-      will-change:
-        transform,
-        opacity;
     }
 
 
@@ -510,7 +493,6 @@
       position:absolute;
 
       top:20px;
-
       right:26px;
 
       font-family:
@@ -518,14 +500,12 @@
         monospace;
 
       font-size:32px;
-
       font-weight:400;
 
       background:none;
-
       border:none;
 
-      color:white;
+      color:#fff;
 
       cursor:pointer;
 
@@ -549,7 +529,7 @@
 
 
     /* =========================================================
-       TABLET
+       RESPONSIVE
        ========================================================= */
 
     @media (max-width:1180px){
@@ -558,7 +538,6 @@
         flex-direction:column;
 
         align-items:center;
-
         justify-content:flex-start;
 
         gap:10px;
@@ -599,65 +578,38 @@
     }
 
 
-
-    /* =========================================================
-       SMALL TABLET
-       ========================================================= */
-
-    @media (max-width:800px){
-
-      /*
-        On smaller screens, the "3 column"
-        option becomes 2 columns so the
-        artwork doesn't get too tiny.
-      */
-
-      .artwork-stack.three-column{
-        grid-template-columns:
-          repeat(
-            2,
-            minmax(0,1fr)
-          );
-      }
-
-    }
-
-
-
-    /* =========================================================
-       MOBILE
-       ========================================================= */
-
-    @media (max-width:600px){
+    @media (max-width:700px){
 
       .layout{
         padding-left:16px;
-
         padding-right:16px;
       }
 
 
-      /*
-        Single-column mode fills the available
-        mobile width.
-      */
-
-      .artwork-stack{
+      .artwork-stack,
+      .artwork-stack.scattered{
         width:100%;
       }
 
 
-      /*
-        Even if 3-column mode was selected,
-        mobile becomes one column.
-      */
-
-      .artwork-stack.three-column{
-        width:100%;
+      .artwork-stack.scattered{
+        position:static;
 
         display:flex;
-
         flex-direction:column;
+
+        gap:var(--gap);
+
+        min-height:0;
+      }
+
+
+      .artwork-stack.scattered .tile{
+        position:static;
+
+        width:100% !important;
+
+        transform:none !important;
       }
 
 
@@ -676,7 +628,7 @@
 
 
   <!-- =========================================================
-       TOP NAVIGATION
+       TOP NAV
        ========================================================= -->
 
   <nav>
@@ -714,8 +666,8 @@
     <button
       class="lightbox-close"
       id="lightboxClose"
-      aria-label="Close image"
-      type="button">
+      type="button"
+      aria-label="Close image">
       ×
     </button>
 
@@ -737,9 +689,7 @@
     <div class="layout">
 
 
-      <!-- =====================================================
-           LEFT NAVIGATION
-           ===================================================== -->
+      <!-- LEFT -->
 
       <aside class="side">
 
@@ -765,31 +715,92 @@
 
 
 
-      <!-- =====================================================
-           GALLERY
-           ===================================================== -->
+      <!-- RIGHT -->
 
       <div class="gallery">
 
 
-        <!-- VIEW OPTIONS -->
+        <!-- VIEW TOGGLE -->
 
         <div class="view-toggle">
+
+
+          <!-- SINGLE COLUMN ICON -->
 
           <button
             class="view-btn active"
             id="singleView"
-            type="button">
-            1 Column
+            type="button"
+            aria-label="Single column view"
+            title="Single column view">
+
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true">
+
+              <rect
+                x="7"
+                y="3"
+                width="10"
+                height="18"
+                rx="1">
+              </rect>
+
+            </svg>
+
           </button>
 
+
+
+          <!-- SCATTERED VIEW ICON -->
 
           <button
             class="view-btn"
-            id="gridView"
-            type="button">
-            3 Columns
+            id="fullView"
+            type="button"
+            aria-label="Scattered full view"
+            title="Scattered full view">
+
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true">
+
+              <rect
+                x="2"
+                y="3"
+                width="8"
+                height="6"
+                rx="1">
+              </rect>
+
+              <rect
+                x="14"
+                y="2"
+                width="7"
+                height="9"
+                rx="1">
+              </rect>
+
+              <rect
+                x="5"
+                y="13"
+                width="7"
+                height="8"
+                rx="1">
+              </rect>
+
+              <rect
+                x="15"
+                y="15"
+                width="6"
+                height="5"
+                rx="1">
+              </rect>
+
+            </svg>
+
           </button>
+
 
         </div>
 
@@ -853,10 +864,16 @@
       );
 
 
-    const gridView =
+    const fullView =
       document.getElementById(
-        "gridView"
+        "fullView"
       );
+
+
+    let artworks = [];
+
+    let currentView =
+      "single";
 
 
 
@@ -880,7 +897,7 @@
 
 
     /* =========================================================
-       NAVIGATION FADE
+       NAVIGATION
        ========================================================= */
 
     document
@@ -921,16 +938,156 @@
 
 
     /* =========================================================
-       VIEW SWITCHER
+       SEEDED RANDOM
        ========================================================= */
 
-    function setSingleView(){
+    function seededRandom(seed){
 
-      gallery
-        .classList
-        .remove(
-          "three-column"
+      const x =
+        Math.sin(seed * 999) *
+        43758.5453123;
+
+
+      return (
+        x -
+        Math.floor(x)
+      );
+
+    }
+
+
+
+    /* =========================================================
+       CREATE TILE
+       ========================================================= */
+
+    function createArtworkTile(
+      artwork,
+      index
+    ){
+
+      const tile =
+        document.createElement(
+          "div"
         );
+
+
+      tile.className =
+        "tile";
+
+
+      tile.dataset.index =
+        index;
+
+
+      const media =
+        document.createElement(
+          "div"
+        );
+
+
+      media.className =
+        "media";
+
+
+      const img =
+        document.createElement(
+          "img"
+        );
+
+
+      img.src =
+        artwork.image;
+
+
+      img.alt =
+        artwork.alt ||
+        `Portfolio artwork ${index + 1}`;
+
+
+      img.loading =
+        index < 3
+          ? "eager"
+          : "lazy";
+
+
+      img.decoding =
+        "async";
+
+
+      img.addEventListener(
+        "error",
+        () => {
+
+          console.error(
+            "Missing artwork:",
+            artwork.image
+          );
+
+        }
+      );
+
+
+      img.addEventListener(
+        "click",
+        () => {
+
+          openLightbox(
+            img.currentSrc ||
+            img.src,
+            img.alt
+          );
+
+        }
+      );
+
+
+      media.appendChild(
+        img
+      );
+
+
+      tile.appendChild(
+        media
+      );
+
+
+      return tile;
+
+    }
+
+
+
+    /* =========================================================
+       SINGLE COLUMN
+       ========================================================= */
+
+    function buildSingleColumn(){
+
+      currentView =
+        "single";
+
+
+      gallery.className =
+        "artwork-stack";
+
+
+      gallery.innerHTML =
+        "";
+
+
+      artworks.forEach(
+        (artwork,index) => {
+
+          gallery.appendChild(
+            createArtworkTile(
+              artwork,
+              index
+            )
+          );
+
+        }
+      );
 
 
       singleView
@@ -940,45 +1097,241 @@
         );
 
 
-      gridView
+      fullView
         .classList
         .remove(
           "active"
         );
 
-
-      /*
-        Remember visitor's choice.
-      */
-
-      try{
-
-        localStorage.setItem(
-          "artworkView",
-          "single"
-        );
-
-      }
-      catch(error){
-
-        /* Nothing needed */
-
-      }
-
     }
 
 
 
-    function setGridView(){
+    /* =========================================================
+       SCATTERED VIEW
+       ========================================================= */
 
-      gallery
-        .classList
-        .add(
-          "three-column"
+    function buildScatteredView(){
+
+      currentView =
+        "scattered";
+
+
+      gallery.className =
+        "artwork-stack scattered";
+
+
+      gallery.innerHTML =
+        "";
+
+
+      /*
+        If we're on mobile, just use
+        normal vertical stacking.
+      */
+
+      if(
+        window.innerWidth <= 700
+      ){
+
+        artworks.forEach(
+          (artwork,index) => {
+
+            gallery.appendChild(
+              createArtworkTile(
+                artwork,
+                index
+              )
+            );
+
+          }
         );
 
 
-      gridView
+        fullView.classList.add(
+          "active"
+        );
+
+
+        singleView.classList.remove(
+          "active"
+        );
+
+
+        return;
+
+      }
+
+
+
+      const galleryWidth =
+        gallery.clientWidth;
+
+
+      /*
+        Vertical cursor tracks how far
+        down the page we've placed work.
+
+        We place artworks in loose bands.
+      */
+
+      let yCursor =
+        0;
+
+
+      const tiles =
+        [];
+
+
+      artworks.forEach(
+        (artwork,index) => {
+
+
+          const tile =
+            createArtworkTile(
+              artwork,
+              index
+            );
+
+
+          /*
+            Stable semi-random width:
+
+            about 24% - 40%
+          */
+
+          const widthPercent =
+            24 +
+            seededRandom(
+              index + 10
+            ) * 16;
+
+
+          /*
+            Stable horizontal offset.
+
+            Keep enough room so the
+            artwork stays inside gallery.
+          */
+
+          const maxLeft =
+            100 -
+            widthPercent;
+
+
+          const leftPercent =
+            seededRandom(
+              index + 50
+            ) *
+            maxLeft;
+
+
+          /*
+            Extra vertical breathing room.
+          */
+
+          const extraTop =
+            20 +
+            seededRandom(
+              index + 90
+            ) * 65;
+
+
+          tile.style.width =
+            widthPercent +
+            "%";
+
+
+          tile.style.left =
+            leftPercent +
+            "%";
+
+
+          tile.style.top =
+            yCursor +
+            extraTop +
+            "px";
+
+
+          gallery.appendChild(
+            tile
+          );
+
+
+          tiles.push(
+            tile
+          );
+
+
+          /*
+            Move the next band downward.
+
+            This is intentionally generous
+            enough to avoid overlaps.
+          */
+
+          yCursor +=
+            180 +
+            seededRandom(
+              index + 150
+            ) * 140;
+
+        }
+      );
+
+
+
+      /*
+        Wait for images to load so we can
+        calculate the true required height.
+      */
+
+      requestAnimationFrame(
+        () => {
+
+          setTimeout(
+            () => {
+
+              let bottom =
+                0;
+
+
+              tiles.forEach(
+                tile => {
+
+                  const tileBottom =
+                    tile.offsetTop +
+                    tile.offsetHeight;
+
+
+                  if(
+                    tileBottom >
+                    bottom
+                  ){
+
+                    bottom =
+                      tileBottom;
+
+                  }
+
+                }
+              );
+
+
+              gallery.style.minHeight =
+                bottom +
+                40 +
+                "px";
+
+            },
+            100
+          );
+
+        }
+      );
+
+
+      fullView
         .classList
         .add(
           "active"
@@ -991,92 +1344,44 @@
           "active"
         );
 
-
-      /*
-        Remember visitor's choice.
-      */
-
-      try{
-
-        localStorage.setItem(
-          "artworkView",
-          "grid"
-        );
-
-      }
-      catch(error){
-
-        /* Nothing needed */
-
-      }
-
     }
 
 
+
+    /* =========================================================
+       VIEW BUTTONS
+       ========================================================= */
 
     singleView
       .addEventListener(
         "click",
-        setSingleView
+        () => {
+
+          buildSingleColumn();
+
+        }
       );
 
 
-    gridView
+    fullView
       .addEventListener(
         "click",
-        setGridView
+        () => {
+
+          buildScatteredView();
+
+        }
       );
 
 
 
     /* =========================================================
-       RESTORE PREVIOUS VIEW
-       ========================================================= */
-
-    try{
-
-      const savedView =
-        localStorage.getItem(
-          "artworkView"
-        );
-
-
-      if(
-        savedView ===
-        "grid"
-      ){
-
-        setGridView();
-
-      }
-      else{
-
-        setSingleView();
-
-      }
-
-    }
-    catch(error){
-
-      setSingleView();
-
-    }
-
-
-
-    /* =========================================================
-       LOAD ARTWORKS
+       LOAD ARTWORK
        ========================================================= */
 
     async function loadArtworks(){
 
       try{
-
-        /*
-          no-store helps prevent an old
-          artworks.json from being displayed
-          immediately after publishing.
-        */
 
         const response =
           await fetch(
@@ -1102,11 +1407,7 @@
           await response.json();
 
 
-        gallery.innerHTML =
-          "";
-
-
-        const artworks =
+        artworks =
           Array.isArray(
             data.artworks
           )
@@ -1130,158 +1431,15 @@
         }
 
 
-
         /*
-          IMPORTANT:
-
-          We DO NOT reverse this array.
-
-          Your Decap configuration uses:
-
-          add_to_top: true
-
-          Therefore a new artwork is already
-          stored as the first item.
-
-          Example:
-
-          NEW
-          Artwork 1
-          Artwork 2
-          Artwork 3
-
-          Both views preserve this same order.
+          Default view is always
+          single-column.
         */
 
-        artworks.forEach(
-          (artwork,index) => {
-
-
-            /* =============================
-               TILE
-               ============================= */
-
-            const tile =
-              document.createElement(
-                "div"
-              );
-
-
-            tile.className =
-              "tile";
-
-
-
-            /* =============================
-               MEDIA
-               ============================= */
-
-            const media =
-              document.createElement(
-                "div"
-              );
-
-
-            media.className =
-              "media";
-
-
-
-            /* =============================
-               IMAGE
-               ============================= */
-
-            const img =
-              document.createElement(
-                "img"
-              );
-
-
-            img.src =
-              artwork.image;
-
-
-            img.alt =
-              artwork.alt ||
-              `Portfolio artwork ${index + 1}`;
-
-
-            img.loading =
-              index < 2
-                ? "eager"
-                : "lazy";
-
-
-            /*
-              Helps reduce layout shifting
-              while images load.
-            */
-
-            img.decoding =
-              "async";
-
-
-
-            /* =============================
-               MISSING IMAGE DEBUG
-               ============================= */
-
-            img.addEventListener(
-              "error",
-              () => {
-
-                console.error(
-                  "Missing artwork:",
-                  artwork.image
-                );
-
-              }
-            );
-
-
-
-            /* =============================
-               FULLSCREEN
-               ============================= */
-
-            img.addEventListener(
-              "click",
-              () => {
-
-                openLightbox(
-                  img.currentSrc ||
-                  img.src,
-                  img.alt
-                );
-
-              }
-            );
-
-
-
-            /* =============================
-               BUILD
-               ============================= */
-
-            media.appendChild(
-              img
-            );
-
-
-            tile.appendChild(
-              media
-            );
-
-
-            gallery.appendChild(
-              tile
-            );
-
-          }
-        );
-
+        buildSingleColumn();
 
       }
+
       catch(error){
 
         console.error(
@@ -1300,6 +1458,44 @@
       }
 
     }
+
+
+
+    /* =========================================================
+       RESIZE
+       ========================================================= */
+
+    let resizeTimer;
+
+
+    window.addEventListener(
+      "resize",
+      () => {
+
+        clearTimeout(
+          resizeTimer
+        );
+
+
+        resizeTimer =
+          setTimeout(
+            () => {
+
+              if(
+                currentView ===
+                "scattered"
+              ){
+
+                buildScatteredView();
+
+              }
+
+            },
+            120
+          );
+
+      }
+    );
 
 
 
@@ -1332,11 +1528,6 @@
       lightboxImg.alt =
         alt || "";
 
-
-      /*
-        Prevent page shifting when the
-        scrollbar disappears.
-      */
 
       document
         .documentElement
@@ -1405,10 +1596,6 @@
 
 
 
-    /* =========================================================
-       CLOSE BUTTON
-       ========================================================= */
-
     lightboxClose
       .addEventListener(
         "click",
@@ -1423,11 +1610,6 @@
         }
       );
 
-
-
-    /* =========================================================
-       CLICK DARK BACKGROUND
-       ========================================================= */
 
     lightbox
       .addEventListener(
@@ -1446,11 +1628,6 @@
         }
       );
 
-
-
-    /* =========================================================
-       ESCAPE KEY
-       ========================================================= */
 
     window.addEventListener(
       "keydown",
