@@ -1,47 +1,133 @@
 {
   "artworks": [
-    { "image": "/images/portfolio44.jpg" },
-    { "image": "/images/portfolio42.jpg" },
-    { "image": "/images/portfolio27.jpg" },
-    { "image": "/images/portfolio34.jpg" },
-    { "image": "/images/portfolio39.jpg" },
-    { "image": "/images/portfolio38.jpg" },
-    { "image": "/images/portfolio37.jpg" },
-    { "image": "/images/portfolio36.jpg" },
-    { "image": "/images/portfolio35.jpg" },
-    { "image": "/images/portfolio13.jpg" },
-    { "image": "/images/portfolio33.jpg" },
-    { "image": "/images/portfolio32.jpg" },
-    { "image": "/images/portfolio30.jpg" },
-    { "image": "/images/portfolio29.jpg" },
-    { "image": "/images/portfolio28.jpg" },
-    { "image": "/images/portfolio41.jpg" },
-    { "image": "/images/portfolio26.jpg" },
-    { "image": "/images/portfolio25.jpg" },
-    { "image": "/images/portfolio24.jpg" },
-    { "image": "/images/portfolio23.jpg" },
-    { "image": "/images/portfolio22.jpg" },
-    { "image": "/images/portfolio21.jpg" },
-    { "image": "/images/portfolio20.jpg" },
-    { "image": "/images/portfolio19.jpg" },
-    { "image": "/images/portfolio18.jpg" },
-    { "image": "/images/portfolio17.jpg" },
-    { "image": "/images/portfolio16.jpg" },
-    { "image": "/images/portfolio15.jpg" },
-    { "image": "/images/portfolio14.jpg" },
-    { "image": "/images/portfolio12.jpg" },
-    { "image": "/images/portfolio43.jpg" },
-    { "image": "/images/portfolio40.jpg" },
-    { "image": "/images/portfolio11.jpg" },
-    { "image": "/images/portfolio10.jpg" },
-    { "image": "/images/portfolio09.jpg" },
-    { "image": "/images/portfolio08.jpg" },
-    { "image": "/images/portfolio07.jpg" },
-    { "image": "/images/portfolio06.jpg" },
-    { "image": "/images/portfolio05.jpg" },
-    { "image": "/images/portfolio04.jpg" },
-    { "image": "/images/portfolio03.jpg" },
-    { "image": "/images/portfolio02.jpg" },
-    { "image": "/images/portfolio01.jpg" }
+    {
+      "image": "/images/headshot.jpg"
+    },
+    {
+      "image": "/images/portfolio44.jpg"
+    },
+    {
+      "image": "/images/portfolio42.jpg"
+    },
+    {
+      "image": "/images/portfolio27.jpg"
+    },
+    {
+      "image": "/images/portfolio34.jpg"
+    },
+    {
+      "image": "/images/portfolio39.jpg"
+    },
+    {
+      "image": "/images/portfolio38.jpg"
+    },
+    {
+      "image": "/images/portfolio37.jpg"
+    },
+    {
+      "image": "/images/portfolio36.jpg"
+    },
+    {
+      "image": "/images/portfolio35.jpg"
+    },
+    {
+      "image": "/images/portfolio13.jpg"
+    },
+    {
+      "image": "/images/portfolio33.jpg"
+    },
+    {
+      "image": "/images/portfolio32.jpg"
+    },
+    {
+      "image": "/images/portfolio30.jpg"
+    },
+    {
+      "image": "/images/portfolio29.jpg"
+    },
+    {
+      "image": "/images/portfolio28.jpg"
+    },
+    {
+      "image": "/images/portfolio41.jpg"
+    },
+    {
+      "image": "/images/portfolio26.jpg"
+    },
+    {
+      "image": "/images/portfolio25.jpg"
+    },
+    {
+      "image": "/images/portfolio24.jpg"
+    },
+    {
+      "image": "/images/portfolio23.jpg"
+    },
+    {
+      "image": "/images/portfolio22.jpg"
+    },
+    {
+      "image": "/images/portfolio21.jpg"
+    },
+    {
+      "image": "/images/portfolio20.jpg"
+    },
+    {
+      "image": "/images/portfolio19.jpg"
+    },
+    {
+      "image": "/images/portfolio18.jpg"
+    },
+    {
+      "image": "/images/portfolio16.jpg"
+    },
+    {
+      "image": "/images/portfolio15.jpg"
+    },
+    {
+      "image": "/images/portfolio14.jpg"
+    },
+    {
+      "image": "/images/portfolio12.jpg"
+    },
+    {
+      "image": "/images/portfolio43.jpg"
+    },
+    {
+      "image": "/images/portfolio40.jpg"
+    },
+    {
+      "image": "/images/portfolio11.jpg"
+    },
+    {
+      "image": "/images/portfolio10.jpg"
+    },
+    {
+      "image": "/images/portfolio09.jpg"
+    },
+    {
+      "image": "/images/portfolio08.jpg"
+    },
+    {
+      "image": "/images/portfolio07.jpg"
+    },
+    {
+      "image": "/images/portfolio06.jpg"
+    },
+    {
+      "image": "/images/portfolio05.jpg"
+    },
+    {
+      "image": "/images/portfolio04.jpg"
+    },
+    {
+      "image": "/images/portfolio03.jpg"
+    },
+    {
+      "image": "/images/portfolio02.jpg"
+    },
+    {
+      "image": "/images/portfolio01.jpg"
+    }
   ]
 }
