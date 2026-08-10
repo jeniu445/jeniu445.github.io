@@ -1,22 +1,12 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-
   <meta charset="UTF-8" />
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>Portfolio — Jennifer Niu</title>
 
   <style>
-
-    /* =========================
-       FONT
-       ========================= */
 
     @font-face{
       font-family:"SpaceMono";
@@ -34,37 +24,27 @@
       font-display:swap;
     }
 
-
-    /* =========================
-       VARIABLES
-       ========================= */
-
     :root{
       --bg:#fff;
       --text:#111;
-
       --t:200ms;
 
       --gallery-width:1020px;
-
       --gutter:28px;
 
-      /* ONE spacing control */
+      /* spacing between artworks */
       --gap:10px;
 
       --links-width:190px;
     }
 
-
     *{
       box-sizing:border-box;
     }
 
-
     html{
       scrollbar-gutter:stable;
     }
-
 
     body{
       margin:0;
@@ -76,7 +56,6 @@
         monospace;
 
       background:var(--bg);
-
       color:var(--text);
 
       opacity:0;
@@ -85,18 +64,13 @@
         opacity var(--t) ease;
     }
 
-
     body.page-loaded{
       opacity:1;
     }
 
-
     body.page-exit{
       opacity:0;
     }
-
-
-    /* Prevent lightbox opening from shifting page */
 
     body.lock-scroll{
       overflow:hidden;
@@ -104,7 +78,6 @@
       padding-right:
         var(--sbw,0px);
     }
-
 
 
     /* =========================
@@ -120,7 +93,6 @@
       width:100%;
 
       display:flex;
-
       justify-content:center;
 
       gap:2.2rem;
@@ -129,7 +101,6 @@
 
       z-index:10;
     }
-
 
     nav a{
       text-decoration:none;
@@ -152,14 +123,12 @@
       user-select:none;
     }
 
-
     nav a:hover{
       background:rgba(0,0,0,.06);
 
       transform:
         translateY(-1px);
     }
-
 
 
     /* =========================
@@ -172,7 +141,6 @@
       padding:
         4.6rem 0 1.2rem;
     }
-
 
     .layout{
       width:100%;
@@ -195,7 +163,6 @@
     }
 
 
-
     /* =========================
        LEFT NAVIGATION
        ========================= */
@@ -216,7 +183,6 @@
 
       padding-top:2px;
     }
-
 
     .side a{
       text-decoration:none;
@@ -242,18 +208,15 @@
       user-select:none;
     }
 
-
     .side a:hover{
       opacity:.55;
     }
-
 
     .side a.current{
       opacity:.35;
 
       pointer-events:none;
     }
-
 
 
     /* =========================
@@ -269,58 +232,25 @@
     }
 
 
+    /* =========================
+       ONE VERTICAL COLUMN
+       ========================= */
 
-    /* =========================================================
-       HORIZONTAL-ORDER MASONRY
-
-       Artwork array:
-       1 2 3 4 5 6 7 8 9
-
-       Becomes:
-
-       COLUMN 1     COLUMN 2     COLUMN 3
-       1            2            3
-       4            5            6
-       7            8            9
-
-       Each column stacks independently, so
-       differently-sized images do NOT create
-       blank horizontal rows.
-       ========================================================= */
-
-    .masonry{
+    .artwork-stack{
       width:100%;
-
-      display:grid;
-
-      grid-template-columns:
-        repeat(
-          3,
-          minmax(0,1fr)
-        );
-
-      gap:var(--gap);
-
-      padding:var(--gap);
-
-      align-items:start;
-    }
-
-
-    .masonry-column{
-      min-width:0;
 
       display:flex;
 
       flex-direction:column;
 
       gap:var(--gap);
+
+      padding:var(--gap);
     }
 
 
-
     /* =========================
-       ARTWORK TILE
+       ARTWORK
        ========================= */
 
     .tile{
@@ -329,30 +259,25 @@
       margin:0;
     }
 
-
     .media{
       display:block;
 
       width:100%;
 
-      transform:
-        scale(1);
+      transform:scale(1);
 
       transition:
         transform 220ms ease;
 
-      will-change:
-        transform;
+      will-change:transform;
 
       cursor:zoom-in;
     }
 
-
     .tile:hover .media{
       transform:
-        scale(.975);
+        scale(.985);
     }
-
 
     .media img{
       display:block;
@@ -365,15 +290,11 @@
     }
 
 
-
     /* =========================
        LOADING
        ========================= */
 
     .gallery-loading{
-      grid-column:
-        1 / -1;
-
       font-size:.8rem;
 
       opacity:.35;
@@ -384,7 +305,6 @@
 
       padding:10px;
     }
-
 
 
     /* =========================
@@ -415,13 +335,11 @@
       z-index:9999;
     }
 
-
     .lightbox.open{
       opacity:1;
 
       pointer-events:auto;
     }
-
 
     .lightbox img{
       max-width:90vw;
@@ -449,7 +367,6 @@
         opacity;
     }
 
-
     .lightbox.open img{
       transform:
         scale(1);
@@ -457,12 +374,10 @@
       opacity:1;
     }
 
-
     .lightbox-close{
       position:absolute;
 
       top:20px;
-
       right:26px;
 
       font-family:
@@ -490,7 +405,6 @@
         transform 140ms ease;
     }
 
-
     .lightbox-close:hover{
       opacity:1;
 
@@ -499,9 +413,8 @@
     }
 
 
-
     /* =========================
-       RESPONSIVE PAGE
+       RESPONSIVE
        ========================= */
 
     @media (max-width:1180px){
@@ -518,7 +431,6 @@
 
         gap:6px;
       }
-
 
       .side{
         width:
@@ -541,7 +453,6 @@
         padding-top:0;
       }
 
-
       .gallery{
         width:
           min(
@@ -555,103 +466,61 @@
 
     }
 
-
-    /* 2 columns */
-
-    @media (max-width:980px){
-
-      .masonry{
-        grid-template-columns:
-          repeat(
-            2,
-            minmax(0,1fr)
-          );
-      }
-
-    }
-
-
-    /* 1 column */
-
-    @media (max-width:520px){
-
-      .masonry{
-        grid-template-columns:
-          1fr;
-      }
-
-    }
-
   </style>
 
 </head>
 
-
 <body>
 
 
-  <!-- =========================
-       TOP NAV
-       ========================= -->
+  <!-- TOP NAV -->
 
   <nav>
 
     <a
       href="index.html"
-      data-nav
-    >
+      data-nav>
       Home
     </a>
 
     <a
       href="portfolio.html"
-      data-nav
-    >
+      data-nav>
       Portfolio
     </a>
 
     <a
       href="about.html"
-      data-nav
-    >
+      data-nav>
       About
     </a>
 
   </nav>
 
 
-
-  <!-- =========================
-       LIGHTBOX
-       ========================= -->
+  <!-- LIGHTBOX -->
 
   <div
     class="lightbox"
-    id="lightbox"
-  >
+    id="lightbox">
 
     <button
       class="lightbox-close"
       id="lightboxClose"
       aria-label="Close image"
-      type="button"
-    >
+      type="button">
       ×
     </button>
 
     <img
       id="lightboxImg"
       src=""
-      alt=""
-    >
+      alt="">
 
   </div>
 
 
-
-  <!-- =========================
-       PAGE
-       ========================= -->
+  <!-- PAGE -->
 
   <main>
 
@@ -664,27 +533,23 @@
 
         <a
           href="portfolio.html"
-          class="current"
-        >
+          class="current">
           Artworks
         </a>
 
         <a
           href="projects.html"
-          data-nav
-        >
+          data-nav>
           Projects
         </a>
 
         <a
           href="photography.html"
-          data-nav
-        >
+          data-nav>
           Photography
         </a>
 
       </aside>
-
 
 
       <!-- RIGHT -->
@@ -692,9 +557,8 @@
       <div class="gallery">
 
         <section
-          class="masonry"
-          id="artworkGallery"
-        >
+          class="artwork-stack"
+          id="artworkGallery">
 
           <div class="gallery-loading">
             Loading artwork...
@@ -710,7 +574,6 @@
   </main>
 
 
-
   <script>
 
     /* ===================================
@@ -722,34 +585,20 @@
         "artworkGallery"
       );
 
-
     const lightbox =
       document.getElementById(
         "lightbox"
       );
-
 
     const lightboxImg =
       document.getElementById(
         "lightboxImg"
       );
 
-
     const lightboxClose =
       document.getElementById(
         "lightboxClose"
       );
-
-
-    /*
-      Store artwork data so we can rebuild
-      the columns when the screen size changes.
-    */
-
-    let artworkData = [];
-
-    let currentColumnCount = 0;
-
 
 
     /* ===================================
@@ -770,7 +619,6 @@
     );
 
 
-
     /* ===================================
        NAVIGATION FADE
        =================================== */
@@ -787,13 +635,11 @@
 
             event.preventDefault();
 
-
             document.body
               .classList
               .add(
                 "page-exit"
               );
-
 
             setTimeout(
               () => {
@@ -811,262 +657,8 @@
       });
 
 
-
     /* ===================================
-       DETERMINE COLUMN COUNT
-       =================================== */
-
-    function getColumnCount(){
-
-      if(
-        window.innerWidth <= 520
-      ){
-
-        return 1;
-
-      }
-
-
-      if(
-        window.innerWidth <= 980
-      ){
-
-        return 2;
-
-      }
-
-
-      return 3;
-
-    }
-
-
-
-    /* ===================================
-       CREATE ONE ARTWORK
-       =================================== */
-
-    function createArtworkTile(
-      artwork,
-      index
-    ){
-
-      /* TILE */
-
-      const tile =
-        document.createElement(
-          "div"
-        );
-
-
-      tile.className =
-        "tile";
-
-
-
-      /* MEDIA */
-
-      const media =
-        document.createElement(
-          "div"
-        );
-
-
-      media.className =
-        "media";
-
-
-
-      /* IMAGE */
-
-      const img =
-        document.createElement(
-          "img"
-        );
-
-
-      img.src =
-        artwork.image;
-
-
-      img.alt =
-        artwork.alt ||
-        `Portfolio artwork ${index + 1}`;
-
-
-      img.loading =
-        "lazy";
-
-
-
-      /* Missing image debug */
-
-      img.addEventListener(
-        "error",
-        () => {
-
-          console.error(
-            "Missing artwork:",
-            artwork.image
-          );
-
-        }
-      );
-
-
-
-      /* LIGHTBOX */
-
-      img.addEventListener(
-        "click",
-        () => {
-
-          openLightbox(
-            img.currentSrc ||
-            img.src,
-            img.alt
-          );
-
-        }
-      );
-
-
-
-      media.appendChild(
-        img
-      );
-
-
-      tile.appendChild(
-        media
-      );
-
-
-      return tile;
-
-    }
-
-
-
-    /* ===================================
-       BUILD HORIZONTAL-ORDER MASONRY
-       =================================== */
-
-    function buildGallery(){
-
-      const columnCount =
-        getColumnCount();
-
-
-      currentColumnCount =
-        columnCount;
-
-
-      gallery.innerHTML =
-        "";
-
-
-      if(
-        !artworkData.length
-      ){
-
-        gallery.innerHTML =
-          `
-          <div class="gallery-loading">
-            No artwork yet.
-          </div>
-          `;
-
-        return;
-
-      }
-
-
-
-      /*
-        First create the empty columns.
-      */
-
-      const columns =
-        [];
-
-
-      for(
-        let i = 0;
-        i < columnCount;
-        i++
-      ){
-
-        const column =
-          document.createElement(
-            "div"
-          );
-
-
-        column.className =
-          "masonry-column";
-
-
-        gallery.appendChild(
-          column
-        );
-
-
-        columns.push(
-          column
-        );
-
-      }
-
-
-
-      /*
-        THIS controls the ordering.
-
-        index 0 → column 0
-        index 1 → column 1
-        index 2 → column 2
-        index 3 → column 0
-        index 4 → column 1
-        index 5 → column 2
-
-        So:
-
-        1  2  3
-        4  5  6
-        7  8  9
-      */
-
-      artworkData.forEach(
-        (artwork,index) => {
-
-          const tile =
-            createArtworkTile(
-              artwork,
-              index
-            );
-
-
-          const targetColumn =
-            index %
-            columnCount;
-
-
-          columns[
-            targetColumn
-          ].appendChild(
-            tile
-          );
-
-        }
-      );
-
-    }
-
-
-
-    /* ===================================
-       LOAD ARTWORK FROM DECAP
+       LOAD ARTWORK
        =================================== */
 
     async function loadArtworks(){
@@ -1082,9 +674,7 @@
           );
 
 
-        if(
-          !response.ok
-        ){
+        if(!response.ok){
 
           throw new Error(
             "Could not load artworks.json"
@@ -1096,15 +686,144 @@
         const data =
           await response.json();
 
-        artworkData =
-          Array.isArray(data.artworks)
-            ? [...data.artworks].reverse()
+
+        gallery.innerHTML =
+          "";
+
+
+        const artworks =
+          Array.isArray(
+            data.artworks
+          )
+            ? data.artworks
             : [];
 
-        buildGallery();
+
+        if(
+          artworks.length === 0
+        ){
+
+          gallery.innerHTML =
+            `
+            <div class="gallery-loading">
+              No artwork yet.
+            </div>
+            `;
+
+          return;
+
+        }
+
+
+        /*
+          IMPORTANT:
+
+          No reverse here.
+
+          Decap now inserts new artwork
+          at index 0, so this order is:
+
+          NEW
+          Artwork 1
+          Artwork 2
+          Artwork 3
+        */
+
+        artworks.forEach(
+          (artwork,index) => {
+
+
+            /* TILE */
+
+            const tile =
+              document.createElement(
+                "div"
+              );
+
+            tile.className =
+              "tile";
+
+
+            /* MEDIA */
+
+            const media =
+              document.createElement(
+                "div"
+              );
+
+            media.className =
+              "media";
+
+
+            /* IMAGE */
+
+            const img =
+              document.createElement(
+                "img"
+              );
+
+
+            img.src =
+              artwork.image;
+
+
+            img.alt =
+              artwork.alt ||
+              `Portfolio artwork ${index + 1}`;
+
+
+            img.loading =
+              "lazy";
+
+
+            img.addEventListener(
+              "error",
+              () => {
+
+                console.error(
+                  "Missing artwork:",
+                  artwork.image
+                );
+
+              }
+            );
+
+
+            /* FULLSCREEN CLICK */
+
+            img.addEventListener(
+              "click",
+              () => {
+
+                openLightbox(
+                  img.currentSrc ||
+                  img.src,
+                  img.alt
+                );
+
+              }
+            );
+
+
+            media.appendChild(
+              img
+            );
+
+
+            tile.appendChild(
+              media
+            );
+
+
+            gallery.appendChild(
+              tile
+            );
+
+          }
+        );
+
 
       }
-
       catch(error){
 
         console.error(
@@ -1125,54 +844,6 @@
     }
 
 
-
-    /* ===================================
-       RESPONSIVE COLUMN REBUILD
-       =================================== */
-
-    let resizeTimer;
-
-
-    window.addEventListener(
-      "resize",
-      () => {
-
-        clearTimeout(
-          resizeTimer
-        );
-
-
-        resizeTimer =
-          setTimeout(
-            () => {
-
-              const newColumnCount =
-                getColumnCount();
-
-
-              /*
-                Only rebuild if we actually
-                crossed a column breakpoint.
-              */
-
-              if(
-                newColumnCount !==
-                currentColumnCount
-              ){
-
-                buildGallery();
-
-              }
-
-            },
-            100
-          );
-
-      }
-    );
-
-
-
     /* ===================================
        LIGHTBOX
        =================================== */
@@ -1189,7 +860,6 @@
     }
 
 
-
     function openLightbox(
       src,
       alt
@@ -1202,11 +872,6 @@
       lightboxImg.alt =
         alt || "";
 
-
-      /*
-        Prevent background shifting when
-        scrollbar disappears.
-      */
 
       document
         .documentElement
@@ -1232,7 +897,6 @@
         );
 
     }
-
 
 
     function closeLightbox(){
@@ -1274,7 +938,6 @@
     }
 
 
-
     /* CLOSE BUTTON */
 
     lightboxClose
@@ -1290,7 +953,6 @@
 
         }
       );
-
 
 
     /* CLICK DARK BACKGROUND */
@@ -1311,7 +973,6 @@
 
         }
       );
-
 
 
     /* ESC */
@@ -1336,7 +997,6 @@
 
       }
     );
-
 
 
     /* ===================================
