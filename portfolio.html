@@ -379,6 +379,60 @@
 
 
     /* =========================================================
+       FULL-SCREEN COLLAGE MODE
+
+       IMPORTANT:
+       THESE RULES ONLY APPLY WHEN COLLAGE MODE IS ACTIVE.
+       SINGLE COLUMN IS NOT CHANGED.
+       ========================================================= */
+
+    body.collage-mode .layout{
+      display:block;
+
+      padding-left:0;
+      padding-right:0;
+    }
+
+
+    body.collage-mode .side{
+      display:none;
+    }
+
+
+    body.collage-mode .gallery{
+      width:100%;
+
+      max-width:none;
+
+      flex:none;
+    }
+
+
+    body.collage-mode .view-toggle{
+      width:100%;
+
+      margin:
+        0 0 14px;
+
+      padding:
+        0 28px;
+
+      justify-content:flex-end;
+    }
+
+
+    body.collage-mode .artwork-stack.collage-view{
+      width:100%;
+
+      margin:0;
+
+      padding-left:28px;
+      padding-right:28px;
+    }
+
+
+
+    /* =========================================================
        ARTWORK
        ========================================================= */
 
@@ -598,6 +652,24 @@
           0 1 auto;
       }
 
+
+      /*
+        Collage mode still overrides the
+        standard responsive layout.
+      */
+
+      body.collage-mode .layout{
+        display:block;
+
+        padding-left:0;
+        padding-right:0;
+      }
+
+
+      body.collage-mode .gallery{
+        width:100%;
+      }
+
     }
 
 
@@ -617,8 +689,8 @@
 
 
       /*
-        On mobile, collage view falls back
-        to a clean vertical stack.
+        On mobile, collage falls back
+        to a normal vertical stack.
       */
 
       .artwork-stack.collage-view{
@@ -649,6 +721,18 @@
 
       .view-toggle{
         width:100%;
+      }
+
+
+      body.collage-mode .artwork-stack.collage-view{
+        padding-left:16px;
+        padding-right:16px;
+      }
+
+
+      body.collage-mode .view-toggle{
+        padding-left:16px;
+        padding-right:16px;
       }
 
     }
@@ -1080,12 +1164,26 @@
 
     /* =========================================================
        SINGLE COLUMN
+
+       IMPORTANT:
+       THIS IS THE SAME SINGLE-COLUMN LAYOUT.
        ========================================================= */
 
     function buildSingleColumn(){
 
       currentView =
         "single";
+
+
+      /*
+        Remove full-screen collage mode.
+      */
+
+      document.body
+        .classList
+        .remove(
+          "collage-mode"
+        );
 
 
       gallery.className =
@@ -1141,6 +1239,18 @@
         "collage";
 
 
+      /*
+        THIS is the only thing that expands
+        the layout to full screen.
+      */
+
+      document.body
+        .classList
+        .add(
+          "collage-mode"
+        );
+
+
       gallery.className =
         "artwork-stack collage-view";
 
@@ -1150,7 +1260,7 @@
 
 
       /*
-        Mobile gets clean vertical layout.
+        MOBILE
       */
 
       if(
@@ -1196,12 +1306,8 @@
 
 
       /*
-        Build lookup by image path.
-
-        This connects:
-        artworks.json
-        ↕
-        collage.json
+        CONNECT ARTWORK IMAGE PATHS
+        TO COLLAGE POSITIONS
       */
 
       const artworkByImage =
@@ -1229,16 +1335,15 @@
 
 
       /*
-        If collage.json is empty, show
-        a helpful message rather than
-        generating a random layout.
+        NO COLLAGE SAVED
       */
 
       if(
         !Array.isArray(
           collageLayout
         ) ||
-        collageLayout.length === 0
+        collageLayout.length ===
+        0
       ){
 
         gallery.innerHTML =
@@ -1278,6 +1383,19 @@
 
 
 
+      /*
+        IMPORTANT:
+
+        x and width are percentages.
+
+        Because your public collage is now
+        wider than the admin canvas, the
+        entire composition scales horizontally
+        to fill the screen.
+
+        y remains in pixels.
+      */
+
       collageLayout.forEach(
         (item,index) => {
 
@@ -1299,8 +1417,7 @@
 
 
           /*
-            Ignore stale collage entries
-            whose artwork was deleted.
+            Ignore deleted artwork.
           */
 
           if(
@@ -1337,6 +1454,7 @@
             ) || 26;
 
 
+
           tile.style.left =
             x +
             "%";
@@ -1359,7 +1477,7 @@
 
 
           /*
-            Update canvas height after image loads.
+            UPDATE COLLAGE HEIGHT
           */
 
           const img =
@@ -1386,7 +1504,7 @@
               gallery.style.minHeight =
                 (
                   maximumBottom +
-                  40
+                  50
                 ) +
                 "px";
 
@@ -1484,23 +1602,29 @@
         ] =
           await Promise.all([
 
+
             fetch(
               "/content/artworks.json?v=" +
               Date.now(),
               {
-                cache:"no-store"
+                cache:
+                  "no-store"
               }
             ),
+
 
             fetch(
               "/content/collage.json?v=" +
               Date.now(),
               {
-                cache:"no-store"
+                cache:
+                  "no-store"
               }
             )
 
+
           ]);
+
 
 
         if(
@@ -1553,7 +1677,8 @@
 
 
         /*
-          Single column stays the default.
+          ALWAYS START WITH THE EXISTING
+          SINGLE COLUMN VIEW.
         */
 
         buildSingleColumn();
@@ -1716,6 +1841,8 @@
 
 
 
+    /* CLOSE */
+
     lightboxClose
       .addEventListener(
         "click",
@@ -1730,6 +1857,9 @@
         }
       );
 
+
+
+    /* CLICK BACKGROUND */
 
     lightbox
       .addEventListener(
@@ -1748,6 +1878,9 @@
         }
       );
 
+
+
+    /* ESCAPE */
 
     window.addEventListener(
       "keydown",
