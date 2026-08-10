@@ -42,9 +42,11 @@
     :root{
       --bg:#fff;
       --text:#111;
+
       --t:200ms;
 
       --gallery-width:1020px;
+
       --gutter:28px;
 
       --gap:18px;
@@ -73,6 +75,7 @@
         monospace;
 
       background:var(--bg);
+
       color:var(--text);
 
       opacity:0;
@@ -94,7 +97,9 @@
 
     body.lock-scroll{
       overflow:hidden;
-      padding-right:var(--sbw,0px);
+
+      padding-right:
+        var(--sbw,0px);
     }
 
 
@@ -112,6 +117,7 @@
       width:100%;
 
       display:flex;
+
       justify-content:center;
 
       gap:2.2rem;
@@ -128,6 +134,7 @@
       color:var(--text);
 
       font-size:.95rem;
+
       font-weight:700;
 
       padding:.35rem .75rem;
@@ -135,8 +142,8 @@
       border-radius:999px;
 
       transition:
-        background 150ms,
-        transform 150ms;
+        background 150ms ease,
+        transform 150ms ease;
 
       user-select:none;
     }
@@ -145,7 +152,8 @@
     nav a:hover{
       background:rgba(0,0,0,.06);
 
-      transform:translateY(-1px);
+      transform:
+        translateY(-1px);
     }
 
 
@@ -165,13 +173,19 @@
     .layout{
       width:100%;
 
-      padding-left:var(--gutter);
-      padding-right:var(--gutter);
+      padding-left:
+        var(--gutter);
+
+      padding-right:
+        var(--gutter);
 
       display:flex;
 
-      justify-content:space-between;
-      align-items:flex-start;
+      justify-content:
+        space-between;
+
+      align-items:
+        flex-start;
 
       gap:16px;
     }
@@ -183,13 +197,16 @@
        ========================================================= */
 
     .side{
-      width:var(--links-width);
+      width:
+        var(--links-width);
 
       flex:
         0 0 var(--links-width);
 
       display:flex;
-      flex-direction:column;
+
+      flex-direction:
+        column;
 
       gap:10px;
 
@@ -203,11 +220,13 @@
       color:#000;
 
       font-size:1.1rem;
+
       font-weight:700;
 
       letter-spacing:.15em;
 
-      text-transform:uppercase;
+      text-transform:
+        uppercase;
 
       line-height:1;
 
@@ -238,7 +257,8 @@
        ========================================================= */
 
     .gallery{
-      width:var(--gallery-width);
+      width:
+        var(--gallery-width);
 
       flex:
         0 0 var(--gallery-width);
@@ -247,7 +267,7 @@
 
 
     /* =========================================================
-       ICON VIEW TOGGLE
+       VIEW ICONS
        ========================================================= */
 
     .view-toggle{
@@ -268,6 +288,7 @@
       appearance:none;
 
       border:0;
+
       background:transparent;
 
       padding:3px;
@@ -302,18 +323,20 @@
       height:20px;
 
       fill:none;
+
       stroke:currentColor;
 
       stroke-width:1.6;
 
       stroke-linecap:round;
+
       stroke-linejoin:round;
     }
 
 
 
     /* =========================================================
-       ONE-COLUMN VIEW
+       DEFAULT SINGLE COLUMN
        ========================================================= */
 
     .artwork-stack{
@@ -322,6 +345,7 @@
       margin:0 auto;
 
       display:flex;
+
       flex-direction:column;
 
       gap:var(--gap);
@@ -330,33 +354,29 @@
 
 
     /* =========================================================
-       SCATTERED FULL VIEW
+       FULL / ORBIT VIEW
        ========================================================= */
 
-    .artwork-stack.scattered{
+    .artwork-stack.orbit-view{
       width:100%;
 
       margin:0;
 
-      position:relative;
-
       display:block;
+
+      position:relative;
 
       min-height:500px;
     }
 
 
-    .artwork-stack.scattered .tile{
+    .artwork-stack.orbit-view .tile{
       position:absolute;
 
+      margin:0;
+
       transition:
-        transform 220ms ease,
         opacity 220ms ease;
-    }
-
-
-    .artwork-stack.scattered .media{
-      width:100%;
     }
 
 
@@ -439,6 +459,7 @@
       display:flex;
 
       align-items:center;
+
       justify-content:center;
 
       opacity:0;
@@ -465,6 +486,7 @@
       max-height:90vh;
 
       width:auto;
+
       height:auto;
 
       object-fit:contain;
@@ -493,6 +515,7 @@
       position:absolute;
 
       top:20px;
+
       right:26px;
 
       font-family:
@@ -500,12 +523,14 @@
         monospace;
 
       font-size:32px;
+
       font-weight:400;
 
       background:none;
+
       border:none;
 
-      color:#fff;
+      color:white;
 
       cursor:pointer;
 
@@ -538,6 +563,7 @@
         flex-direction:column;
 
         align-items:center;
+
         justify-content:flex-start;
 
         gap:10px;
@@ -578,38 +604,49 @@
     }
 
 
+
     @media (max-width:700px){
 
       .layout{
         padding-left:16px;
+
         padding-right:16px;
       }
 
 
-      .artwork-stack,
-      .artwork-stack.scattered{
+      .artwork-stack{
         width:100%;
       }
 
 
-      .artwork-stack.scattered{
+      /*
+        Full view becomes normal stack
+        on small screens.
+      */
+
+      .artwork-stack.orbit-view{
+        width:100%;
+
         position:static;
 
         display:flex;
+
         flex-direction:column;
 
         gap:var(--gap);
 
-        min-height:0;
+        min-height:0 !important;
       }
 
 
-      .artwork-stack.scattered .tile{
+      .artwork-stack.orbit-view .tile{
         position:static;
 
         width:100% !important;
 
-        transform:none !important;
+        left:auto !important;
+
+        top:auto !important;
       }
 
 
@@ -628,7 +665,7 @@
 
 
   <!-- =========================================================
-       TOP NAV
+       NAV
        ========================================================= -->
 
   <nav>
@@ -720,12 +757,14 @@
       <div class="gallery">
 
 
-        <!-- VIEW TOGGLE -->
+        <!-- ===================================================
+             VIEW ICONS
+             =================================================== -->
 
         <div class="view-toggle">
 
 
-          <!-- SINGLE COLUMN ICON -->
+          <!-- SINGLE COLUMN -->
 
           <button
             class="view-btn active"
@@ -752,14 +791,14 @@
 
 
 
-          <!-- SCATTERED VIEW ICON -->
+          <!-- FULL / ORBIT VIEW -->
 
           <button
             class="view-btn"
-            id="fullView"
+            id="orbitView"
             type="button"
-            aria-label="Scattered full view"
-            title="Scattered full view">
+            aria-label="Full artwork view"
+            title="Full artwork view">
 
             <svg
               viewBox="0 0 24 24"
@@ -806,7 +845,9 @@
 
 
 
-        <!-- ARTWORK -->
+        <!-- ===================================================
+             ARTWORK
+             =================================================== -->
 
         <section
           class="artwork-stack"
@@ -864,13 +905,14 @@
       );
 
 
-    const fullView =
+    const orbitView =
       document.getElementById(
-        "fullView"
+        "orbitView"
       );
 
 
     let artworks = [];
+
 
     let currentView =
       "single";
@@ -938,19 +980,22 @@
 
 
     /* =========================================================
-       SEEDED RANDOM
+       STABLE SEMI-RANDOM NUMBER
        ========================================================= */
 
     function seededRandom(seed){
 
-      const x =
-        Math.sin(seed * 999) *
-        43758.5453123;
+      const value =
+        Math.sin(
+          seed *
+          9283.493
+        ) *
+        43758.5453;
 
 
       return (
-        x -
-        Math.floor(x)
+        value -
+        Math.floor(value)
       );
 
     }
@@ -958,7 +1003,7 @@
 
 
     /* =========================================================
-       CREATE TILE
+       CREATE ARTWORK TILE
        ========================================================= */
 
     function createArtworkTile(
@@ -974,10 +1019,6 @@
 
       tile.className =
         "tile";
-
-
-      tile.dataset.index =
-        index;
 
 
       const media =
@@ -1059,7 +1100,7 @@
 
 
     /* =========================================================
-       SINGLE COLUMN
+       BUILD SINGLE COLUMN
        ========================================================= */
 
     function buildSingleColumn(){
@@ -1070,6 +1111,10 @@
 
       gallery.className =
         "artwork-stack";
+
+
+      gallery.style.minHeight =
+        "";
 
 
       gallery.innerHTML =
@@ -1097,7 +1142,7 @@
         );
 
 
-      fullView
+      orbitView
         .classList
         .remove(
           "active"
@@ -1108,26 +1153,122 @@
 
 
     /* =========================================================
-       SCATTERED VIEW
+       WAIT FOR IMAGES
        ========================================================= */
 
-    function buildScatteredView(){
+    function waitForImages(container){
+
+      const images =
+        [
+          ...container
+            .querySelectorAll(
+              "img"
+            )
+        ];
+
+
+      return Promise.all(
+
+        images.map(img => {
+
+          if(
+            img.complete
+          ){
+
+            return Promise.resolve();
+
+          }
+
+
+          return new Promise(resolve => {
+
+            img.addEventListener(
+              "load",
+              resolve,
+              {
+                once:true
+              }
+            );
+
+
+            img.addEventListener(
+              "error",
+              resolve,
+              {
+                once:true
+              }
+            );
+
+          });
+
+        })
+
+      );
+
+    }
+
+
+
+    /* =========================================================
+       RECTANGLE COLLISION CHECK
+       ========================================================= */
+
+    function rectanglesOverlap(
+      first,
+      second,
+      gap
+    ){
+
+      return !(
+        first.x +
+        first.width +
+        gap <=
+        second.x ||
+
+        first.x >=
+        second.x +
+        second.width +
+        gap ||
+
+        first.y +
+        first.height +
+        gap <=
+        second.y ||
+
+        first.y >=
+        second.y +
+        second.height +
+        gap
+      );
+
+    }
+
+
+
+    /* =========================================================
+       BUILD WIDE ORBIT VIEW
+       ========================================================= */
+
+    async function buildOrbitView(){
 
       currentView =
-        "scattered";
+        "orbit";
 
 
       gallery.className =
-        "artwork-stack scattered";
+        "artwork-stack orbit-view";
 
 
       gallery.innerHTML =
         "";
 
 
+      gallery.style.minHeight =
+        "500px";
+
+
       /*
-        If we're on mobile, just use
-        normal vertical stacking.
+        Mobile gets a simple stack.
       */
 
       if(
@@ -1148,14 +1289,18 @@
         );
 
 
-        fullView.classList.add(
-          "active"
-        );
+        orbitView
+          .classList
+          .add(
+            "active"
+          );
 
 
-        singleView.classList.remove(
-          "active"
-        );
+        singleView
+          .classList
+          .remove(
+            "active"
+          );
 
 
         return;
@@ -1164,28 +1309,24 @@
 
 
 
-      const galleryWidth =
-        gallery.clientWidth;
-
-
-      /*
-        Vertical cursor tracks how far
-        down the page we've placed work.
-
-        We place artworks in loose bands.
-      */
-
-      let yCursor =
-        0;
-
-
       const tiles =
         [];
 
 
+      /*
+        ---------------------------------------------------------
+        CREATE WORKS FIRST
+
+        Scattered images use approximately
+        22% – 32% of the gallery width.
+
+        This allows them to spread across
+        the full canvas.
+        ---------------------------------------------------------
+      */
+
       artworks.forEach(
         (artwork,index) => {
-
 
           const tile =
             createArtworkTile(
@@ -1194,47 +1335,12 @@
             );
 
 
-          /*
-            Stable semi-random width:
-
-            about 24% - 40%
-          */
-
           const widthPercent =
-            24 +
+            22 +
             seededRandom(
-              index + 10
-            ) * 16;
-
-
-          /*
-            Stable horizontal offset.
-
-            Keep enough room so the
-            artwork stays inside gallery.
-          */
-
-          const maxLeft =
-            100 -
-            widthPercent;
-
-
-          const leftPercent =
-            seededRandom(
-              index + 50
+              index + 30
             ) *
-            maxLeft;
-
-
-          /*
-            Extra vertical breathing room.
-          */
-
-          const extraTop =
-            20 +
-            seededRandom(
-              index + 90
-            ) * 65;
+            10;
 
 
           tile.style.width =
@@ -1242,15 +1348,8 @@
             "%";
 
 
-          tile.style.left =
-            leftPercent +
-            "%";
-
-
-          tile.style.top =
-            yCursor +
-            extraTop +
-            "px";
+          tile.style.visibility =
+            "hidden";
 
 
           gallery.appendChild(
@@ -1262,19 +1361,435 @@
             tile
           );
 
+        }
+      );
+
+
+
+      /*
+        Wait until actual image dimensions
+        are available.
+      */
+
+      await waitForImages(
+        gallery
+      );
+
+
+      if(
+        currentView !==
+        "orbit"
+      ){
+
+        return;
+
+      }
+
+
+
+      const canvasWidth =
+        gallery.clientWidth;
+
+
+      /*
+        These horizontal anchor points
+        stretch across almost the entire
+        available gallery.
+
+        They deliberately alternate around
+        the center rather than forming
+        recognizable columns.
+      */
+
+      const horizontalAnchors = [
+
+        0.03,
+
+        0.65,
+
+        0.34,
+
+        0.08,
+
+        0.70,
+
+        0.46,
+
+        0.18,
+
+        0.61,
+
+        0.02,
+
+        0.39,
+
+        0.72,
+
+        0.22,
+
+        0.55,
+
+        0.09,
+
+        0.67,
+
+        0.31
+
+      ];
+
+
+      const placed =
+        [];
+
+
+      const collisionGap =
+        16;
+
+
+
+      tiles.forEach(
+        (tile,index) => {
+
+
+          const tileWidth =
+            tile.offsetWidth;
+
+
+          const tileHeight =
+            tile.offsetHeight;
+
+
 
           /*
-            Move the next band downward.
-
-            This is intentionally generous
-            enough to avoid overlaps.
+            Desired horizontal position.
           */
 
-          yCursor +=
-            180 +
+          let desiredX =
+            horizontalAnchors[
+              index %
+              horizontalAnchors.length
+            ] *
+            canvasWidth;
+
+
+
+          /*
+            Add a little stable variation
+            so repeated patterns do not
+            look mechanically aligned.
+          */
+
+          desiredX +=
+            (
+              seededRandom(
+                index + 100
+              ) -
+              .5
+            ) *
+            canvasWidth *
+            .08;
+
+
+
+          /*
+            Make sure the artwork remains
+            inside the gallery.
+          */
+
+          desiredX =
+            Math.max(
+              0,
+              Math.min(
+                desiredX,
+                canvasWidth -
+                tileWidth
+              )
+            );
+
+
+
+          /*
+            New works begin toward the top.
+
+            Every few works establish a
+            loose vertical band, rather
+            than a rigid row.
+          */
+
+          const band =
+            Math.floor(
+              index / 3
+            );
+
+
+          let desiredY =
+            band *
+            165;
+
+
+          desiredY +=
             seededRandom(
-              index + 150
-            ) * 140;
+              index + 200
+            ) *
+            55;
+
+
+
+          /*
+            Alternative x positions.
+
+            If the preferred location
+            collides, we'll try nearby
+            positions before moving down.
+          */
+
+          const xOptions = [
+
+            desiredX,
+
+            canvasWidth *
+            .5 -
+            tileWidth /
+            2,
+
+            canvasWidth *
+            .04,
+
+            canvasWidth -
+            tileWidth -
+            canvasWidth *
+            .04,
+
+            canvasWidth *
+            .22,
+
+            canvasWidth *
+            .58
+
+          ].map(x =>
+
+            Math.max(
+              0,
+              Math.min(
+                x,
+                canvasWidth -
+                tileWidth
+              )
+            )
+
+          );
+
+
+
+          let found =
+            false;
+
+
+          let finalX =
+            desiredX;
+
+
+          let finalY =
+            desiredY;
+
+
+
+          /*
+            Search downward in small steps.
+
+            This guarantees no overlap,
+            but keeps the artwork as close
+            together as possible.
+          */
+
+          for(
+            let yAttempt = 0;
+            yAttempt < 120;
+            yAttempt++
+          ){
+
+            const candidateY =
+              desiredY +
+              yAttempt *
+              12;
+
+
+            for(
+              let xIndex = 0;
+              xIndex <
+              xOptions.length;
+              xIndex++
+            ){
+
+              /*
+                Add tiny offset to avoid
+                obviously repeated anchors.
+              */
+
+              let candidateX =
+                xOptions[
+                  xIndex
+                ];
+
+
+              candidateX +=
+                (
+                  seededRandom(
+                    index * 20 +
+                    xIndex +
+                    400
+                  ) -
+                  .5
+                ) *
+                18;
+
+
+              candidateX =
+                Math.max(
+                  0,
+                  Math.min(
+                    candidateX,
+                    canvasWidth -
+                    tileWidth
+                  )
+                );
+
+
+              const proposed =
+                {
+                  x:
+                    candidateX,
+
+                  y:
+                    candidateY,
+
+                  width:
+                    tileWidth,
+
+                  height:
+                    tileHeight
+                };
+
+
+              const collision =
+                placed.some(
+                  existing =>
+
+                    rectanglesOverlap(
+                      proposed,
+                      existing,
+                      collisionGap
+                    )
+
+                );
+
+
+              if(
+                !collision
+              ){
+
+                finalX =
+                  candidateX;
+
+
+                finalY =
+                  candidateY;
+
+
+                found =
+                  true;
+
+
+                break;
+
+              }
+
+            }
+
+
+            if(
+              found
+            ){
+
+              break;
+
+            }
+
+          }
+
+
+
+          /*
+            Safety fallback.
+
+            Normally the collision search
+            above finds a location long
+            before reaching this.
+          */
+
+          if(
+            !found
+          ){
+
+            const previousBottom =
+              placed.reduce(
+                (
+                  maximum,
+                  item
+                ) =>
+
+                  Math.max(
+                    maximum,
+                    item.y +
+                    item.height
+                  ),
+
+                0
+              );
+
+
+            finalX =
+              desiredX;
+
+
+            finalY =
+              previousBottom +
+              collisionGap;
+
+          }
+
+
+
+          tile.style.left =
+            finalX +
+            "px";
+
+
+          tile.style.top =
+            finalY +
+            "px";
+
+
+          tile.style.visibility =
+            "visible";
+
+
+
+          placed.push(
+            {
+              x:
+                finalX,
+
+              y:
+                finalY,
+
+              width:
+                tileWidth,
+
+              height:
+                tileHeight
+            }
+          );
 
         }
       );
@@ -1282,56 +1797,36 @@
 
 
       /*
-        Wait for images to load so we can
-        calculate the true required height.
+        Determine required gallery height.
       */
 
-      requestAnimationFrame(
-        () => {
+      const maximumBottom =
+        placed.reduce(
+          (
+            maximum,
+            item
+          ) =>
 
-          setTimeout(
-            () => {
+            Math.max(
+              maximum,
+              item.y +
+              item.height
+            ),
 
-              let bottom =
-                0;
-
-
-              tiles.forEach(
-                tile => {
-
-                  const tileBottom =
-                    tile.offsetTop +
-                    tile.offsetHeight;
-
-
-                  if(
-                    tileBottom >
-                    bottom
-                  ){
-
-                    bottom =
-                      tileBottom;
-
-                  }
-
-                }
-              );
+          0
+        );
 
 
-              gallery.style.minHeight =
-                bottom +
-                40 +
-                "px";
-
-            },
-            100
-          );
-
-        }
-      );
+      gallery.style.minHeight =
+        (
+          maximumBottom +
+          30
+        ) +
+        "px";
 
 
-      fullView
+
+      orbitView
         .classList
         .add(
           "active"
@@ -1363,12 +1858,12 @@
       );
 
 
-    fullView
+    orbitView
       .addEventListener(
         "click",
         () => {
 
-          buildScatteredView();
+          buildOrbitView();
 
         }
       );
@@ -1387,7 +1882,8 @@
           await fetch(
             "/content/artworks.json",
             {
-              cache:"no-store"
+              cache:
+                "no-store"
             }
           );
 
@@ -1416,7 +1912,8 @@
 
 
         if(
-          artworks.length === 0
+          artworks.length ===
+          0
         ){
 
           gallery.innerHTML =
@@ -1426,14 +1923,25 @@
             </div>
             `;
 
+
           return;
 
         }
 
 
+
         /*
-          Default view is always
-          single-column.
+          IMPORTANT:
+
+          Artwork order is not reversed.
+
+          With add_to_top: true in Decap:
+
+          newest
+          artwork 1
+          artwork 2
+          artwork 3
+          ...
         */
 
         buildSingleColumn();
@@ -1462,7 +1970,7 @@
 
 
     /* =========================================================
-       RESIZE
+       RESPONSIVE REBUILD
        ========================================================= */
 
     let resizeTimer;
@@ -1483,15 +1991,15 @@
 
               if(
                 currentView ===
-                "scattered"
+                "orbit"
               ){
 
-                buildScatteredView();
+                buildOrbitView();
 
               }
 
             },
-            120
+            150
           );
 
       }
@@ -1596,6 +2104,8 @@
 
 
 
+    /* CLOSE */
+
     lightboxClose
       .addEventListener(
         "click",
@@ -1610,6 +2120,9 @@
         }
       );
 
+
+
+    /* CLICK DARK BACKGROUND */
 
     lightbox
       .addEventListener(
@@ -1628,6 +2141,9 @@
         }
       );
 
+
+
+    /* ESCAPE */
 
     window.addEventListener(
       "keydown",
