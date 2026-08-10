@@ -12,6 +12,7 @@
 
   <title>Portfolio — Jennifer Niu</title>
 
+
   <style>
 
     /* =========================================================
@@ -26,6 +27,7 @@
       font-display:swap;
     }
 
+
     @font-face{
       font-family:"SpaceMono";
       src:url("fonts/SpaceMono-Bold.woff2") format("woff2");
@@ -35,12 +37,15 @@
     }
 
 
+
     /* =========================================================
        VARIABLES
        ========================================================= */
 
     :root{
+
       --bg:#fff;
+
       --text:#111;
 
       --t:200ms;
@@ -52,7 +57,9 @@
       --gap:18px;
 
       --links-width:190px;
+
     }
+
 
 
     *{
@@ -60,12 +67,15 @@
     }
 
 
+
     html{
       scrollbar-gutter:stable;
     }
 
 
+
     body{
+
       margin:0;
 
       font-family:
@@ -82,7 +92,9 @@
 
       transition:
         opacity var(--t) ease;
+
     }
+
 
 
     body.page-loaded{
@@ -90,16 +102,20 @@
     }
 
 
+
     body.page-exit{
       opacity:0;
     }
 
 
+
     body.lock-scroll{
+
       overflow:hidden;
 
       padding-right:
         var(--sbw,0px);
+
     }
 
 
@@ -109,6 +125,7 @@
        ========================================================= */
 
     nav{
+
       position:absolute;
 
       top:0;
@@ -125,10 +142,13 @@
       padding:.9rem 0;
 
       z-index:10;
+
     }
 
 
+
     nav a{
+
       text-decoration:none;
 
       color:var(--text);
@@ -146,14 +166,19 @@
         transform 150ms ease;
 
       user-select:none;
+
     }
 
 
+
     nav a:hover{
-      background:rgba(0,0,0,.06);
+
+      background:
+        rgba(0,0,0,.06);
 
       transform:
         translateY(-1px);
+
     }
 
 
@@ -163,14 +188,18 @@
        ========================================================= */
 
     main{
+
       min-height:100dvh;
 
       padding:
         4.6rem 0 1.2rem;
+
     }
 
 
+
     .layout{
+
       width:100%;
 
       padding-left:
@@ -188,6 +217,7 @@
         flex-start;
 
       gap:16px;
+
     }
 
 
@@ -197,6 +227,7 @@
        ========================================================= */
 
     .side{
+
       width:
         var(--links-width);
 
@@ -205,16 +236,18 @@
 
       display:flex;
 
-      flex-direction:
-        column;
+      flex-direction:column;
 
       gap:10px;
 
       padding-top:2px;
+
     }
 
 
+
     .side a{
+
       text-decoration:none;
 
       color:#000;
@@ -225,8 +258,7 @@
 
       letter-spacing:.15em;
 
-      text-transform:
-        uppercase;
+      text-transform:uppercase;
 
       line-height:1;
 
@@ -236,7 +268,9 @@
       width:fit-content;
 
       user-select:none;
+
     }
+
 
 
     .side a:hover{
@@ -244,33 +278,39 @@
     }
 
 
+
     .side a.current{
+
       opacity:.35;
 
       pointer-events:none;
+
     }
 
 
 
     /* =========================================================
-       GALLERY
+       NORMAL GALLERY
        ========================================================= */
 
     .gallery{
+
       width:
         var(--gallery-width);
 
       flex:
         0 0 var(--gallery-width);
+
     }
 
 
 
     /* =========================================================
-       VIEW TOGGLE
+       VIEW ICONS
        ========================================================= */
 
     .view-toggle{
+
       width:78%;
 
       margin:
@@ -281,10 +321,13 @@
       justify-content:flex-end;
 
       gap:10px;
+
     }
 
 
+
     .view-btn{
+
       appearance:none;
 
       border:0;
@@ -302,15 +345,20 @@
       transition:
         opacity 150ms ease,
         transform 150ms ease;
+
     }
 
 
+
     .view-btn:hover{
+
       opacity:.6;
 
       transform:
         translateY(-1px);
+
     }
+
 
 
     .view-btn.active{
@@ -318,7 +366,9 @@
     }
 
 
+
     .view-btn svg{
+
       width:20px;
       height:20px;
 
@@ -331,15 +381,19 @@
       stroke-linecap:round;
 
       stroke-linejoin:round;
+
     }
 
 
 
     /* =========================================================
-       DEFAULT SINGLE COLUMN
+       SINGLE COLUMN
+
+       UNCHANGED
        ========================================================= */
 
     .artwork-stack{
+
       width:78%;
 
       margin:0 auto;
@@ -349,49 +403,106 @@
       flex-direction:column;
 
       gap:var(--gap);
+
     }
 
 
 
     /* =========================================================
-       COLLAGE VIEW
+       TILE
        ========================================================= */
 
-    .artwork-stack.collage-view{
+    .tile{
+
       width:100%;
 
       margin:0;
 
-      display:block;
-
-      position:relative;
-
-      min-height:500px;
     }
 
 
-    .artwork-stack.collage-view .tile{
-      position:absolute;
 
-      margin:0;
+    .media{
+
+      display:block;
+
+      width:100%;
+
+      transform:
+        scale(1);
+
+      transition:
+        transform 260ms
+        cubic-bezier(.2,.8,.2,1);
+
+      transform-origin:
+        center center;
+
+      will-change:
+        transform;
+
+      cursor:zoom-in;
+
+    }
+
+
+
+    /*
+      Existing subtle single-column contraction
+    */
+
+    .tile:hover .media{
+
+      transform:
+        scale(.985);
+
+    }
+
+
+
+    /*
+      Slightly stronger contraction only
+      in collage mode.
+    */
+
+    body.collage-mode
+    .tile:hover
+    .media{
+
+      transform:
+        scale(.96);
+
+    }
+
+
+
+    .media img{
+
+      display:block;
+
+      width:100%;
+
+      height:auto;
+
+      cursor:zoom-in;
+
     }
 
 
 
     /* =========================================================
-       FULL-SCREEN COLLAGE MODE
-
-       IMPORTANT:
-       THESE RULES ONLY APPLY WHEN COLLAGE MODE IS ACTIVE.
-       SINGLE COLUMN IS NOT CHANGED.
+       FULL SCREEN COLLAGE MODE
        ========================================================= */
 
     body.collage-mode .layout{
+
       display:block;
 
       padding-left:0;
       padding-right:0;
+
     }
+
 
 
     body.collage-mode .side{
@@ -399,16 +510,21 @@
     }
 
 
+
     body.collage-mode .gallery{
+
       width:100%;
 
       max-width:none;
 
       flex:none;
+
     }
 
 
+
     body.collage-mode .view-toggle{
+
       width:100%;
 
       margin:
@@ -418,72 +534,92 @@
         0 28px;
 
       justify-content:flex-end;
-    }
 
-
-    body.collage-mode .artwork-stack.collage-view{
-      width:100%;
-
-      margin:0;
-
-      padding-left:28px;
-      padding-right:28px;
     }
 
 
 
     /* =========================================================
-       ARTWORK
+       PUBLIC COLLAGE VIEWPORT
        ========================================================= */
 
-    .tile{
+    .collage-public-viewport{
+
+      display:none;
+
+      position:relative;
+
       width:100%;
+
+      overflow:hidden;
+
+    }
+
+
+
+    body.collage-mode
+    .collage-public-viewport{
+
+      display:block;
+
+    }
+
+
+
+    /*
+      The actual inner collage is ALWAYS 1600px wide.
+
+      This matches the admin artboard exactly.
+    */
+
+    .collage-public-artboard{
+
+      position:absolute;
+
+      top:0;
+
+      left:0;
+
+      width:1600px;
+
+      transform-origin:
+        top left;
+
+    }
+
+
+
+    .collage-public-artboard .tile{
+
+      position:absolute;
 
       margin:0;
-    }
 
-
-    .media{
-      display:block;
-
-      width:100%;
-
-      transform:scale(1);
-
-      transition:
-        transform 260ms cubic-bezier(.2,.8,.2,1);
-      
-      transform-origin:center center;
-      
-      will-change:transform;
-
-      cursor:zoom-in;
-    }
-
-
-    .tile:hover .media{
-      transform:
-        scale(.96);
-    }
-
-
-    .media img{
-      display:block;
-
-      width:100%;
-
-      height:auto;
-
-      cursor:zoom-in;
     }
 
 
 
     /* =========================================================
-       LOADING / ERROR
+       SINGLE COLUMN AREA
+
+       Hidden only while collage view is active.
+       ========================================================= */
+
+    body.collage-mode
+    #artworkGallery{
+
+      display:none;
+
+    }
+
+
+
+    /* =========================================================
+       LOADING
        ========================================================= */
 
     .gallery-loading{
+
       font-size:.8rem;
 
       opacity:.35;
@@ -493,6 +629,7 @@
       text-transform:uppercase;
 
       padding:10px;
+
     }
 
 
@@ -502,6 +639,7 @@
        ========================================================= */
 
     .lightbox{
+
       position:fixed;
 
       inset:0;
@@ -523,17 +661,23 @@
         opacity 220ms ease;
 
       z-index:9999;
+
     }
+
 
 
     .lightbox.open{
+
       opacity:1;
 
       pointer-events:auto;
+
     }
 
 
+
     .lightbox img{
+
       max-width:90vw;
 
       max-height:90vh;
@@ -553,18 +697,24 @@
         transform 240ms
         cubic-bezier(.2,.8,.2,1),
         opacity 240ms ease;
+
     }
 
 
+
     .lightbox.open img{
+
       transform:
         scale(1);
 
       opacity:1;
+
     }
 
 
+
     .lightbox-close{
+
       position:absolute;
 
       top:20px;
@@ -594,25 +744,30 @@
       transition:
         opacity 140ms ease,
         transform 140ms ease;
+
     }
 
 
+
     .lightbox-close:hover{
+
       opacity:1;
 
       transform:
         scale(1.08);
+
     }
 
 
 
     /* =========================================================
-       RESPONSIVE
+       TABLET
        ========================================================= */
 
     @media (max-width:1180px){
 
       .layout{
+
         flex-direction:column;
 
         align-items:center;
@@ -620,10 +775,12 @@
         justify-content:flex-start;
 
         gap:10px;
+
       }
 
 
       .side{
+
         width:
           min(
             100%,
@@ -640,10 +797,12 @@
         gap:12px;
 
         padding-top:0;
+
       }
 
 
       .gallery{
+
         width:
           min(
             100%,
@@ -652,20 +811,20 @@
 
         flex:
           0 1 auto;
+
       }
 
 
-      /*
-        Collage mode still overrides the
-        standard responsive layout.
-      */
 
       body.collage-mode .layout{
+
         display:block;
 
         padding-left:0;
         padding-right:0;
+
       }
+
 
 
       body.collage-mode .gallery{
@@ -676,12 +835,22 @@
 
 
 
+    /* =========================================================
+       MOBILE
+
+       Single-column behavior remains normal.
+       Collage mode also uses the same scaled 1600 artboard,
+       so its relative composition stays intact.
+       ========================================================= */
+
     @media (max-width:700px){
 
       .layout{
+
         padding-left:16px;
 
         padding-right:16px;
+
       }
 
 
@@ -690,51 +859,18 @@
       }
 
 
-      /*
-        On mobile, collage falls back
-        to a normal vertical stack.
-      */
-
-      .artwork-stack.collage-view{
-        width:100%;
-
-        display:flex;
-
-        flex-direction:column;
-
-        gap:var(--gap);
-
-        position:static;
-
-        min-height:0 !important;
-      }
-
-
-      .artwork-stack.collage-view .tile{
-        position:static;
-
-        width:100% !important;
-
-        left:auto !important;
-
-        top:auto !important;
-      }
-
-
       .view-toggle{
         width:100%;
       }
 
 
-      body.collage-mode .artwork-stack.collage-view{
-        padding-left:16px;
-        padding-right:16px;
-      }
+      body.collage-mode
+      .view-toggle{
 
-
-      body.collage-mode .view-toggle{
         padding-left:16px;
+
         padding-right:16px;
+
       }
 
     }
@@ -748,7 +884,7 @@
 
 
   <!-- =========================================================
-       NAV
+       NAVIGATION
        ========================================================= -->
 
   <nav>
@@ -809,7 +945,7 @@
     <div class="layout">
 
 
-      <!-- LEFT -->
+      <!-- LEFT NAV -->
 
       <aside class="side">
 
@@ -835,14 +971,12 @@
 
 
 
-      <!-- RIGHT -->
+      <!-- RIGHT / FULL COLLAGE -->
 
       <div class="gallery">
 
 
-        <!-- ===================================================
-             VIEW ICONS
-             =================================================== -->
+        <!-- VIEW ICONS -->
 
         <div class="view-toggle">
 
@@ -923,13 +1057,14 @@
 
           </button>
 
-
         </div>
 
 
 
         <!-- ===================================================
-             ARTWORK
+             SINGLE COLUMN
+
+             This is still your standard gallery.
              =================================================== -->
 
         <section
@@ -941,6 +1076,23 @@
           </div>
 
         </section>
+
+
+
+        <!-- ===================================================
+             COLLAGE VIEWPORT
+             =================================================== -->
+
+        <div
+          class="collage-public-viewport"
+          id="collageViewport">
+
+          <div
+            class="collage-public-artboard"
+            id="collageArtboard">
+          </div>
+
+        </div>
 
 
       </div>
@@ -955,12 +1107,51 @@
   <script>
 
     /* =========================================================
+       SHARED DESIGN WIDTH
+
+       MUST MATCH admin/index.html
+       ========================================================= */
+
+    const DESIGN_WIDTH =
+      1600;
+
+
+    const MIN_DESIGN_HEIGHT =
+      1100;
+
+
+
+    /* =========================================================
        ELEMENTS
        ========================================================= */
 
-    const gallery =
+    const artworkGallery =
       document.getElementById(
         "artworkGallery"
+      );
+
+
+    const collageViewport =
+      document.getElementById(
+        "collageViewport"
+      );
+
+
+    const collageArtboard =
+      document.getElementById(
+        "collageArtboard"
+      );
+
+
+    const singleView =
+      document.getElementById(
+        "singleView"
+      );
+
+
+    const collageView =
+      document.getElementById(
+        "collageView"
       );
 
 
@@ -982,18 +1173,6 @@
       );
 
 
-    const singleView =
-      document.getElementById(
-        "singleView"
-      );
-
-
-    const collageView =
-      document.getElementById(
-        "collageView"
-      );
-
-
     let artworks =
       [];
 
@@ -1004,6 +1183,10 @@
 
     let currentView =
       "single";
+
+
+    let collageDesignHeight =
+      MIN_DESIGN_HEIGHT;
 
 
 
@@ -1122,12 +1305,16 @@
 
 
       img.addEventListener(
-        "error",
+        "click",
         () => {
 
-          console.error(
-            "Missing artwork:",
-            artwork.image
+          openLightbox(
+
+            img.currentSrc ||
+            img.src,
+
+            img.alt
+
           );
 
         }
@@ -1135,13 +1322,12 @@
 
 
       img.addEventListener(
-        "click",
+        "error",
         () => {
 
-          openLightbox(
-            img.currentSrc ||
-            img.src,
-            img.alt
+          console.error(
+            "Missing artwork:",
+            artwork.image
           );
 
         }
@@ -1165,10 +1351,9 @@
 
 
     /* =========================================================
-       SINGLE COLUMN
+       BUILD SINGLE COLUMN
 
-       IMPORTANT:
-       THIS IS THE SAME SINGLE-COLUMN LAYOUT.
+       No collage positioning is involved here.
        ========================================================= */
 
     function buildSingleColumn(){
@@ -1177,10 +1362,6 @@
         "single";
 
 
-      /*
-        Remove full-screen collage mode.
-      */
-
       document.body
         .classList
         .remove(
@@ -1188,26 +1369,23 @@
         );
 
 
-      gallery.className =
-        "artwork-stack";
-
-
-      gallery.style.minHeight =
-        "";
-
-
-      gallery.innerHTML =
+      artworkGallery.innerHTML =
         "";
 
 
       artworks.forEach(
-        (artwork,index) => {
+        (
+          artwork,
+          index
+        ) => {
 
-          gallery.appendChild(
+          artworkGallery.appendChild(
+
             createArtworkTile(
               artwork,
               index
             )
+
           );
 
         }
@@ -1232,85 +1410,16 @@
 
 
     /* =========================================================
-       COLLAGE VIEW
+       BUILD COLLAGE
+
+       Uses EXACT x/y/width from collage.json.
        ========================================================= */
 
-    function buildCollageView(){
+    function buildCollage(){
 
-      currentView =
-        "collage";
-
-
-      /*
-        THIS is the only thing that expands
-        the layout to full screen.
-      */
-
-      document.body
-        .classList
-        .add(
-          "collage-mode"
-        );
-
-
-      gallery.className =
-        "artwork-stack collage-view";
-
-
-      gallery.innerHTML =
+      collageArtboard.innerHTML =
         "";
 
-
-      /*
-        MOBILE
-      */
-
-      if(
-        window.innerWidth <= 700
-      ){
-
-        artworks.forEach(
-          (artwork,index) => {
-
-            gallery.appendChild(
-              createArtworkTile(
-                artwork,
-                index
-              )
-            );
-
-          }
-        );
-
-
-        gallery.style.minHeight =
-          "";
-
-
-        collageView
-          .classList
-          .add(
-            "active"
-          );
-
-
-        singleView
-          .classList
-          .remove(
-            "active"
-          );
-
-
-        return;
-
-      }
-
-
-
-      /*
-        CONNECT ARTWORK IMAGE PATHS
-        TO COLLAGE POSITIONS
-      */
 
       const artworkByImage =
         {};
@@ -1336,70 +1445,16 @@
 
 
 
-      /*
-        NO COLLAGE SAVED
-      */
-
-      if(
-        !Array.isArray(
-          collageLayout
-        ) ||
-        collageLayout.length ===
-        0
-      ){
-
-        gallery.innerHTML =
-          `
-          <div class="gallery-loading">
-            Collage layout has not been published yet.
-          </div>
-          `;
-
-
-        gallery.style.minHeight =
-          "200px";
-
-
-        collageView
-          .classList
-          .add(
-            "active"
-          );
-
-
-        singleView
-          .classList
-          .remove(
-            "active"
-          );
-
-
-        return;
-
-      }
-
-
-
       let maximumBottom =
-        0;
+        MIN_DESIGN_HEIGHT;
 
 
-
-      /*
-        IMPORTANT:
-
-        x and width are percentages.
-
-        Because your public collage is now
-        wider than the admin canvas, the
-        entire composition scales horizontally
-        to fill the screen.
-
-        y remains in pixels.
-      */
 
       collageLayout.forEach(
-        (item,index) => {
+        (
+          item,
+          index
+        ) => {
 
 
           if(
@@ -1418,24 +1473,10 @@
             ];
 
 
-          /*
-            Ignore deleted artwork.
-          */
-
-          if(
-            !artwork
-          ){
-
+          if(!artwork){
             return;
-
           }
 
-
-          const tile =
-            createArtworkTile(
-              artwork,
-              index
-            );
 
 
           const x =
@@ -1453,13 +1494,24 @@
           const width =
             Number(
               item.width
-            ) || 26;
+            ) || 400;
 
+
+
+          const tile =
+            createArtworkTile(
+              artwork,
+              index
+            );
+
+
+          tile.style.position =
+            "absolute";
 
 
           tile.style.left =
             x +
-            "%";
+            "px";
 
 
           tile.style.top =
@@ -1469,18 +1521,14 @@
 
           tile.style.width =
             width +
-            "%";
+            "px";
 
 
-          gallery.appendChild(
+          collageArtboard.appendChild(
             tile
           );
 
 
-
-          /*
-            UPDATE COLLAGE HEIGHT
-          */
 
           const img =
             tile.querySelector(
@@ -1492,23 +1540,28 @@
             () => {
 
               const bottom =
-                tile.offsetTop +
+                y +
                 tile.offsetHeight;
 
 
               maximumBottom =
                 Math.max(
                   maximumBottom,
-                  bottom
+                  bottom +
+                  100
                 );
 
 
-              gallery.style.minHeight =
-                (
-                  maximumBottom +
-                  50
-                ) +
+              collageDesignHeight =
+                maximumBottom;
+
+
+              collageArtboard.style.height =
+                collageDesignHeight +
                 "px";
+
+
+              updatePublicCollageScale();
 
             };
 
@@ -1545,6 +1598,94 @@
       );
 
 
+      collageDesignHeight =
+        maximumBottom;
+
+
+      collageArtboard.style.height =
+        collageDesignHeight +
+        "px";
+
+    }
+
+
+
+    /* =========================================================
+       SCALE PUBLIC ARTBOARD
+
+       This scales the WHOLE 1600px canvas, not the
+       individual coordinates.
+
+       Therefore the relative composition is identical
+       to the admin editor.
+       ========================================================= */
+
+    function updatePublicCollageScale(){
+
+      if(
+        currentView !==
+        "collage"
+      ){
+
+        return;
+
+      }
+
+
+      const availableWidth =
+        collageViewport.clientWidth;
+
+
+      if(
+        !availableWidth
+      ){
+
+        return;
+
+      }
+
+
+      const scale =
+        availableWidth /
+        DESIGN_WIDTH;
+
+
+      collageArtboard.style.transform =
+        `scale(${scale})`;
+
+
+      /*
+        CSS transforms do not contribute to parent height,
+        so manually set the viewport height.
+      */
+
+      collageViewport.style.height =
+        (
+          collageDesignHeight *
+          scale
+        ) +
+        "px";
+
+    }
+
+
+
+    /* =========================================================
+       ENTER COLLAGE MODE
+       ========================================================= */
+
+    function showCollage(){
+
+      currentView =
+        "collage";
+
+
+      document.body
+        .classList
+        .add(
+          "collage-mode"
+        );
+
 
       collageView
         .classList
@@ -1559,6 +1700,14 @@
           "active"
         );
 
+
+      buildCollage();
+
+
+      requestAnimationFrame(
+        updatePublicCollageScale
+      );
+
     }
 
 
@@ -1570,28 +1719,20 @@
     singleView
       .addEventListener(
         "click",
-        () => {
-
-          buildSingleColumn();
-
-        }
+        buildSingleColumn
       );
 
 
     collageView
       .addEventListener(
         "click",
-        () => {
-
-          buildCollageView();
-
-        }
+        showCollage
       );
 
 
 
     /* =========================================================
-       LOAD ARTWORKS + COLLAGE
+       LOAD DATA
        ========================================================= */
 
     async function loadPortfolioData(){
@@ -1606,22 +1747,26 @@
 
 
             fetch(
+
               "/content/artworks.json?v=" +
               Date.now(),
+
               {
-                cache:
-                  "no-store"
+                cache:"no-store"
               }
+
             ),
 
 
             fetch(
+
               "/content/collage.json?v=" +
               Date.now(),
+
               {
-                cache:
-                  "no-store"
+                cache:"no-store"
               }
+
             )
 
 
@@ -1679,8 +1824,7 @@
 
 
         /*
-          ALWAYS START WITH THE EXISTING
-          SINGLE COLUMN VIEW.
+          Single column remains default.
         */
 
         buildSingleColumn();
@@ -1695,7 +1839,7 @@
         );
 
 
-        gallery.innerHTML =
+        artworkGallery.innerHTML =
           `
           <div class="gallery-loading">
             Portfolio could not load.
@@ -1709,7 +1853,7 @@
 
 
     /* =========================================================
-       RESIZE
+       WINDOW RESIZE
        ========================================================= */
 
     let resizeTimer;
@@ -1733,12 +1877,12 @@
                 "collage"
               ){
 
-                buildCollageView();
+                updatePublicCollageScale();
 
               }
 
             },
-            150
+            100
           );
 
       }
@@ -1780,9 +1924,12 @@
         .documentElement
         .style
         .setProperty(
+
           "--sbw",
+
           getScrollbarWidth() +
           "px"
+
         );
 
 
@@ -1843,8 +1990,6 @@
 
 
 
-    /* CLOSE */
-
     lightboxClose
       .addEventListener(
         "click",
@@ -1860,8 +2005,6 @@
       );
 
 
-
-    /* CLICK BACKGROUND */
 
     lightbox
       .addEventListener(
@@ -1881,8 +2024,6 @@
       );
 
 
-
-    /* ESCAPE */
 
     window.addEventListener(
       "keydown",
@@ -1914,6 +2055,7 @@
     loadPortfolioData();
 
   </script>
+
 
 </body>
 
