@@ -1,19 +1,1331 @@
 <!doctype html>
-<html>
+<html lang="en">
+
 <head>
+
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
 
   <title>Jennifer Portfolio Admin</title>
 
   <!-- Netlify Identity -->
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+
+  <style>
+
+    /*
+      =========================================================
+      COLLAGE EDITOR
+      =========================================================
+    */
+
+    .collage-editor{
+      width:100%;
+      margin-top:12px;
+    }
+
+
+    .collage-toolbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+
+      margin-bottom:12px;
+    }
+
+
+    .collage-help{
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      font-size:13px;
+      line-height:1.45;
+
+      color:#555;
+    }
+
+
+    .collage-reset{
+      flex:0 0 auto;
+
+      border:1px solid #bbb;
+      border-radius:4px;
+
+      background:#fff;
+
+      padding:7px 11px;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      font-size:12px;
+
+      cursor:pointer;
+    }
+
+
+    .collage-reset:hover{
+      background:#f5f5f5;
+    }
+
+
+    .collage-status{
+      padding:24px;
+
+      border:1px solid #ddd;
+
+      background:#fafafa;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      font-size:14px;
+
+      color:#666;
+    }
+
+
+    /*
+      This is the actual canvas you drag
+      the artwork around inside.
+    */
+
+    .collage-canvas{
+      position:relative;
+
+      width:100%;
+
+      min-height:750px;
+
+      overflow:hidden;
+
+      border:1px solid #d7d7d7;
+
+      background:
+        linear-gradient(
+          to right,
+          rgba(0,0,0,.025) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          to bottom,
+          rgba(0,0,0,.025) 1px,
+          transparent 1px
+        );
+
+      background-size:
+        40px 40px;
+
+      user-select:none;
+
+      touch-action:none;
+    }
+
+
+    /*
+      Very subtle center guide.
+      This DOES NOT affect placement.
+      It is only a visual reference.
+    */
+
+    .collage-center-line{
+      position:absolute;
+
+      top:0;
+      bottom:0;
+
+      left:50%;
+
+      width:1px;
+
+      background:
+        rgba(0,0,0,.07);
+
+      pointer-events:none;
+    }
+
+
+    .collage-item{
+      position:absolute;
+
+      cursor:grab;
+
+      box-sizing:border-box;
+
+      border:1px solid transparent;
+
+      transition:
+        border-color 100ms ease;
+
+      touch-action:none;
+    }
+
+
+    .collage-item:hover{
+      border-color:
+        rgba(0,0,0,.35);
+    }
+
+
+    .collage-item.dragging{
+      cursor:grabbing;
+
+      z-index:1000;
+
+      border-color:#111;
+    }
+
+
+    .collage-item img{
+      display:block;
+
+      width:100%;
+      height:auto;
+
+      pointer-events:none;
+
+      -webkit-user-drag:none;
+
+      user-select:none;
+    }
+
+
+    /*
+      Bottom-right resize handle.
+    */
+
+    .collage-resize{
+      position:absolute;
+
+      right:-6px;
+      bottom:-6px;
+
+      width:14px;
+      height:14px;
+
+      border:2px solid #111;
+
+      background:#fff;
+
+      cursor:nwse-resize;
+
+      opacity:0;
+
+      transition:
+        opacity 100ms ease;
+    }
+
+
+    .collage-item:hover .collage-resize,
+    .collage-item.dragging .collage-resize{
+      opacity:1;
+    }
+
+
+    .collage-label{
+      position:absolute;
+
+      left:0;
+      bottom:100%;
+
+      margin-bottom:4px;
+
+      max-width:180px;
+
+      overflow:hidden;
+
+      text-overflow:ellipsis;
+
+      white-space:nowrap;
+
+      padding:3px 5px;
+
+      background:
+        rgba(0,0,0,.72);
+
+      color:#fff;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      font-size:10px;
+
+      opacity:0;
+
+      pointer-events:none;
+    }
+
+
+    .collage-item:hover .collage-label{
+      opacity:1;
+    }
+
+  </style>
+
 </head>
 
+
 <body>
+
 
   <!-- Decap CMS -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 
+
+  <script>
+
+    /*
+      =========================================================
+      HELPERS
+      =========================================================
+    */
+
+    function clamp(
+      value,
+      min,
+      max
+    ){
+
+      return Math.min(
+        Math.max(
+          value,
+          min
+        ),
+        max
+      );
+
+    }
+
+
+    function normalizeValue(value){
+
+      if(!value){
+        return [];
+      }
+
+
+      /*
+        Decap may give custom widgets
+        Immutable.js values.
+      */
+
+      if(
+        typeof value.toJS ===
+        "function"
+      ){
+
+        value =
+          value.toJS();
+
+      }
+
+
+      return Array.isArray(value)
+        ? value
+        : [];
+
+    }
+
+
+
+    /*
+      =========================================================
+      COLLAGE WIDGET
+      =========================================================
+    */
+
+    var CollageControl =
+      createClass({
+
+
+        getInitialState:
+          function(){
+
+            return{
+
+              loading:true,
+
+              error:null,
+
+              artworks:[],
+
+              items:[],
+
+              activeIndex:null
+
+            };
+
+          },
+
+
+        componentDidMount:
+          function(){
+
+            this.loadArtwork();
+
+          },
+
+
+        componentWillUnmount:
+          function(){
+
+            this.removePointerListeners();
+
+          },
+
+
+
+        /*
+          =====================================================
+          LOAD ARTWORKS.JSON
+          =====================================================
+        */
+
+        loadArtwork:
+          async function(){
+
+            try{
+
+              const response =
+                await fetch(
+                  "/content/artworks.json?v=" +
+                  Date.now(),
+                  {
+                    cache:"no-store"
+                  }
+                );
+
+
+              if(!response.ok){
+
+                throw new Error(
+                  "Could not load artworks.json"
+                );
+
+              }
+
+
+              const data =
+                await response.json();
+
+
+              const artworks =
+                Array.isArray(
+                  data.artworks
+                )
+                  ? data.artworks
+                  : [];
+
+
+              const existing =
+                normalizeValue(
+                  this.props.value
+                );
+
+
+              /*
+                Match saved positions by
+                image path.
+              */
+
+              const savedByImage =
+                {};
+
+
+              existing.forEach(
+                function(item){
+
+                  if(
+                    item &&
+                    item.image
+                  ){
+
+                    savedByImage[
+                      item.image
+                    ] =
+                      item;
+
+                  }
+
+                }
+              );
+
+
+              /*
+                Every artwork automatically
+                appears in the editor.
+
+                If it has never been placed
+                before, give it a temporary
+                starting position.
+              */
+
+              const items =
+                artworks.map(
+                  function(
+                    artwork,
+                    index
+                  ){
+
+                    const saved =
+                      savedByImage[
+                        artwork.image
+                      ];
+
+
+                    if(saved){
+
+                      return{
+
+                        image:
+                          artwork.image,
+
+                        x:
+                          Number(
+                            saved.x
+                          ) || 0,
+
+                        y:
+                          Number(
+                            saved.y
+                          ) || 0,
+
+                        width:
+                          Number(
+                            saved.width
+                          ) || 28
+
+                      };
+
+                    }
+
+
+                    /*
+                      Starting placement only.
+
+                      You will drag these wherever
+                      you actually want them.
+                    */
+
+                    const column =
+                      index % 3;
+
+
+                    const row =
+                      Math.floor(
+                        index / 3
+                      );
+
+
+                    return{
+
+                      image:
+                        artwork.image,
+
+                      x:
+                        [
+                          5,
+                          37,
+                          69
+                        ][column],
+
+                      y:
+                        80 +
+                        row *
+                        300,
+
+                      width:
+                        26
+
+                    };
+
+                  }
+                );
+
+
+              this.setState({
+
+                loading:false,
+
+                error:null,
+
+                artworks:
+                  artworks,
+
+                items:
+                  items
+
+              });
+
+
+              /*
+                Save missing artwork entries
+                into the widget value.
+              */
+
+              this.props.onChange(
+                items
+              );
+
+
+            }
+            catch(error){
+
+              console.error(
+                "Collage editor error:",
+                error
+              );
+
+
+              this.setState({
+
+                loading:false,
+
+                error:
+                  "Could not load artwork. Make sure artworks.json has been published to this branch."
+
+              });
+
+            }
+
+          },
+
+
+
+        /*
+          =====================================================
+          CANVAS HEIGHT
+          =====================================================
+        */
+
+        getCanvasHeight:
+          function(){
+
+            const items =
+              this.state.items;
+
+
+            if(
+              !items.length
+            ){
+
+              return 750;
+
+            }
+
+
+            /*
+              y is stored in pixels.
+
+              Give plenty of room below
+              the lowest positioned image.
+            */
+
+            const maximum =
+              items.reduce(
+                function(
+                  result,
+                  item
+                ){
+
+                  return Math.max(
+                    result,
+                    Number(item.y) || 0
+                  );
+
+                },
+                0
+              );
+
+
+            return Math.max(
+              750,
+              maximum +
+              650
+            );
+
+          },
+
+
+
+        /*
+          =====================================================
+          POINTER START
+          =====================================================
+        */
+
+        startPointer:
+          function(
+            index,
+            mode,
+            event
+          ){
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+
+            const canvas =
+              this.canvasNode;
+
+
+            if(!canvas){
+              return;
+            }
+
+
+            const rect =
+              canvas
+                .getBoundingClientRect();
+
+
+            const item =
+              this.state.items[
+                index
+              ];
+
+
+            this.dragData = {
+
+              index:
+                index,
+
+              mode:
+                mode,
+
+              startClientX:
+                event.clientX,
+
+              startClientY:
+                event.clientY,
+
+              canvasWidth:
+                rect.width,
+
+              originalX:
+                Number(
+                  item.x
+                ) || 0,
+
+              originalY:
+                Number(
+                  item.y
+                ) || 0,
+
+              originalWidth:
+                Number(
+                  item.width
+                ) || 28
+
+            };
+
+
+            this.setState({
+
+              activeIndex:
+                index
+
+            });
+
+
+            window.addEventListener(
+              "pointermove",
+              this.handlePointerMove
+            );
+
+
+            window.addEventListener(
+              "pointerup",
+              this.handlePointerUp
+            );
+
+          },
+
+
+
+        /*
+          =====================================================
+          POINTER MOVE
+          =====================================================
+        */
+
+        handlePointerMove:
+          function(event){
+
+            if(
+              !this.dragData
+            ){
+
+              return;
+
+            }
+
+
+            event.preventDefault();
+
+
+            const drag =
+              this.dragData;
+
+
+            const dx =
+              event.clientX -
+              drag.startClientX;
+
+
+            const dy =
+              event.clientY -
+              drag.startClientY;
+
+
+            const dxPercent =
+              (
+                dx /
+                drag.canvasWidth
+              ) *
+              100;
+
+
+            const items =
+              this.state.items
+                .map(
+                  function(item){
+
+                    return Object.assign(
+                      {},
+                      item
+                    );
+
+                  }
+                );
+
+
+            const item =
+              items[
+                drag.index
+              ];
+
+
+            if(
+              drag.mode ===
+              "move"
+            ){
+
+              item.x =
+                clamp(
+                  drag.originalX +
+                  dxPercent,
+                  0,
+                  100 -
+                  item.width
+                );
+
+
+              item.y =
+                Math.max(
+                  0,
+                  drag.originalY +
+                  dy
+                );
+
+            }
+
+
+            if(
+              drag.mode ===
+              "resize"
+            ){
+
+              const newWidth =
+                clamp(
+                  drag.originalWidth +
+                  dxPercent,
+                  8,
+                  70
+                );
+
+
+              item.width =
+                Math.min(
+                  newWidth,
+                  100 -
+                  item.x
+                );
+
+            }
+
+
+            this.setState({
+
+              items:
+                items
+
+            });
+
+          },
+
+
+
+        /*
+          =====================================================
+          POINTER END
+          =====================================================
+        */
+
+        handlePointerUp:
+          function(){
+
+            if(
+              !this.dragData
+            ){
+
+              return;
+
+            }
+
+
+            this.dragData =
+              null;
+
+
+            this.removePointerListeners();
+
+
+            this.setState({
+
+              activeIndex:
+                null
+
+            });
+
+
+            /*
+              This tells Decap that the
+              layout field changed.
+
+              Clicking Publish will then
+              save these coordinates.
+            */
+
+            this.props.onChange(
+              this.state.items
+            );
+
+          },
+
+
+
+        removePointerListeners:
+          function(){
+
+            window.removeEventListener(
+              "pointermove",
+              this.handlePointerMove
+            );
+
+
+            window.removeEventListener(
+              "pointerup",
+              this.handlePointerUp
+            );
+
+          },
+
+
+
+        /*
+          =====================================================
+          RESET
+          =====================================================
+        */
+
+        resetLayout:
+          function(){
+
+            const items =
+              this.state.items
+                .map(
+                  function(
+                    item,
+                    index
+                  ){
+
+                    const column =
+                      index % 3;
+
+
+                    const row =
+                      Math.floor(
+                        index / 3
+                      );
+
+
+                    return{
+
+                      image:
+                        item.image,
+
+                      x:
+                        [
+                          5,
+                          37,
+                          69
+                        ][column],
+
+                      y:
+                        80 +
+                        row *
+                        300,
+
+                      width:
+                        26
+
+                    };
+
+                  }
+                );
+
+
+            this.setState({
+
+              items:
+                items
+
+            });
+
+
+            this.props.onChange(
+              items
+            );
+
+          },
+
+
+
+        /*
+          =====================================================
+          RENDER ONE IMAGE
+          =====================================================
+        */
+
+        renderItem:
+          function(
+            item,
+            index
+          ){
+
+            const active =
+              this.state.activeIndex ===
+              index;
+
+
+            return h(
+
+              "div",
+
+              {
+
+                key:
+                  item.image,
+
+                className:
+                  "collage-item" +
+                  (
+                    active
+                      ? " dragging"
+                      : ""
+                  ),
+
+                style:{
+
+                  left:
+                    item.x +
+                    "%",
+
+                  top:
+                    item.y +
+                    "px",
+
+                  width:
+                    item.width +
+                    "%"
+
+                },
+
+                onPointerDown:
+                  function(event){
+
+                    this.startPointer(
+                      index,
+                      "move",
+                      event
+                    );
+
+                  }.bind(this)
+
+              },
+
+
+              h(
+
+                "div",
+
+                {
+                  className:
+                    "collage-label"
+                },
+
+                item.image
+
+              ),
+
+
+              h(
+
+                "img",
+
+                {
+
+                  src:
+                    item.image,
+
+                  alt:
+                    ""
+
+                }
+
+              ),
+
+
+              h(
+
+                "div",
+
+                {
+
+                  className:
+                    "collage-resize",
+
+                  title:
+                    "Drag to resize",
+
+                  onPointerDown:
+                    function(event){
+
+                      this.startPointer(
+                        index,
+                        "resize",
+                        event
+                      );
+
+                    }.bind(this)
+
+                }
+
+              )
+
+            );
+
+          },
+
+
+
+        /*
+          =====================================================
+          RENDER
+          =====================================================
+        */
+
+        render:
+          function(){
+
+            if(
+              this.state.loading
+            ){
+
+              return h(
+
+                "div",
+
+                {
+                  className:
+                    "collage-status"
+                },
+
+                "Loading artwork..."
+
+              );
+
+            }
+
+
+            if(
+              this.state.error
+            ){
+
+              return h(
+
+                "div",
+
+                {
+                  className:
+                    "collage-status"
+                },
+
+                this.state.error
+
+              );
+
+            }
+
+
+            return h(
+
+              "div",
+
+              {
+                className:
+                  "collage-editor"
+              },
+
+
+              h(
+
+                "div",
+
+                {
+                  className:
+                    "collage-toolbar"
+                },
+
+
+                h(
+
+                  "div",
+
+                  {
+                    className:
+                      "collage-help"
+                  },
+
+                  "Drag an artwork to move it. Drag the small square on its bottom-right corner to resize it. These positions affect only the collage view."
+
+                ),
+
+
+                h(
+
+                  "button",
+
+                  {
+
+                    type:
+                      "button",
+
+                    className:
+                      "collage-reset",
+
+                    onClick:
+                      this.resetLayout
+
+                  },
+
+                  "Reset layout"
+
+                )
+
+              ),
+
+
+
+              h(
+
+                "div",
+
+                {
+
+                  className:
+                    "collage-canvas",
+
+                  ref:
+                    function(node){
+
+                      this.canvasNode =
+                        node;
+
+                    }.bind(this),
+
+                  style:{
+
+                    height:
+                      this.getCanvasHeight() +
+                      "px"
+
+                  }
+
+                },
+
+
+                h(
+
+                  "div",
+
+                  {
+                    className:
+                      "collage-center-line"
+                  }
+
+                ),
+
+
+                this.state.items.map(
+                  this.renderItem
+                )
+
+              )
+
+            );
+
+          }
+
+
+      });
+
+
+
+    /*
+      =========================================================
+      REGISTER WITH DECAP
+      =========================================================
+    */
+
+    CMS.registerWidget(
+      "collage_layout",
+      CollageControl
+    );
+
+  </script>
+
+
 </body>
+
 </html>
