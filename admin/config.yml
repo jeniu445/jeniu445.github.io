@@ -746,3 +746,24 @@ collections:
             choose_url: false
             media_folder: "/images"
             public_folder: "/images"
+
+
+  # ============================================================
+  # COLLAGE LAYOUT
+  # ============================================================
+
+  - name: "collage"
+    label: "Collage Layout"
+
+    files:
+
+      - name: "collage"
+        label: "Artwork Collage"
+        file: "content/collage.json"
+
+        fields:
+
+          - label: "Collage Editor"
+            name: "layout"
+            widget: "collage_layout"
+            required: false
