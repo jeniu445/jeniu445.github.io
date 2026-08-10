@@ -124,8 +124,7 @@
     nav a:hover {
       background: rgba(0,0,0,.06);
 
-      transform:
-        translateY(-1px);
+      transform: translateY(-1px);
     }
 
 
@@ -493,8 +492,7 @@
 
       padding: 24px;
 
-      background:
-        rgba(0,0,0,.88);
+      background: rgba(0,0,0,.88);
 
       opacity: 0;
 
@@ -525,13 +523,11 @@
 
       opacity: 0;
 
-      transform:
-        scale(.955);
+      transform: scale(.955);
 
       transition:
         opacity 240ms ease,
-        transform 240ms
-        cubic-bezier(.2,.8,.2,1);
+        transform 240ms cubic-bezier(.2,.8,.2,1);
 
       user-select: none;
 
@@ -541,8 +537,7 @@
     .project-lightbox.open img {
       opacity: 1;
 
-      transform:
-        scale(1);
+      transform: scale(1);
     }
 
     .project-lightbox-close {
@@ -584,8 +579,7 @@
     .project-lightbox-close:hover {
       opacity: 1;
 
-      transform:
-        scale(1.08);
+      transform: scale(1.08);
     }
 
 
@@ -645,7 +639,6 @@
         max-width: 96vw;
         max-height: 90vh;
       }
-
     }
 
   </style>
@@ -657,7 +650,7 @@
 
 
   <!-- =======================================================
-       AUTOMATIC FULLSCREEN IMAGE LIGHTBOX
+       FULLSCREEN LIGHTBOX
        ======================================================= -->
 
   <div
@@ -669,8 +662,8 @@
     <button
       class="project-lightbox-close"
       id="projectLightboxClose"
-      aria-label="Close image"
       type="button"
+      aria-label="Close image"
     >
       ×
     </button>
@@ -731,7 +724,6 @@
           class="project-title"
           id="projectTitle">
         </h1>
-
 
         <p
           class="project-description"
@@ -818,6 +810,88 @@
 
 
     /* =========================================================
+       LIGHTBOX REFERENCES
+       ========================================================= */
+
+    const projectLightbox =
+      document.getElementById(
+        "projectLightbox"
+      );
+
+    const projectLightboxImg =
+      document.getElementById(
+        "projectLightboxImg"
+      );
+
+    const projectLightboxClose =
+      document.getElementById(
+        "projectLightboxClose"
+      );
+
+
+    /* =========================================================
+       LIGHTBOX FUNCTIONS
+       ========================================================= */
+
+    function openProjectLightbox(img) {
+
+      projectLightboxImg.src =
+        img.currentSrc || img.src;
+
+      projectLightboxImg.alt =
+        img.alt || "";
+
+      projectLightbox
+        .classList
+        .add("open");
+
+      projectLightbox
+        .setAttribute(
+          "aria-hidden",
+          "false"
+        );
+
+      document.body.style.overflow =
+        "hidden";
+    }
+
+
+    function closeProjectLightbox() {
+
+      projectLightbox
+        .classList
+        .remove("open");
+
+      projectLightbox
+        .setAttribute(
+          "aria-hidden",
+          "true"
+        );
+
+      document.body.style.overflow =
+        "";
+
+      setTimeout(
+        () => {
+
+          if (
+            !projectLightbox
+              .classList
+              .contains("open")
+          ) {
+
+            projectLightboxImg.src =
+              "";
+
+          }
+
+        },
+        240
+      );
+    }
+
+
+    /* =========================================================
        HELPERS
        ========================================================= */
 
@@ -832,8 +906,30 @@
 
       img.loading = "lazy";
 
-      return img;
+      img.style.cursor =
+        "zoom-in";
 
+
+      /*
+        IMPORTANT:
+        Every CMS-created image gets
+        the fullscreen behavior here.
+      */
+
+      img.addEventListener(
+        "click",
+        event => {
+
+          event.preventDefault();
+          event.stopPropagation();
+
+          openProjectLightbox(img);
+
+        }
+      );
+
+
+      return img;
     }
 
 
@@ -851,7 +947,6 @@
       video.preload = "metadata";
 
       return video;
-
     }
 
 
@@ -863,7 +958,6 @@
       block.className = "block";
 
       return block;
-
     }
 
 
@@ -882,7 +976,9 @@
         makeBlock();
 
 
-      /* HEADING */
+      /* =======================================================
+         HEADING
+         ======================================================= */
 
       if (block.type === "heading") {
 
@@ -901,11 +997,12 @@
         );
 
         return wrapper;
-
       }
 
 
-      /* TEXT */
+      /* =======================================================
+         TEXT
+         ======================================================= */
 
       if (block.type === "text") {
 
@@ -926,11 +1023,12 @@
         );
 
         return wrapper;
-
       }
 
 
-      /* IMAGE */
+      /* =======================================================
+         IMAGE
+         ======================================================= */
 
       if (block.type === "image") {
 
@@ -942,12 +1040,16 @@
           (block.width || "full");
 
 
-        media.appendChild(
-          makeImage(
-            block.image,
-            block.caption || ""
-          )
-        );
+        if (block.image) {
+
+          media.appendChild(
+            makeImage(
+              block.image,
+              block.caption || ""
+            )
+          );
+
+        }
 
 
         if (block.caption) {
@@ -973,11 +1075,12 @@
         );
 
         return wrapper;
-
       }
 
 
-      /* GIF */
+      /* =======================================================
+         GIF
+         ======================================================= */
 
       if (block.type === "gif") {
 
@@ -989,12 +1092,16 @@
           (block.width || "full");
 
 
-        media.appendChild(
-          makeImage(
-            block.image,
-            ""
-          )
-        );
+        if (block.image) {
+
+          media.appendChild(
+            makeImage(
+              block.image,
+              ""
+            )
+          );
+
+        }
 
 
         wrapper.appendChild(
@@ -1002,11 +1109,12 @@
         );
 
         return wrapper;
-
       }
 
 
-      /* VIDEO */
+      /* =======================================================
+         VIDEO
+         ======================================================= */
 
       if (block.type === "video") {
 
@@ -1018,11 +1126,15 @@
           (block.width || "full");
 
 
-        media.appendChild(
-          makeVideo(
-            block.video
-          )
-        );
+        if (block.video) {
+
+          media.appendChild(
+            makeVideo(
+              block.video
+            )
+          );
+
+        }
 
 
         wrapper.appendChild(
@@ -1030,11 +1142,12 @@
         );
 
         return wrapper;
-
       }
 
 
-      /* TEXT + IMAGE */
+      /* =======================================================
+         TEXT + IMAGE
+         ======================================================= */
 
       if (block.type === "text_image") {
 
@@ -1057,17 +1170,21 @@
 
 
         const image =
-          makeImage(
-            block.image,
-            ""
-          );
+          block.image
+            ? makeImage(
+                block.image,
+                ""
+              )
+            : null;
 
 
         if (
           block.image_position === "left"
         ) {
 
-          row.appendChild(image);
+          if (image) {
+            row.appendChild(image);
+          }
 
           row.appendChild(text);
 
@@ -1075,7 +1192,9 @@
 
           row.appendChild(text);
 
-          row.appendChild(image);
+          if (image) {
+            row.appendChild(image);
+          }
 
         }
 
@@ -1083,11 +1202,12 @@
         wrapper.appendChild(row);
 
         return wrapper;
-
       }
 
 
-      /* TWO IMAGES */
+      /* =======================================================
+         TWO IMAGES
+         ======================================================= */
 
       if (block.type === "two_images") {
 
@@ -1099,30 +1219,39 @@
           (block.ratio || "1-1");
 
 
-        row.appendChild(
-          makeImage(
-            block.image1,
-            ""
-          )
-        );
+        if (block.image1) {
+
+          row.appendChild(
+            makeImage(
+              block.image1,
+              ""
+            )
+          );
+
+        }
 
 
-        row.appendChild(
-          makeImage(
-            block.image2,
-            ""
-          )
-        );
+        if (block.image2) {
+
+          row.appendChild(
+            makeImage(
+              block.image2,
+              ""
+            )
+          );
+
+        }
 
 
         wrapper.appendChild(row);
 
         return wrapper;
-
       }
 
 
-      /* THREE IMAGES */
+      /* =======================================================
+         THREE IMAGES
+         ======================================================= */
 
       if (block.type === "three_images") {
 
@@ -1133,38 +1262,35 @@
           "three-images";
 
 
-        row.appendChild(
-          makeImage(
-            block.image1,
-            ""
-          )
-        );
+        [
+          block.image1,
+          block.image2,
+          block.image3
+        ].forEach(src => {
 
+          if (!src) {
+            return;
+          }
 
-        row.appendChild(
-          makeImage(
-            block.image2,
-            ""
-          )
-        );
+          row.appendChild(
+            makeImage(
+              src,
+              ""
+            )
+          );
 
-
-        row.appendChild(
-          makeImage(
-            block.image3,
-            ""
-          )
-        );
+        });
 
 
         wrapper.appendChild(row);
 
         return wrapper;
-
       }
 
 
-      /* VIDEO + IMAGE */
+      /* =======================================================
+         VIDEO + IMAGE
+         ======================================================= */
 
       if (block.type === "video_image") {
 
@@ -1176,29 +1302,38 @@
           (block.ratio || "5-3");
 
 
-        row.appendChild(
-          makeVideo(
-            block.video
-          )
-        );
+        if (block.video) {
+
+          row.appendChild(
+            makeVideo(
+              block.video
+            )
+          );
+
+        }
 
 
-        row.appendChild(
-          makeImage(
-            block.image,
-            ""
-          )
-        );
+        if (block.image) {
+
+          row.appendChild(
+            makeImage(
+              block.image,
+              ""
+            )
+          );
+
+        }
 
 
         wrapper.appendChild(row);
 
         return wrapper;
-
       }
 
 
-      /* SPACER */
+      /* =======================================================
+         SPACER
+         ======================================================= */
 
       if (block.type === "spacer") {
 
@@ -1215,12 +1350,10 @@
         );
 
         return wrapper;
-
       }
 
 
       return null;
-
     }
 
 
@@ -1274,7 +1407,6 @@
         `;
 
         return;
-
       }
 
 
@@ -1327,7 +1459,6 @@
           `;
 
           return;
-
         }
 
 
@@ -1362,6 +1493,10 @@
           Array.isArray(project.blocks)
             ? project.blocks
             : [];
+
+
+        contentElement.innerHTML =
+          "";
 
 
         blocks.forEach(block => {
@@ -1406,131 +1541,15 @@
 
 
     /* =========================================================
-       AUTOMATIC LIGHTBOX
+       LIGHTBOX CONTROLS
        ========================================================= */
-
-    const projectLightbox =
-      document.getElementById(
-        "projectLightbox"
-      );
-
-
-    const projectLightboxImg =
-      document.getElementById(
-        "projectLightboxImg"
-      );
-
-
-    const projectLightboxClose =
-      document.getElementById(
-        "projectLightboxClose"
-      );
-
-
-    function openProjectLightbox(img) {
-
-      projectLightboxImg.src =
-        img.src;
-
-      projectLightboxImg.alt =
-        img.alt || "";
-
-
-      projectLightbox
-        .classList
-        .add("open");
-
-
-      projectLightbox
-        .setAttribute(
-          "aria-hidden",
-          "false"
-        );
-
-
-      document.body.style.overflow =
-        "hidden";
-
-    }
-
-
-    function closeProjectLightbox() {
-
-      projectLightbox
-        .classList
-        .remove("open");
-
-
-      projectLightbox
-        .setAttribute(
-          "aria-hidden",
-          "true"
-        );
-
-
-      document.body.style.overflow =
-        "";
-
-
-      setTimeout(
-        () => {
-
-          if (
-            !projectLightbox
-              .classList
-              .contains("open")
-          ) {
-
-            projectLightboxImg.src =
-              "";
-
-          }
-
-        },
-        240
-      );
-
-    }
-
-
-    /*
-      This is the important part.
-
-      Because we're listening on the document,
-      images created later by Decap's project
-      renderer automatically work too.
-    */
-
-    document.addEventListener(
-      "click",
-      event => {
-
-        const img =
-          event.target.closest(
-            "#projectContent img"
-          );
-
-
-        if (!img) {
-          return;
-        }
-
-
-        openProjectLightbox(
-          img
-        );
-
-      }
-    );
-
-
-    /* X BUTTON */
 
     projectLightboxClose
       .addEventListener(
         "click",
         event => {
 
+          event.preventDefault();
           event.stopPropagation();
 
           closeProjectLightbox();
@@ -1538,8 +1557,6 @@
         }
       );
 
-
-    /* CLICK DARK BACKGROUND */
 
     projectLightbox
       .addEventListener(
@@ -1558,8 +1575,6 @@
         }
       );
 
-
-    /* ESCAPE */
 
     window.addEventListener(
       "keydown",
