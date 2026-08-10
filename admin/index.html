@@ -64,7 +64,7 @@
 
 
     .collage-help{
-      max-width:720px;
+      max-width:760px;
 
       font-family:
         -apple-system,
@@ -76,6 +76,28 @@
       line-height:1.5;
 
       color:#555;
+    }
+
+
+    .collage-toolbar-actions{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+
+    .collage-selection-count{
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      font-size:12px;
+
+      color:#777;
+
+      white-space:nowrap;
     }
 
 
@@ -128,11 +150,6 @@
 
     /* =========================================================
        VIEWPORT
-
-       This is the visible area inside Decap.
-
-       The actual design artboard underneath is ALWAYS
-       1600px wide. We merely scale it visually.
        ========================================================= */
 
     .collage-viewport{
@@ -182,11 +199,13 @@
       user-select:none;
 
       touch-action:none;
+
+      cursor:default;
     }
 
 
 
-    /* subtle horizontal center guide */
+    /* subtle center guide */
 
     .collage-center-line{
       position:absolute;
@@ -217,16 +236,36 @@
 
       cursor:grab;
 
-      border:
+      /*
+        outline is used for selection,
+        so border doesn't affect dimensions.
+      */
+
+      outline:
         2px solid transparent;
+
+      outline-offset:
+        3px;
 
       touch-action:none;
     }
 
 
     .collage-item:hover{
-      border-color:
-        rgba(0,0,0,.35);
+      outline-color:
+        rgba(0,0,0,.25);
+    }
+
+
+    /*
+      MULTI-SELECTION
+
+      Every selected artwork gets
+      a permanent black outline.
+    */
+
+    .collage-item.selected{
+      outline-color:#111;
     }
 
 
@@ -235,7 +274,7 @@
 
       cursor:grabbing;
 
-      border-color:#111;
+      outline-color:#111;
     }
 
 
@@ -281,7 +320,7 @@
 
 
     .collage-item:hover .collage-resize,
-    .collage-item.dragging .collage-resize{
+    .collage-item.selected .collage-resize{
       opacity:1;
     }
 
@@ -329,7 +368,8 @@
     }
 
 
-    .collage-item:hover .collage-label{
+    .collage-item:hover .collage-label,
+    .collage-item.selected .collage-label{
       opacity:1;
     }
 
@@ -346,11 +386,7 @@
     /* =========================================================
        SHARED DESIGN SYSTEM
 
-       IMPORTANT:
-
-       portfolio.html uses this SAME width.
-
-       Never change one without changing the other.
+       MUST MATCH portfolio.html
        ========================================================= */
 
     const DESIGN_WIDTH =
@@ -420,6 +456,10 @@
       createClass({
 
 
+        /* =====================================================
+           STATE
+           ===================================================== */
+
         getInitialState:
           function(){
 
@@ -433,6 +473,23 @@
 
               scale:1,
 
+
+              /*
+                MULTI-SELECTION
+
+                Instead of only one activeIndex,
+                we now keep an array.
+              */
+
+              selectedIndices:[],
+
+
+              /*
+                activeIndex is still useful for
+                showing which artwork initiated
+                the current drag/resize.
+              */
+
               activeIndex:null
 
             };
@@ -440,6 +497,10 @@
           },
 
 
+
+        /* =====================================================
+           MOUNT
+           ===================================================== */
 
         componentDidMount:
           function(){
@@ -456,6 +517,10 @@
 
 
 
+        /* =====================================================
+           UNMOUNT
+           ===================================================== */
+
         componentWillUnmount:
           function(){
 
@@ -471,13 +536,12 @@
 
 
 
+        /* =====================================================
+           UPDATE
+           ===================================================== */
+
         componentDidUpdate:
           function(){
-
-            /*
-              After Decap changes the editor width,
-              keep the virtual artboard fitted.
-            */
 
             this.updateScale();
 
@@ -486,7 +550,7 @@
 
 
         /* =====================================================
-           DETERMINE ARTBOARD SCALE
+           SCALE ARTBOARD
            ===================================================== */
 
         updateScale:
@@ -544,7 +608,7 @@
 
 
         /* =====================================================
-           LOAD ARTWORKS.JSON
+           LOAD ARTWORKS
            ===================================================== */
 
         loadArtwork:
@@ -592,22 +656,9 @@
 
 
 
-              /*
-                ------------------------------------------------
-                MIGRATE YOUR OLD PERCENTAGE LAYOUT AUTOMATICALLY
-
-                Your previous editor stored:
-                  x     = percent
-                  width = percent
-
-                This version stores:
-                  x     = design pixels
-                  width = design pixels
-
-                If every width is <= 100, we assume the old
-                percentage format and convert it once.
-                ------------------------------------------------
-              */
+              /* =================================================
+                 MIGRATE OLD PERCENTAGE DATA
+                 ================================================= */
 
               const looksLikeOldPercentageData =
                 existing.length > 0 &&
@@ -658,11 +709,6 @@
 
 
 
-                  /*
-                    Convert old percentage values
-                    to the new 1600px artboard.
-                  */
-
                   if(
                     looksLikeOldPercentageData
                   ){
@@ -709,7 +755,7 @@
 
 
               /* =================================================
-                 CREATE EDITOR ITEMS
+                 CREATE ITEMS
                  ================================================= */
 
               const items =
@@ -731,14 +777,6 @@
 
                     }
 
-
-
-                    /*
-                      Default starter position for a
-                      newly uploaded artwork.
-
-                      This does NOT affect single-column view.
-                    */
 
                     const starterPositions = [
 
@@ -827,7 +865,11 @@
                   error:null,
 
                   items:
-                    items
+                    items,
+
+                  selectedIndices:[],
+
+                  activeIndex:null
 
                 },
 
@@ -836,10 +878,6 @@
 
                   this.updateScale();
 
-
-                  /*
-                    Save migrated/new items into Decap.
-                  */
 
                   this.props.onChange(
                     items
@@ -923,7 +961,52 @@
 
 
         /* =====================================================
-           POINTER START
+           CLEAR SELECTION
+           ===================================================== */
+
+        clearSelection:
+          function(){
+
+            this.setState({
+
+              selectedIndices:[],
+
+              activeIndex:null
+
+            });
+
+          },
+
+
+
+        /* =====================================================
+           CLICK EMPTY ARTBOARD
+           ===================================================== */
+
+        handleArtboardPointerDown:
+          function(event){
+
+            /*
+              Artwork pointer events stop propagation,
+              so this only fires when clicking
+              empty canvas space.
+            */
+
+            if(
+              event.target ===
+              event.currentTarget
+            ){
+
+              this.clearSelection();
+
+            }
+
+          },
+
+
+
+        /* =====================================================
+           START POINTER
            ===================================================== */
 
         startPointer:
@@ -944,6 +1027,204 @@
               ];
 
 
+            let selected =
+              this.state.selectedIndices.slice();
+
+
+
+            /* =================================================
+               RESIZING
+
+               Resize stays single-item only.
+               ================================================= */
+
+            if(
+              mode ===
+              "resize"
+            ){
+
+              /*
+                Keep existing multi-selection visible,
+                but resize only this artwork.
+              */
+
+              if(
+                !selected.includes(
+                  index
+                )
+              ){
+
+                selected =
+                  [index];
+
+              }
+
+            }
+
+
+
+            /* =================================================
+               MOVING / SELECTING
+               ================================================= */
+
+            if(
+              mode ===
+              "move"
+            ){
+
+
+              /* -----------------------------------------------
+                 SHIFT + CLICK
+
+                 toggle this artwork in selection
+                 ----------------------------------------------- */
+
+              if(
+                event.shiftKey
+              ){
+
+                if(
+                  selected.includes(
+                    index
+                  )
+                ){
+
+                  /*
+                    Shift-click selected artwork:
+                    remove it.
+                  */
+
+                  selected =
+                    selected.filter(
+                      value =>
+                        value !== index
+                    );
+
+
+                  this.setState({
+
+                    selectedIndices:
+                      selected,
+
+                    activeIndex:null
+
+                  });
+
+
+                  /*
+                    Do NOT begin dragging the image
+                    we just deselected.
+                  */
+
+                  return;
+
+                }
+                else{
+
+                  /*
+                    Add artwork to selection.
+                  */
+
+                  selected.push(
+                    index
+                  );
+
+                }
+
+              }
+
+
+              /* -----------------------------------------------
+                 NORMAL CLICK
+                 ----------------------------------------------- */
+
+              else{
+
+                /*
+                  If the artwork is already part of a
+                  multi-selection, preserve that selection.
+
+                  This allows:
+                  Shift-select several → drag any one of them.
+                */
+
+                if(
+                  !selected.includes(
+                    index
+                  )
+                ){
+
+                  selected =
+                    [index];
+
+                }
+
+              }
+
+            }
+
+
+
+            /*
+              Safety:
+              make sure there is always at least
+              one selected item for this drag.
+            */
+
+            if(
+              !selected.length
+            ){
+
+              selected =
+                [index];
+
+            }
+
+
+
+            /* =================================================
+               SAVE ORIGINAL POSITIONS OF ALL SELECTED ITEMS
+               ================================================= */
+
+            const originalPositions =
+              {};
+
+
+            selected.forEach(
+              selectedIndex => {
+
+                const selectedItem =
+                  this.state.items[
+                    selectedIndex
+                  ];
+
+
+                originalPositions[
+                  selectedIndex
+                ] = {
+
+                  x:
+                    Number(
+                      selectedItem.x
+                    ) || 0,
+
+                  y:
+                    Number(
+                      selectedItem.y
+                    ) || 0,
+
+                  width:
+                    Number(
+                      selectedItem.width
+                    ) || 400
+
+                };
+
+              }
+            );
+
+
+
             this.dragData = {
 
               index:
@@ -951,6 +1232,12 @@
 
               mode:
                 mode,
+
+              selectedIndices:
+                selected.slice(),
+
+              originalPositions:
+                originalPositions,
 
               startClientX:
                 event.clientX,
@@ -976,12 +1263,17 @@
             };
 
 
+
             this.setState({
+
+              selectedIndices:
+                selected,
 
               activeIndex:
                 index
 
             });
+
 
 
             window.addEventListener(
@@ -1022,22 +1314,12 @@
               this.dragData;
 
 
-            /*
-              Convert actual mouse movement into
-              DESIGN-SPACE movement.
-
-              Example:
-              if editor is displayed at 50% scale,
-              moving mouse 50px = moving artwork 100
-              design pixels.
-            */
-
             const scale =
               this.state.scale ||
               1;
 
 
-            const dx =
+            let dx =
               (
                 event.clientX -
                 drag.startClientX
@@ -1045,7 +1327,7 @@
               scale;
 
 
-            const dy =
+            let dy =
               (
                 event.clientY -
                 drag.startClientY
@@ -1063,54 +1345,148 @@
               );
 
 
-            const item =
-              items[
-                drag.index
-              ];
 
-
-
-            /* MOVE */
+            /* =================================================
+               MOVE SELECTED GROUP
+               ================================================= */
 
             if(
               drag.mode ===
               "move"
             ){
 
-              item.x =
+              /*
+                Calculate one allowed dx/dy for the
+                ENTIRE group.
+
+                This preserves relative positions if
+                one selected artwork reaches an edge.
+              */
+
+              let minimumDx =
+                -Infinity;
+
+
+              let maximumDx =
+                Infinity;
+
+
+              let minimumDy =
+                -Infinity;
+
+
+
+              drag.selectedIndices.forEach(
+                selectedIndex => {
+
+                  const original =
+                    drag.originalPositions[
+                      selectedIndex
+                    ];
+
+
+                  minimumDx =
+                    Math.max(
+
+                      minimumDx,
+
+                      -original.x
+
+                    );
+
+
+                  maximumDx =
+                    Math.min(
+
+                      maximumDx,
+
+                      DESIGN_WIDTH -
+                      (
+                        original.x +
+                        original.width
+                      )
+
+                    );
+
+
+                  minimumDy =
+                    Math.max(
+
+                      minimumDy,
+
+                      -original.y
+
+                    );
+
+                }
+              );
+
+
+
+              dx =
                 clamp(
-
-                  drag.originalX +
                   dx,
-
-                  0,
-
-                  DESIGN_WIDTH -
-                  item.width
-
+                  minimumDx,
+                  maximumDx
                 );
 
 
-              item.y =
+              dy =
                 Math.max(
-
-                  0,
-
-                  drag.originalY +
-                  dy
-
+                  dy,
+                  minimumDy
                 );
+
+
+
+              /*
+                Apply the SAME movement delta to
+                every selected artwork.
+              */
+
+              drag.selectedIndices.forEach(
+                selectedIndex => {
+
+                  const original =
+                    drag.originalPositions[
+                      selectedIndex
+                    ];
+
+
+                  items[
+                    selectedIndex
+                  ].x =
+                    original.x +
+                    dx;
+
+
+                  items[
+                    selectedIndex
+                  ].y =
+                    original.y +
+                    dy;
+
+                }
+              );
 
             }
 
 
 
-            /* RESIZE */
+            /* =================================================
+               RESIZE ONE ITEM
+               ================================================= */
 
             if(
               drag.mode ===
               "resize"
             ){
+
+              const item =
+                items[
+                  drag.index
+                ];
+
 
               const desiredWidth =
                 clamp(
@@ -1181,11 +1557,7 @@
 
 
             /*
-              This is what tells Decap the field
-              has changed.
-
-              Publish saves these exact design-space
-              values into collage.json.
+              Save x/y/width changes into Decap.
             */
 
             this.props.onChange(
@@ -1195,6 +1567,10 @@
           },
 
 
+
+        /* =====================================================
+           REMOVE POINTER LISTENERS
+           ===================================================== */
 
         removePointerListeners:
           function(){
@@ -1308,7 +1684,11 @@
             this.setState({
 
               items:
-                items
+                items,
+
+              selectedIndices:[],
+
+              activeIndex:null
 
             });
 
@@ -1336,6 +1716,37 @@
               index;
 
 
+            const selected =
+              this.state.selectedIndices.includes(
+                index
+              );
+
+
+            let className =
+              "collage-item";
+
+
+            if(
+              selected
+            ){
+
+              className +=
+                " selected";
+
+            }
+
+
+            if(
+              active
+            ){
+
+              className +=
+                " dragging";
+
+            }
+
+
+
             return h(
 
               "div",
@@ -1346,12 +1757,7 @@
                   item.image,
 
                 className:
-                  "collage-item" +
-                  (
-                    active
-                      ? " dragging"
-                      : ""
-                  ),
+                  className,
 
                 style:{
 
@@ -1384,6 +1790,8 @@
 
 
 
+              /* PATH LABEL */
+
               h(
 
                 "div",
@@ -1398,6 +1806,8 @@
               ),
 
 
+
+              /* IMAGE */
 
               h(
 
@@ -1415,6 +1825,8 @@
               ),
 
 
+
+              /* RESIZE HANDLE */
 
               h(
 
@@ -1506,6 +1918,11 @@
               this.state.scale;
 
 
+            const selectedCount =
+              this.state.selectedIndices.length;
+
+
+
             return h(
 
               "div",
@@ -1517,7 +1934,9 @@
 
 
 
-              /* TOOLBAR */
+              /* =================================================
+                 TOOLBAR
+                 ================================================= */
 
               h(
 
@@ -1538,28 +1957,64 @@
                       "collage-help"
                   },
 
-                  "Drag artwork to move it. Drag the square at the bottom-right to resize. The editor and public collage use the exact same 1600px design canvas."
+                  "Click an artwork to select it. Hold Shift and click additional artworks to multi-select. Drag any selected artwork to move the whole group. Shift-click a selected artwork to remove it from the group. Click empty canvas to deselect. Resize handles still resize one artwork only."
 
                 ),
 
 
+
                 h(
 
-                  "button",
+                  "div",
 
                   {
-
-                    type:"button",
-
                     className:
-                      "collage-reset",
-
-                    onClick:
-                      this.resetLayout
-
+                      "collage-toolbar-actions"
                   },
 
-                  "Reset layout"
+
+                  selectedCount > 0
+
+                    ? h(
+
+                        "div",
+
+                        {
+                          className:
+                            "collage-selection-count"
+                        },
+
+                        selectedCount +
+                        (
+                          selectedCount === 1
+                            ? " selected"
+                            : " selected"
+                        )
+
+                      )
+
+                    : null,
+
+
+                  h(
+
+                    "button",
+
+                    {
+
+                      type:"button",
+
+                      className:
+                        "collage-reset",
+
+                      onClick:
+                        this.resetLayout
+
+                    },
+
+                    "Reset layout"
+
+                  )
 
                 )
 
@@ -1567,7 +2022,9 @@
 
 
 
-              /* SCALED VIEWPORT */
+              /* =================================================
+                 VIEWPORT
+                 ================================================= */
 
               h(
 
@@ -1601,7 +2058,9 @@
 
 
 
-                /* FIXED DESIGN ARTBOARD */
+                /* ===============================================
+                   ARTBOARD
+                   =============================================== */
 
                 h(
 
@@ -1611,6 +2070,9 @@
 
                     className:
                       "collage-artboard",
+
+                    onPointerDown:
+                      this.handleArtboardPointerDown,
 
                     style:{
 
@@ -1659,7 +2121,7 @@
 
 
     /* =========================================================
-       REGISTER CUSTOM WIDGET
+       REGISTER WIDGET
        ========================================================= */
 
     window.CMS.registerWidget(
@@ -1671,8 +2133,6 @@
 
     /* =========================================================
        START DECAP
-
-       Official script-tag manual-init API exposes initCMS.
        ========================================================= */
 
     window.initCMS();
