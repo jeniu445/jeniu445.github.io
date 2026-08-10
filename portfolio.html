@@ -15,10 +15,6 @@
 
   <style>
 
-    /* =========================================================
-       FONT
-       ========================================================= */
-
     @font-face{
       font-family:"SpaceMono";
       src:url("fonts/SpaceMono-Regular.woff2") format("woff2");
@@ -36,22 +32,13 @@
     }
 
 
-    /* =========================================================
-       VARIABLES
-       ========================================================= */
-
     :root{
       --bg:#fff;
       --text:#111;
-
       --t:200ms;
-
       --gallery-width:1020px;
-
       --gutter:28px;
-
       --gap:18px;
-
       --links-width:190px;
     }
 
@@ -76,7 +63,6 @@
         monospace;
 
       background:var(--bg);
-
       color:var(--text);
 
       opacity:0;
@@ -98,26 +84,22 @@
 
     body.lock-scroll{
       overflow:hidden;
-
-      padding-right:
-        var(--sbw,0px);
+      padding-right:var(--sbw,0px);
     }
 
 
-    /* =========================================================
+    /* =========================
        TOP NAV
-       ========================================================= */
+       ========================= */
 
     nav{
       position:absolute;
-
       top:0;
       left:0;
 
       width:100%;
 
       display:flex;
-
       justify-content:center;
 
       gap:2.2rem;
@@ -134,7 +116,6 @@
       color:var(--text);
 
       font-size:.95rem;
-
       font-weight:700;
 
       padding:.35rem .75rem;
@@ -151,15 +132,13 @@
 
     nav a:hover{
       background:rgba(0,0,0,.06);
-
-      transform:
-        translateY(-1px);
+      transform:translateY(-1px);
     }
 
 
-    /* =========================================================
+    /* =========================
        PAGE
-       ========================================================= */
+       ========================= */
 
     main{
       min-height:100dvh;
@@ -172,39 +151,28 @@
     .layout{
       width:100%;
 
-      padding-left:
-        var(--gutter);
-
-      padding-right:
-        var(--gutter);
+      padding-left:var(--gutter);
+      padding-right:var(--gutter);
 
       display:flex;
 
-      justify-content:
-        space-between;
-
-      align-items:
-        flex-start;
+      justify-content:space-between;
+      align-items:flex-start;
 
       gap:16px;
     }
 
 
-    /* =========================================================
+    /* =========================
        LEFT NAV
-       ========================================================= */
+       ========================= */
 
     .side{
-      width:
-        var(--links-width);
-
-      flex:
-        0 0 var(--links-width);
+      width:var(--links-width);
+      flex:0 0 var(--links-width);
 
       display:flex;
-
-      flex-direction:
-        column;
+      flex-direction:column;
 
       gap:10px;
 
@@ -218,11 +186,9 @@
       color:#000;
 
       font-size:1.1rem;
-
       font-weight:700;
 
       letter-spacing:.15em;
-
       text-transform:uppercase;
 
       line-height:1;
@@ -243,27 +209,23 @@
 
     .side a.current{
       opacity:.35;
-
       pointer-events:none;
     }
 
 
-    /* =========================================================
+    /* =========================
        NORMAL GALLERY
-       ========================================================= */
+       ========================= */
 
     .gallery{
-      width:
-        var(--gallery-width);
-
-      flex:
-        0 0 var(--gallery-width);
+      width:var(--gallery-width);
+      flex:0 0 var(--gallery-width);
     }
 
 
-    /* =========================================================
-       VIEW ICONS
-       ========================================================= */
+    /* =========================
+       VIEW TOGGLE
+       ========================= */
 
     .view-toggle{
       width:78%;
@@ -272,7 +234,6 @@
         0 auto 14px;
 
       display:flex;
-
       justify-content:flex-end;
 
       gap:10px;
@@ -281,9 +242,7 @@
 
     .view-btn{
       appearance:none;
-
       border:0;
-
       background:transparent;
 
       padding:3px;
@@ -302,9 +261,7 @@
 
     .view-btn:hover{
       opacity:.6;
-
-      transform:
-        translateY(-1px);
+      transform:translateY(-1px);
     }
 
 
@@ -318,78 +275,67 @@
       height:20px;
 
       fill:none;
-
       stroke:currentColor;
 
       stroke-width:1.6;
-
       stroke-linecap:round;
-
       stroke-linejoin:round;
     }
 
 
-    /* =========================================================
+    /* =========================
        SINGLE COLUMN
-       ========================================================= */
+       UNCHANGED
+       ========================= */
 
     .artwork-stack{
       width:78%;
-
       margin:0 auto;
 
       display:flex;
-
       flex-direction:column;
 
       gap:var(--gap);
     }
 
 
-    /* =========================================================
+    /* =========================
        TILE
-       ========================================================= */
+       ========================= */
 
     .tile{
       width:100%;
-
       margin:0;
     }
 
 
     .media{
       display:block;
-
       width:100%;
 
-      transform:
-        scale(1);
+      transform:scale(1);
 
       transition:
         transform 260ms
         cubic-bezier(.2,.8,.2,1);
 
-      transform-origin:
-        center center;
+      transform-origin:center center;
 
-      will-change:
-        transform;
+      will-change:transform;
 
       cursor:zoom-in;
     }
 
 
     .tile:hover .media{
-      transform:
-        scale(.985);
+      transform:scale(.985);
     }
 
 
     body.collage-mode
     .tile:hover
     .media{
-      transform:
-        scale(.96);
+      transform:scale(.96);
     }
 
 
@@ -397,16 +343,15 @@
       display:block;
 
       width:100%;
-
       height:auto;
 
       cursor:zoom-in;
     }
 
 
-    /* =========================================================
-       FULL SCREEN COLLAGE MODE
-       ========================================================= */
+    /* =========================
+       COLLAGE MODE
+       ========================= */
 
     body.collage-mode .layout{
       display:block;
@@ -423,9 +368,7 @@
 
     body.collage-mode .gallery{
       width:100%;
-
       max-width:none;
-
       flex:none;
     }
 
@@ -442,10 +385,6 @@
       justify-content:flex-end;
     }
 
-
-    /* =========================================================
-       PUBLIC COLLAGE VIEWPORT
-       ========================================================= */
 
     .collage-public-viewport{
       display:none;
@@ -464,11 +403,6 @@
     }
 
 
-    /*
-      Fixed virtual artboard.
-      MUST match admin/index.html.
-    */
-
     .collage-public-artboard{
       position:absolute;
 
@@ -484,7 +418,6 @@
 
     .collage-public-artboard .tile{
       position:absolute;
-
       margin:0;
     }
 
@@ -495,9 +428,9 @@
     }
 
 
-    /* =========================================================
+    /* =========================
        LOADING
-       ========================================================= */
+       ========================= */
 
     .gallery-loading{
       font-size:.8rem;
@@ -505,29 +438,25 @@
       opacity:.35;
 
       letter-spacing:.1em;
-
       text-transform:uppercase;
 
       padding:10px;
     }
 
 
-    /* =========================================================
+    /* =========================
        LIGHTBOX
-       ========================================================= */
+       ========================= */
 
     .lightbox{
       position:fixed;
-
       inset:0;
 
       background:
         rgba(0,0,0,.85);
 
       display:flex;
-
       align-items:center;
-
       justify-content:center;
 
       opacity:0;
@@ -543,24 +472,20 @@
 
     .lightbox.open{
       opacity:1;
-
       pointer-events:auto;
     }
 
 
     .lightbox img{
       max-width:90vw;
-
       max-height:90vh;
 
       width:auto;
-
       height:auto;
 
       object-fit:contain;
 
-      transform:
-        scale(.96);
+      transform:scale(.96);
 
       opacity:0;
 
@@ -572,9 +497,7 @@
 
 
     .lightbox.open img{
-      transform:
-        scale(1);
-
+      transform:scale(1);
       opacity:1;
     }
 
@@ -583,7 +506,6 @@
       position:absolute;
 
       top:20px;
-
       right:26px;
 
       font-family:
@@ -591,11 +513,9 @@
         monospace;
 
       font-size:32px;
-
       font-weight:400;
 
       background:none;
-
       border:none;
 
       color:white;
@@ -614,23 +534,19 @@
 
     .lightbox-close:hover{
       opacity:1;
-
-      transform:
-        scale(1.08);
+      transform:scale(1.08);
     }
 
 
-    /* =========================================================
-       TABLET
-       ========================================================= */
+    /* =========================
+       RESPONSIVE
+       ========================= */
 
     @media (max-width:1180px){
 
       .layout{
         flex-direction:column;
-
         align-items:center;
-
         justify-content:flex-start;
 
         gap:10px;
@@ -644,11 +560,9 @@
             var(--gallery-width)
           );
 
-        flex:
-          0 1 auto;
+        flex:0 1 auto;
 
         flex-direction:row;
-
         flex-wrap:wrap;
 
         gap:12px;
@@ -664,14 +578,12 @@
             var(--gallery-width)
           );
 
-        flex:
-          0 1 auto;
+        flex:0 1 auto;
       }
 
 
       body.collage-mode .layout{
         display:block;
-
         padding-left:0;
         padding-right:0;
       }
@@ -684,15 +596,10 @@
     }
 
 
-    /* =========================================================
-       MOBILE
-       ========================================================= */
-
     @media (max-width:700px){
 
       .layout{
         padding-left:16px;
-
         padding-right:16px;
       }
 
@@ -710,7 +617,6 @@
       body.collage-mode
       .view-toggle{
         padding-left:16px;
-
         padding-right:16px;
       }
 
@@ -724,36 +630,22 @@
 <body>
 
 
-  <!-- =========================================================
-       NAVIGATION
-       ========================================================= -->
-
   <nav>
 
-    <a
-      href="index.html"
-      data-nav>
+    <a href="index.html" data-nav>
       Home
     </a>
 
-    <a
-      href="portfolio.html"
-      data-nav>
+    <a href="portfolio.html" data-nav>
       Portfolio
     </a>
 
-    <a
-      href="about.html"
-      data-nav>
+    <a href="about.html" data-nav>
       About
     </a>
 
   </nav>
 
-
-  <!-- =========================================================
-       LIGHTBOX
-       ========================================================= -->
 
   <div
     class="lightbox"
@@ -775,16 +667,10 @@
   </div>
 
 
-  <!-- =========================================================
-       PAGE
-       ========================================================= -->
-
   <main>
 
     <div class="layout">
 
-
-      <!-- LEFT NAV -->
 
       <aside class="side">
 
@@ -809,17 +695,11 @@
       </aside>
 
 
-      <!-- RIGHT / FULL COLLAGE -->
-
       <div class="gallery">
 
 
-        <!-- VIEW ICONS -->
-
         <div class="view-toggle">
 
-
-          <!-- SINGLE COLUMN -->
 
           <button
             class="view-btn active"
@@ -844,8 +724,6 @@
 
           </button>
 
-
-          <!-- COLLAGE -->
 
           <button
             class="view-btn"
@@ -897,10 +775,6 @@
         </div>
 
 
-        <!-- ===================================================
-             SINGLE COLUMN
-             =================================================== -->
-
         <section
           class="artwork-stack"
           id="artworkGallery">
@@ -911,10 +785,6 @@
 
         </section>
 
-
-        <!-- ===================================================
-             COLLAGE
-             =================================================== -->
 
         <div
           class="collage-public-viewport"
@@ -938,9 +808,9 @@
 
   <script>
 
-    /* =========================================================
-       DESIGN SYSTEM
-       ========================================================= */
+    /* =========================
+       SHARED DESIGN SYSTEM
+       ========================= */
 
     const DESIGN_WIDTH =
       1600;
@@ -950,9 +820,9 @@
       1100;
 
 
-    /* =========================================================
+    /* =========================
        ELEMENTS
-       ========================================================= */
+       ========================= */
 
     const artworkGallery =
       document.getElementById(
@@ -1018,9 +888,9 @@
       MIN_DESIGN_HEIGHT;
 
 
-    /* =========================================================
+    /* =========================
        PAGE FADE
-       ========================================================= */
+       ========================= */
 
     window.addEventListener(
       "load",
@@ -1036,9 +906,9 @@
     );
 
 
-    /* =========================================================
+    /* =========================
        NAVIGATION
-       ========================================================= */
+       ========================= */
 
     document
       .querySelectorAll(
@@ -1076,9 +946,9 @@
       });
 
 
-    /* =========================================================
-       CREATE ARTWORK TILE
-       ========================================================= */
+    /* =========================
+       CREATE TILE
+       ========================= */
 
     function createArtworkTile(
       artwork,
@@ -1172,9 +1042,9 @@
     }
 
 
-    /* =========================================================
+    /* =========================
        SINGLE COLUMN
-       ========================================================= */
+       ========================= */
 
     function buildSingleColumn(){
 
@@ -1226,48 +1096,82 @@
     }
 
 
-    /* =========================================================
-       NORMALIZE COLLAGE POSITION
-
-       Supports BOTH:
-
-       OLD FORMAT:
-       x = percent
-       width = percent
-
-       NEW FORMAT:
-       x = design px
-       width = design px
-       ========================================================= */
+    /* =========================
+       NORMALIZE SAVED COLLAGE DATA
+       ========================= */
 
     function normalizeCollageItem(
       item
     ){
 
       let x =
-        Number(
+        parseFloat(
           item.x
-        ) || 0;
+        );
 
 
-      const y =
-        Number(
+      let y =
+        parseFloat(
           item.y
-        ) || 0;
+        );
 
 
       let width =
-        Number(
+        parseFloat(
           item.width
-        ) || 400;
+        );
+
+
+      if(
+        Number.isNaN(x)
+      ){
+        x = 0;
+      }
+
+
+      if(
+        Number.isNaN(y)
+      ){
+        y = 0;
+      }
+
+
+      if(
+        Number.isNaN(width)
+      ){
+        width = 400;
+      }
 
 
       /*
-        If width is <= 100, assume this is
-        old percentage-based data.
+        FORMAT A:
+        0.25 means 25%
       */
 
       if(
+        width > 0 &&
+        width <= 1.5
+      ){
+
+        x =
+          x *
+          DESIGN_WIDTH;
+
+
+        width =
+          width *
+          DESIGN_WIDTH;
+
+      }
+
+
+      /*
+        FORMAT B:
+        25 means 25%
+      */
+
+      else if(
+        width > 1.5 &&
         width <= 100
       ){
 
@@ -1289,6 +1193,13 @@
       }
 
 
+      /*
+        FORMAT C:
+        width > 100
+        already design pixels
+      */
+
+
       return{
 
         image:
@@ -1308,9 +1219,9 @@
     }
 
 
-    /* =========================================================
+    /* =========================
        BUILD COLLAGE
-       ========================================================= */
+       ========================= */
 
     function buildCollage(){
 
@@ -1493,9 +1404,9 @@
     }
 
 
-    /* =========================================================
-       SCALE COLLAGE
-       ========================================================= */
+    /* =========================
+       PUBLIC COLLAGE SCALE
+       ========================= */
 
     function updatePublicCollageScale(){
 
@@ -1523,22 +1434,52 @@
 
 
       /*
-        Scale entire virtual artboard.
+        IMPORTANT:
+
+        Scale the whole 1600px artboard
+        uniformly.
+
+        Cap scale at 1 so on very wide
+        monitors it doesn't blow up larger
+        than the admin design canvas.
       */
 
       const scale =
-        availableWidth /
-        DESIGN_WIDTH;
+        Math.min(
+          1,
+          availableWidth /
+          DESIGN_WIDTH
+        );
+
+
+      /*
+        Center the artboard horizontally.
+      */
+
+      const scaledWidth =
+        DESIGN_WIDTH *
+        scale;
+
+
+      const horizontalOffset =
+        Math.max(
+          0,
+          (
+            availableWidth -
+            scaledWidth
+          ) /
+          2
+        );
+
+
+      collageArtboard.style.left =
+        horizontalOffset +
+        "px";
 
 
       collageArtboard.style.transform =
         `scale(${scale})`;
 
-
-      /*
-        Transform doesn't affect parent height,
-        so set the viewport height manually.
-      */
 
       collageViewport.style.height =
         (
@@ -1550,9 +1491,9 @@
     }
 
 
-    /* =========================================================
+    /* =========================
        SHOW COLLAGE
-       ========================================================= */
+       ========================= */
 
     function showCollage(){
 
@@ -1591,9 +1532,9 @@
     }
 
 
-    /* =========================================================
-       VIEW BUTTONS
-       ========================================================= */
+    /* =========================
+       BUTTONS
+       ========================= */
 
     singleView
       .addEventListener(
@@ -1609,9 +1550,9 @@
       );
 
 
-    /* =========================================================
+    /* =========================
        LOAD DATA
-       ========================================================= */
+       ========================= */
 
     async function loadPortfolioData(){
 
@@ -1691,6 +1632,12 @@
             : [];
 
 
+        console.log(
+          "Loaded collage layout:",
+          collageLayout
+        );
+
+
         buildSingleColumn();
 
       }
@@ -1715,9 +1662,9 @@
     }
 
 
-    /* =========================================================
+    /* =========================
        RESIZE
-       ========================================================= */
+       ========================= */
 
     let resizeTimer;
 
@@ -1752,9 +1699,9 @@
     );
 
 
-    /* =========================================================
+    /* =========================
        LIGHTBOX
-       ========================================================= */
+       ========================= */
 
     function getScrollbarWidth(){
 
@@ -1852,7 +1799,6 @@
         event => {
 
           event.preventDefault();
-
           event.stopPropagation();
 
           closeLightbox();
@@ -1901,9 +1847,9 @@
     );
 
 
-    /* =========================================================
+    /* =========================
        START
-       ========================================================= */
+       ========================= */
 
     loadPortfolioData();
 
