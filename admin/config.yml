@@ -71,3 +71,361 @@ collections:
                     choose_url: false
                     media_folder: "/images/photography"
                     public_folder: "/images/photography"
+
+  # =========================
+  # PROJECTS
+  # =========================
+
+  - name: "projects"
+    label: "Projects"
+    label_singular: "Project"
+
+    folder: "content/projects"
+
+    create: true
+
+    extension: "json"
+
+    format: "json"
+
+    slug: "{{slug}}"
+
+    identifier_field: "title"
+
+    media_folder: "/images/projects"
+    public_folder: "/images/projects"
+
+    fields:
+
+      # PROJECT NAME
+      - label: "Project Title"
+        name: "title"
+        widget: "string"
+
+      # BANNER ON PROJECTS PAGE
+      - label: "Project Banner"
+        name: "banner"
+        widget: "image"
+        choose_url: false
+
+      # OPTIONAL DESCRIPTION FOR ADMIN
+      - label: "Short Description"
+        name: "description"
+        widget: "text"
+        required: false
+
+      # =========================
+      # FLEXIBLE PAGE BUILDER
+      # =========================
+
+      - label: "Page Content"
+        name: "blocks"
+        widget: "list"
+
+        label_singular: "Content Block"
+
+        collapsed: true
+
+        summary: "{{fields.type}}"
+
+        types:
+
+          # -------------------------
+          # HEADING
+          # -------------------------
+
+          - label: "Heading"
+            name: "heading"
+            widget: "object"
+
+            fields:
+
+              - label: "Text"
+                name: "text"
+                widget: "string"
+
+              - label: "Size"
+                name: "size"
+                widget: "select"
+                default: "medium"
+                options:
+                  - "small"
+                  - "medium"
+                  - "large"
+
+
+          # -------------------------
+          # PARAGRAPH
+          # -------------------------
+
+          - label: "Text"
+            name: "text"
+            widget: "object"
+
+            fields:
+
+              - label: "Text"
+                name: "text"
+                widget: "text"
+
+              - label: "Width"
+                name: "width"
+                widget: "select"
+                default: "medium"
+                options:
+                  - "narrow"
+                  - "medium"
+                  - "full"
+
+              - label: "Alignment"
+                name: "align"
+                widget: "select"
+                default: "left"
+                options:
+                  - "left"
+                  - "center"
+                  - "right"
+
+
+          # -------------------------
+          # IMAGE
+          # -------------------------
+
+          - label: "Image"
+            name: "image"
+            widget: "object"
+
+            fields:
+
+              - label: "Image"
+                name: "image"
+                widget: "image"
+                choose_url: false
+
+              - label: "Width"
+                name: "width"
+                widget: "select"
+                default: "full"
+                options:
+                  - "small"
+                  - "medium"
+                  - "large"
+                  - "full"
+
+              - label: "Caption"
+                name: "caption"
+                widget: "string"
+                required: false
+
+
+          # -------------------------
+          # GIF
+          # -------------------------
+
+          - label: "GIF"
+            name: "gif"
+            widget: "object"
+
+            fields:
+
+              - label: "GIF"
+                name: "image"
+                widget: "image"
+                choose_url: false
+
+              - label: "Width"
+                name: "width"
+                widget: "select"
+                default: "full"
+                options:
+                  - "small"
+                  - "medium"
+                  - "large"
+                  - "full"
+
+
+          # -------------------------
+          # VIDEO
+          # -------------------------
+
+          - label: "Video"
+            name: "video"
+            widget: "object"
+
+            fields:
+
+              - label: "Video File"
+                name: "video"
+                widget: "file"
+                choose_url: false
+
+              - label: "Width"
+                name: "width"
+                widget: "select"
+                default: "full"
+                options:
+                  - "medium"
+                  - "large"
+                  - "full"
+
+
+          # -------------------------
+          # TEXT + IMAGE
+          # -------------------------
+
+          - label: "Text + Image"
+            name: "text_image"
+            widget: "object"
+
+            fields:
+
+              - label: "Text"
+                name: "text"
+                widget: "text"
+
+              - label: "Image"
+                name: "image"
+                widget: "image"
+                choose_url: false
+
+              - label: "Image Position"
+                name: "image_position"
+                widget: "select"
+                default: "right"
+                options:
+                  - "left"
+                  - "right"
+
+              - label: "Column Ratio"
+                name: "ratio"
+                widget: "select"
+                default: "1-1"
+                options:
+                  - label: "1 : 1"
+                    value: "1-1"
+                  - label: "1 : 2"
+                    value: "1-2"
+                  - label: "2 : 1"
+                    value: "2-1"
+                  - label: "2 : 3"
+                    value: "2-3"
+                  - label: "3 : 2"
+                    value: "3-2"
+
+
+          # -------------------------
+          # TWO IMAGES
+          # -------------------------
+
+          - label: "Two Images"
+            name: "two_images"
+            widget: "object"
+
+            fields:
+
+              - label: "Image 1"
+                name: "image1"
+                widget: "image"
+                choose_url: false
+
+              - label: "Image 2"
+                name: "image2"
+                widget: "image"
+                choose_url: false
+
+              - label: "Ratio"
+                name: "ratio"
+                widget: "select"
+                default: "1-1"
+                options:
+                  - label: "1 : 1"
+                    value: "1-1"
+                  - label: "2 : 1"
+                    value: "2-1"
+                  - label: "1 : 2"
+                    value: "1-2"
+                  - label: "3 : 2"
+                    value: "3-2"
+                  - label: "2 : 3"
+                    value: "2-3"
+
+
+          # -------------------------
+          # THREE IMAGES
+          # -------------------------
+
+          - label: "Three Images"
+            name: "three_images"
+            widget: "object"
+
+            fields:
+
+              - label: "Image 1"
+                name: "image1"
+                widget: "image"
+                choose_url: false
+
+              - label: "Image 2"
+                name: "image2"
+                widget: "image"
+                choose_url: false
+
+              - label: "Image 3"
+                name: "image3"
+                widget: "image"
+                choose_url: false
+
+
+          # -------------------------
+          # VIDEO + IMAGE
+          # -------------------------
+
+          - label: "Video + Image"
+            name: "video_image"
+            widget: "object"
+
+            fields:
+
+              - label: "Video"
+                name: "video"
+                widget: "file"
+                choose_url: false
+
+              - label: "Image"
+                name: "image"
+                widget: "image"
+                choose_url: false
+
+              - label: "Ratio"
+                name: "ratio"
+                widget: "select"
+                default: "5-3"
+                options:
+                  - label: "1 : 1"
+                    value: "1-1"
+                  - label: "5 : 3"
+                    value: "5-3"
+                  - label: "3 : 5"
+                    value: "3-5"
+                  - label: "2 : 1"
+                    value: "2-1"
+
+
+          # -------------------------
+          # SPACER
+          # -------------------------
+
+          - label: "Spacer"
+            name: "spacer"
+            widget: "object"
+
+            fields:
+
+              - label: "Size"
+                name: "size"
+                widget: "select"
+                default: "medium"
+                options:
+                  - "small"
+                  - "medium"
+                  - "large"
