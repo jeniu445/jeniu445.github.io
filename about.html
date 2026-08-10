@@ -1,22 +1,40 @@
 <!doctype html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>About — Jennifer Niu</title>
 
   <style>
+
+    /* =========================================================
+       FONT
+       ========================================================= */
+
     @font-face {
-        font-family: "SpaceMono";
-        src: url("fonts/SpaceMono-Regular.woff2") format("woff2");
-        font-weight: 400;
+      font-family: "SpaceMono";
+      src: url("fonts/SpaceMono-Regular.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
     }
 
     @font-face {
-        font-family: "SpaceMono";
-        src: url("fonts/SpaceMono-Bold.woff2") format("woff2");
-        font-weight: 700;
+      font-family: "SpaceMono";
+      src: url("fonts/SpaceMono-Bold.woff2") format("woff2");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
     }
+
+
+    /* =========================================================
+       VARIABLES
+       ========================================================= */
+
     :root {
       --bg: #ffffff;
       --text: #111;
@@ -24,179 +42,648 @@
       --transition-time: 200ms;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
 
     body {
       margin: 0;
-      min-height: 100dvh;
-      background: var(--bg);
-      font-family: "Courier New", Courier, monospace;
-      font-weight: 700;
-      color: var(--text);
-      opacity: 0;
-      transition: opacity var(--transition-time) ease;
-    }
-    body.page-loaded { opacity: 1; }
-    body.page-exit { opacity: 0; }
 
-    /* NAVIGATION */
+      min-height: 100dvh;
+
+      background: var(--bg);
+
+      font-family:
+        "Courier New",
+        Courier,
+        monospace;
+
+      font-weight: 700;
+
+      color: var(--text);
+
+      opacity: 0;
+
+      transition:
+        opacity
+        var(--transition-time)
+        ease;
+    }
+
+
+    body.page-loaded {
+      opacity: 1;
+    }
+
+
+    body.page-exit {
+      opacity: 0;
+    }
+
+
+    /* =========================================================
+       NAVIGATION
+       ========================================================= */
+
     nav {
       position: absolute;
+
       top: 0;
       left: 0;
+
       width: 100%;
+
       display: flex;
+
       justify-content: center;
+
       gap: 2.5rem;
+
       padding: 1rem 0;
+
       z-index: 20;
     }
+
+
     nav a {
       text-decoration: none;
+
       color: var(--text);
+
       font-size: 0.95rem;
-      padding: 0.4rem 0.8rem;
+
+      padding:
+        0.4rem
+        0.8rem;
+
       border-radius: 999px;
-      transition: background 150ms ease-out, transform 150ms ease-out;
+
+      transition:
+        background 150ms ease-out,
+        transform 150ms ease-out;
     }
+
+
     nav a:hover {
       background: var(--hover);
-      transform: translateY(-1px);
+
+      transform:
+        translateY(-1px);
     }
 
-    /* OUTER WRAPPER TO FILL PAGE */
+
+    /* =========================================================
+       PAGE
+       ========================================================= */
+
     main {
       min-height: 100dvh;
+
       display: flex;
+
       align-items: center;
       justify-content: center;
-      padding: 5rem 0 3rem; /* space for nav + breathing room */
+
+      padding:
+        5rem
+        0
+        3rem;
     }
 
-    /* GRID LAYOUT */
+
+    /* =========================================================
+       GRID LAYOUT
+       ========================================================= */
+
     .container {
       width: 88%;
+
       max-width: 1200px;
+
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr; /* text a bit wider than image */
+
+      grid-template-columns:
+        1.1fr
+        0.9fr;
+
       gap: 3rem;
+
       align-items: center;
     }
 
-    /* TEXT */
+
+    /* =========================================================
+       TEXT
+       ========================================================= */
+
     .about-title {
       font-size: 1rem;
+
       font-weight: 1000;
+
       text-transform: uppercase;
+
       letter-spacing: 0.06em;
+
       margin-bottom: 1.4rem;
     }
 
+
     .about-text {
       font-size: 1.02rem;
+
       line-height: 1.6;
+
       max-width: 620px;
+
       color: #111;
     }
 
-    /* HEADSHOT — larger circle, pulled in toward center */
+
+    .about-paragraph {
+      margin:
+        0
+        0
+        1.6rem;
+    }
+
+
+    .contact {
+      margin: 0;
+    }
+
+
+    .contact a {
+      color: #111;
+
+      text-decoration: none;
+
+      border-bottom:
+        1px solid rgba(0,0,0,.2);
+
+      transition:
+        opacity 150ms ease;
+    }
+
+
+    .contact a:hover {
+      opacity: .55;
+    }
+
+
+    /* =========================================================
+       HEADSHOT
+       ========================================================= */
+
     .headshot-wrapper {
       display: flex;
+
       justify-content: center;
       align-items: center;
-      margin-right: 1.5rem; /* pulls the image inward from the far right */
+
+      margin-right: 1.5rem;
     }
+
 
     .headshot {
       width: 360px;
       height: 360px;
+
       border-radius: 50%;
+
       object-fit: cover;
       object-position: center;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-      margin-top: -0.5rem; /* aligns nicely with first lines of text */
+
+      box-shadow:
+        0 8px 20px
+        rgba(0,0,0,0.08);
+
+      margin-top: -0.5rem;
     }
 
-    /* MOBILE / TABLET */
+
+    /* =========================================================
+       LOADING / ERROR
+       ========================================================= */
+
+    .message {
+      font-size: .95rem;
+
+      line-height: 1.6;
+
+      opacity: .5;
+    }
+
+
+    /* =========================================================
+       MOBILE / TABLET
+       ========================================================= */
+
     @media (max-width: 900px) {
+
       main {
         padding-top: 5.5rem;
         padding-bottom: 3rem;
       }
 
+
       .container {
         grid-template-columns: 1fr;
+
         gap: 2.5rem;
+
         text-align: center;
+
         justify-items: center;
       }
+
 
       .about-text {
         max-width: 100%;
       }
 
+
       .headshot-wrapper {
         margin-right: 0;
       }
 
+
       .headshot {
         width: 260px;
         height: 260px;
+
         margin-top: 0;
       }
+
     }
+
   </style>
+
 </head>
 
+
 <body>
-  <!-- NAV -->
+
+
+  <!-- =======================================================
+       NAVIGATION
+       ======================================================= -->
+
   <nav>
-    <a href="index.html">Home</a>
-    <a href="portfolio.html">Portfolio</a>
-    <a href="about.html">About</a>
+
+    <a
+      href="index.html"
+      data-nav>
+      Home
+    </a>
+
+    <a
+      href="portfolio.html"
+      data-nav>
+      Portfolio
+    </a>
+
+    <a
+      href="about.html"
+      data-nav>
+      About
+    </a>
+
   </nav>
 
-  <!-- CONTENT -->
+
+  <!-- =======================================================
+       CONTENT
+       ======================================================= -->
+
   <main>
-    <div class="container">
-      <!-- TEXT COLUMN -->
+
+    <div
+      class="container"
+      id="aboutContainer">
+
+
+      <!-- TEXT -->
+
       <div>
-        <div class="about-title">About</div>
-        <div class="about-text">
-          My name is Jennifer Niu, I am a multidisciplinary artist working across digital media, animation, and design. I love to explore narratives through abstraction, technology, and visual storytelling, drawing inspiration from my daily life and reducing them into simple shapes and colors.
-          <br><br>
-          During my time at the University of Michigan, through my art, I aim to build immersive worlds that invite viewers to engage with familiar themes in new and unexpected ways. I am passionate about pushing the boundaries of traditional art forms by incorporating modern techniques and tools, creating pieces that are both visually striking and conceptually rich.
-          <br><br>
-          Contact: jenniferniu05@gmail.com
+
+        <div
+          class="about-title"
+          id="aboutTitle">
         </div>
+
+
+        <div
+          class="about-text"
+          id="aboutText">
+
+          <div class="message">
+            Loading...
+          </div>
+
+        </div>
+
       </div>
 
-      <!-- HEADSHOT COLUMN -->
-      <div class="headshot-wrapper">
-        <img src="images/headshot.jpg" alt="Headshot" class="headshot" />
+
+      <!-- HEADSHOT -->
+
+      <div
+        class="headshot-wrapper">
+
+        <img
+          src=""
+          alt="Headshot"
+          class="headshot"
+          id="headshot"
+        >
+
       </div>
+
+
     </div>
+
   </main>
 
-  <!-- FADE TRANSITIONS -->
+
   <script>
-    window.addEventListener("load", () => {
-      document.body.classList.add("page-loaded");
-    });
 
-    document.querySelectorAll("nav a").forEach(link => {
-      link.addEventListener("click", e => {
-        const href = link.getAttribute("href");
-        if (!href) return;
+    /* =========================================================
+       PAGE FADE
+       ========================================================= */
 
-        e.preventDefault();
-        document.body.classList.add("page-exit");
+    window.addEventListener(
+      "load",
+      () => {
 
-        setTimeout(() => {
-          window.location.href = href;
-        }, 200);
+        document.body
+          .classList
+          .add(
+            "page-loaded"
+          );
+
+      }
+    );
+
+
+    /* =========================================================
+       NAVIGATION
+       ========================================================= */
+
+    document
+      .querySelectorAll(
+        "[data-nav]"
+      )
+      .forEach(link => {
+
+        link.addEventListener(
+          "click",
+          event => {
+
+            const href =
+              link.getAttribute(
+                "href"
+              );
+
+
+            if (!href) {
+              return;
+            }
+
+
+            event.preventDefault();
+
+
+            document.body
+              .classList
+              .add(
+                "page-exit"
+              );
+
+
+            setTimeout(
+              () => {
+
+                window.location.href =
+                  href;
+
+              },
+              200
+            );
+
+          }
+        );
+
       });
-    });
+
+
+    /* =========================================================
+       ELEMENTS
+       ========================================================= */
+
+    const aboutTitle =
+      document.getElementById(
+        "aboutTitle"
+      );
+
+
+    const aboutText =
+      document.getElementById(
+        "aboutText"
+      );
+
+
+    const headshot =
+      document.getElementById(
+        "headshot"
+      );
+
+
+    /* =========================================================
+       LOAD ABOUT DATA
+       ========================================================= */
+
+    async function loadAbout() {
+
+      try {
+
+        /*
+          Date.now prevents the browser from
+          showing an older cached version after
+          you publish through Decap.
+        */
+
+        const response =
+          await fetch(
+            "/content/about.json?v=" +
+            Date.now()
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            "Could not load about.json"
+          );
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        /* TITLE */
+
+        aboutTitle.textContent =
+          data.title || "About";
+
+
+        /* TEXT */
+
+        aboutText.innerHTML =
+          "";
+
+
+        const paragraphs =
+          Array.isArray(
+            data.paragraphs
+          )
+            ? data.paragraphs
+            : [];
+
+
+        paragraphs.forEach(
+          paragraphText => {
+
+            const paragraph =
+              document.createElement(
+                "p"
+              );
+
+
+            paragraph.className =
+              "about-paragraph";
+
+
+            paragraph.textContent =
+              paragraphText;
+
+
+            aboutText.appendChild(
+              paragraph
+            );
+
+          }
+        );
+
+
+        /* CONTACT */
+
+        if (data.contact) {
+
+          const contact =
+            document.createElement(
+              "p"
+            );
+
+
+          contact.className =
+            "contact";
+
+
+          contact.appendChild(
+            document.createTextNode(
+              "Contact: "
+            )
+          );
+
+
+          const email =
+            document.createElement(
+              "a"
+            );
+
+
+          email.href =
+            "mailto:" +
+            data.contact;
+
+
+          email.textContent =
+            data.contact;
+
+
+          contact.appendChild(
+            email
+          );
+
+
+          aboutText.appendChild(
+            contact
+          );
+
+        }
+
+
+        /* HEADSHOT */
+
+        if (data.headshot) {
+
+          headshot.src =
+            data.headshot;
+
+
+          headshot.style.display =
+            "block";
+
+        }
+        else {
+
+          headshot.style.display =
+            "none";
+
+        }
+
+
+      }
+      catch (error) {
+
+        console.error(
+          "About loading error:",
+          error
+        );
+
+
+        aboutTitle.textContent =
+          "About";
+
+
+        aboutText.innerHTML =
+          `
+          <div class="message">
+            About information could not load.
+          </div>
+          `;
+
+
+        headshot.style.display =
+          "none";
+
+      }
+
+    }
+
+
+    /* =========================================================
+       START
+       ========================================================= */
+
+    loadAbout();
+
   </script>
+
+
 </body>
 </html>
