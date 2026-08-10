@@ -2,16 +2,10 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8" />
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>Projects — Jennifer Niu</title>
-
 
   <style>
 
@@ -23,7 +17,6 @@
       font-display:swap;
     }
 
-
     @font-face{
       font-family:"SpaceMono";
       src:url("fonts/SpaceMono-Bold.woff2") format("woff2");
@@ -32,35 +25,23 @@
       font-display:swap;
     }
 
-
-
     :root{
-
       --bg:#fff;
       --text:#111;
-
       --t:200ms;
 
       --gallery-width:1020px;
-
       --gutter:28px;
 
       --panel-gap:18px;
-
       --banner-h:180px;
-
     }
-
-
 
     *{
       box-sizing:border-box;
     }
 
-
-
     body{
-
       margin:0;
 
       font-family:
@@ -69,321 +50,183 @@
         Courier,
         monospace;
 
-      background:
-        var(--bg);
-
-      color:
-        var(--text);
+      background:var(--bg);
+      color:var(--text);
 
       opacity:0;
-
-      transition:
-        opacity var(--t) ease;
-
+      transition:opacity var(--t) ease;
     }
-
-
 
     body.page-loaded{
-
       opacity:1;
-
     }
-
-
 
     body.page-exit{
-
       opacity:0;
-
     }
 
-
-
-    /* =========================
-       TOP NAV
-       ========================= */
+    /* TOP NAV */
 
     nav{
-
       position:absolute;
-
       top:0;
       left:0;
 
       width:100%;
 
       display:flex;
-
       justify-content:center;
 
       gap:2.2rem;
-
       padding:.9rem 0;
 
       z-index:10;
-
     }
 
-
-
     nav a{
-
       text-decoration:none;
-
-      color:
-        var(--text);
+      color:var(--text);
 
       font-size:.95rem;
+      font-weight:700;
 
       padding:.35rem .75rem;
 
       border-radius:999px;
 
-      font-weight:700;
-
       transition:
         background 150ms,
         transform 150ms;
-
     }
-
-
 
     nav a:hover{
-
-      background:
-        rgba(0,0,0,.06);
-
-      transform:
-        translateY(-1px);
-
+      background:rgba(0,0,0,.06);
+      transform:translateY(-1px);
     }
-
-
-
-    /* =========================
-       PAGE
-       ========================= */
 
     main{
-
       min-height:100dvh;
-
-      padding:
-        4.6rem 0 2rem;
-
+      padding:4.6rem 0 2rem;
     }
-
-
 
     .layout{
-
       width:100%;
 
-      padding-left:
-        var(--gutter);
-
-      padding-right:
-        var(--gutter);
+      padding-left:var(--gutter);
+      padding-right:var(--gutter);
 
       display:flex;
-
-      justify-content:
-        space-between;
-
-      align-items:
-        flex-start;
+      justify-content:space-between;
+      align-items:flex-start;
 
       gap:16px;
-
     }
 
-
-
-    /* =========================
-       LEFT TABS
-       ========================= */
+    /* LEFT */
 
     .side{
-
       display:flex;
-
-      flex-direction:
-        column;
+      flex-direction:column;
 
       gap:10px;
-
       padding-top:2px;
-
     }
 
-
-
     .side a{
-
       text-decoration:none;
-
       color:#000;
 
       font-size:1.1rem;
-
       font-weight:700;
 
       letter-spacing:.15em;
-
-      text-transform:
-        uppercase;
+      text-transform:uppercase;
 
       line-height:1;
 
-      transition:
-        opacity 160ms ease;
+      transition:opacity 160ms ease;
 
       width:fit-content;
-
     }
-
-
 
     .side a:hover{
-
       opacity:.55;
-
     }
-
-
 
     .side a.current{
-
       opacity:.35;
-
       pointer-events:none;
-
     }
 
-
-
-    /* =========================
-       RIGHT COLUMN
-       ========================= */
+    /* RIGHT */
 
     .gallery{
-
-      width:
-        var(--gallery-width);
-
-      flex:
-        0 0 var(--gallery-width);
-
+      width:var(--gallery-width);
+      flex:0 0 var(--gallery-width);
     }
-
-
 
     .stack{
-
       display:flex;
-
-      flex-direction:
-        column;
-
-      gap:
-        var(--panel-gap);
-
+      flex-direction:column;
+      gap:var(--panel-gap);
     }
 
-
-
-    /* =========================
-       PROJECT BANNERS
-       ========================= */
+    /* BANNERS */
 
     .banner{
-
       position:relative;
 
       display:block;
 
-      height:
-        var(--banner-h);
-
+      height:var(--banner-h);
       width:100%;
 
       overflow:hidden;
 
       text-decoration:none;
-
       color:#000;
 
-      transform:
-        translateZ(0);
+      transform:translateZ(0);
 
       transition:
         transform 220ms ease,
         box-shadow 220ms ease;
 
-      will-change:
-        transform;
-
       perspective:900px;
-
     }
 
-
-
     .banner .bg{
-
       position:absolute;
-
       inset:0;
 
-      background-size:
-        cover;
+      background-size:cover;
+      background-position:center;
 
-      background-position:
-        center;
-
-      transform:
-        scale(1);
+      transform:scale(1);
 
       transition:
         transform 320ms ease,
         filter 220ms ease;
 
-      will-change:
-        transform;
-
       pointer-events:none;
-
     }
 
-
-
-    /* White hover wash */
-
     .banner::after{
-
       content:"";
 
       position:absolute;
-
       inset:0;
 
       background:#fff;
 
       opacity:0;
 
-      transition:
-        opacity 220ms ease;
+      transition:opacity 220ms ease;
 
       pointer-events:none;
-
     }
 
-
-
     .banner:hover{
-
       transform:
         translateY(-2px)
         rotateX(2.2deg)
@@ -392,277 +235,132 @@
       box-shadow:
         0 14px 38px
         rgba(0,0,0,.12);
-
     }
 
-
-
     .banner:hover .bg{
-
-      transform:
-        scale(.985);
+      transform:scale(.985);
 
       filter:
         contrast(1.02)
         saturate(.95);
-
     }
-
-
 
     .banner:hover::after{
-
       opacity:.9;
-
     }
 
-
-
-    /* =========================
-       TITLE
-       ========================= */
+    /* TITLE */
 
     .title{
-
       position:absolute;
-
       inset:0;
 
       display:flex;
-
       align-items:center;
-
       justify-content:center;
 
       opacity:0;
 
-      transform:
-        translateY(6px);
+      transform:translateY(6px);
 
       transition:
         opacity 180ms ease,
         transform 180ms ease;
 
-      user-select:none;
-
       pointer-events:none;
-
       z-index:2;
-
     }
-
-
 
     .banner:hover .title{
-
       opacity:1;
-
-      transform:
-        translateY(0);
-
+      transform:translateY(0);
     }
 
-
-
     .title span{
-
-      background:
-        transparent;
-
-      padding:0;
-
       font-size:
-        clamp(
-          1.4rem,
-          2.3vw,
-          2.1rem
-        );
+        clamp(1.4rem,2.3vw,2.1rem);
 
       font-weight:700;
 
       letter-spacing:.12em;
-
-      text-transform:
-        uppercase;
+      text-transform:uppercase;
 
       color:#000;
 
       text-align:center;
 
       line-height:1.05;
-
     }
 
-
-
-    /* =========================
-       LOADING
-       ========================= */
-
     .loading{
-
       font-size:.8rem;
-
       font-weight:700;
 
       letter-spacing:.1em;
-
-      text-transform:
-        uppercase;
+      text-transform:uppercase;
 
       opacity:.35;
-
     }
-
-
-
-    /* =========================
-       RESPONSIVE
-       ========================= */
 
     @media(max-width:1180px){
 
       .layout{
-
-        flex-direction:
-          column;
-
+        flex-direction:column;
         align-items:center;
-
-        justify-content:
-          flex-start;
-
         gap:6px;
-
       }
-
-
 
       .side{
+        width:min(100%,var(--gallery-width));
 
-        width:
-          min(
-            100%,
-            var(--gallery-width)
-          );
-
-        flex-direction:
-          row;
-
-        flex-wrap:
-          wrap;
+        flex-direction:row;
+        flex-wrap:wrap;
 
         gap:12px;
-
         padding-top:0;
-
       }
-
-
 
       .gallery{
-
-        width:
-          min(
-            100%,
-            var(--gallery-width)
-          );
-
-        flex:
-          0 1 auto;
-
+        width:min(100%,var(--gallery-width));
+        flex:0 1 auto;
       }
-
-
 
       .banner{
-
         height:170px;
-
       }
-
     }
-
-
 
     @media(max-width:700px){
 
       .banner{
-
         height:150px;
-
       }
-
-
 
       .title span{
-
         font-size:1rem;
-
       }
-
     }
 
   </style>
-
 </head>
-
-
 
 <body>
 
-
   <nav>
-
-    <a href="index.html" data-nav>
-      Home
-    </a>
-
-    <a href="portfolio.html" data-nav>
-      Portfolio
-    </a>
-
-    <a href="about.html" data-nav>
-      About
-    </a>
-
+    <a href="index.html" data-nav>Home</a>
+    <a href="portfolio.html" data-nav>Portfolio</a>
+    <a href="about.html" data-nav>About</a>
   </nav>
-
-
 
   <main>
 
     <div class="layout">
 
-
       <aside class="side">
-
-        <a
-          href="portfolio.html"
-          data-nav
-        >
-          Artworks
-        </a>
-
-
-        <a
-          href="projects.html"
-          class="current"
-        >
-          Projects
-        </a>
-
-
-        <a
-          href="photography.html"
-          data-nav
-        >
-          Photography
-        </a>
-
+        <a href="portfolio.html" data-nav>Artworks</a>
+        <a href="projects.html" class="current">Projects</a>
+        <a href="photography.html" data-nav>Photography</a>
       </aside>
-
-
 
       <div class="gallery">
 
@@ -670,47 +368,31 @@
           class="stack"
           id="projectStack"
         >
-
           <div class="loading">
             Loading projects...
           </div>
-
         </div>
 
       </div>
-
 
     </div>
 
   </main>
 
-
-
   <script>
-
-    /* =========================
-       PAGE FADE
-       ========================= */
 
     window.addEventListener(
       "load",
       () => {
-
-        document.body
-          .classList
-          .add(
-            "page-loaded"
-          );
-
+        document.body.classList.add(
+          "page-loaded"
+        );
       }
     );
 
 
-
     document
-      .querySelectorAll(
-        "a[data-nav]"
-      )
+      .querySelectorAll("a[data-nav]")
       .forEach(link => {
 
         link.addEventListener(
@@ -721,16 +403,11 @@
 
             document.body
               .classList
-              .add(
-                "page-exit"
-              );
+              .add("page-exit");
 
             setTimeout(
               () => {
-
-                location.href =
-                  link.href;
-
+                location.href = link.href;
               },
               200
             );
@@ -741,16 +418,10 @@
       });
 
 
-
-    /* =========================
-       LOAD PROJECT INDEX
-       ========================= */
-
     const projectStack =
       document.getElementById(
         "projectStack"
       );
-
 
 
     async function loadProjects(){
@@ -759,7 +430,7 @@
 
         const response =
           await fetch(
-            "/content/projects/index.json",
+            "/content/projects.json",
             {
               cache:"no-store"
             }
@@ -769,129 +440,113 @@
         if(!response.ok){
 
           throw new Error(
-            "Could not load project index"
+            "Could not load projects.json"
           );
 
         }
-
 
 
         const data =
           await response.json();
 
 
-
         const projects =
           data.projects || [];
 
 
-
-        projectStack.innerHTML =
-          "";
+        projectStack.innerHTML = "";
 
 
+        if(projects.length === 0){
 
-        projects.forEach(
-          project => {
+          projectStack.innerHTML =
+            `
+            <div class="loading">
+              No projects yet.
+            </div>
+            `;
 
-
-            const banner =
-              document.createElement(
-                "a"
-              );
-
-
-            banner.className =
-              "banner";
+          return;
+        }
 
 
-            banner.href =
-              `project.html?project=${
-                encodeURIComponent(
-                  project.slug
-                )
-              }`;
+        projects.forEach(project => {
+
+          const banner =
+            document.createElement("a");
 
 
-
-            const bg =
-              document.createElement(
-                "div"
-              );
+          banner.className =
+            "banner";
 
 
-            bg.className =
-              "bg";
+          banner.href =
+            `project.html?project=${
+              encodeURIComponent(
+                project.slug
+              )
+            }`;
 
 
-            bg.style.backgroundImage =
-              `url("${project.banner}")`;
+          const bg =
+            document.createElement("div");
 
 
-
-            const title =
-              document.createElement(
-                "div"
-              );
+          bg.className =
+            "bg";
 
 
-            title.className =
-              "title";
+          bg.style.backgroundImage =
+            `url("${project.banner}")`;
 
 
-            const span =
-              document.createElement(
-                "span"
-              );
+          const title =
+            document.createElement("div");
 
 
-            span.textContent =
-              project.title;
+          title.className =
+            "title";
 
 
-
-            title.appendChild(
-              span
-            );
+          const span =
+            document.createElement("span");
 
 
-            banner.appendChild(
-              bg
-            );
+          span.textContent =
+            project.title || "Untitled";
 
 
-            banner.appendChild(
-              title
-            );
+          title.appendChild(span);
 
+          banner.appendChild(bg);
 
-            projectStack.appendChild(
-              banner
-            );
+          banner.appendChild(title);
 
-          }
-        );
+          projectStack.appendChild(
+            banner
+          );
 
+        });
 
       }
       catch(error){
 
         console.error(
+          "Projects loading error:",
           error
         );
 
 
         projectStack.innerHTML =
           `
-            <div class="loading">
-              Projects could not load.
-            </div>
+          <div class="loading">
+            Projects could not load.
+          </div>
           `;
 
       }
 
     }
-
 
 
     loadProjects();
