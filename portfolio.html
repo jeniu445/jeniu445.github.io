@@ -1,11 +1,22 @@
 <!doctype html>
 <html lang="en">
 <head>
+
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  />
+
   <title>Portfolio — Jennifer Niu</title>
 
   <style>
+
+    /* =========================
+       FONT
+       ========================= */
+
     @font-face{
       font-family:"SpaceMono";
       src:url("fonts/SpaceMono-Regular.woff2") format("woff2");
@@ -13,6 +24,7 @@
       font-style:normal;
       font-display:swap;
     }
+
     @font-face{
       font-family:"SpaceMono";
       src:url("fonts/SpaceMono-Bold.woff2") format("woff2");
@@ -21,398 +33,1152 @@
       font-display:swap;
     }
 
+
+    /* =========================
+       VARIABLES
+       ========================= */
+
     :root{
+
       --bg:#fff;
       --text:#111;
+
       --t:200ms;
 
-      --gallery-width: 1020px;
-      --gutter: 28px;
+      --gallery-width:1020px;
 
-      /* ✅ ONE knob: controls ALL spacing between images */
-      --gap: 10px;
+      --gutter:28px;
 
-      /* left links column width */
-      --links-width: 190px;
+      /* Controls all artwork spacing */
+      --gap:10px;
 
-      /* responsive switch */
-      --switch-at: 1180px;
+      --links-width:190px;
+
     }
 
-    *{box-sizing:border-box;}
+
+    *{
+      box-sizing:border-box;
+    }
+
+
+    html{
+      scrollbar-gutter:stable;
+    }
+
 
     body{
+
       margin:0;
-      font-family:"SpaceMono","Courier New",Courier,monospace;
+
+      font-family:
+        "SpaceMono",
+        "Courier New",
+        Courier,
+        monospace;
+
       background:var(--bg);
+
       color:var(--text);
+
       opacity:0;
-      transition:opacity var(--t) ease;
+
+      transition:
+        opacity var(--t) ease;
+
     }
-    body.page-loaded{opacity:1;}
-    body.page-exit{opacity:0;}
+
+
+    body.page-loaded{
+      opacity:1;
+    }
+
+
+    body.page-exit{
+      opacity:0;
+    }
+
+
     body.lock-scroll{
+
       overflow:hidden;
-      padding-right: var(--sbw, 0px);
+
+      padding-right:
+        var(--sbw,0px);
+
     }
 
 
-    /* TOP NAV */
+
+    /* =========================
+       TOP NAVIGATION
+       ========================= */
+
     nav{
+
       position:absolute;
-      top:0; left:0;
+
+      top:0;
+      left:0;
+
       width:100%;
+
       display:flex;
+
       justify-content:center;
+
       gap:2.2rem;
+
       padding:.9rem 0;
+
       z-index:10;
+
     }
+
+
     nav a{
+
       text-decoration:none;
+
       color:var(--text);
+
       font-size:.95rem;
+
       font-weight:700;
+
       padding:.35rem .75rem;
+
       border-radius:999px;
-      transition:background 150ms, transform 150ms, opacity 150ms;
+
+      transition:
+        background 150ms,
+        transform 150ms,
+        opacity 150ms;
+
       user-select:none;
+
     }
+
+
     nav a:hover{
+
       background:rgba(0,0,0,.06);
-      transform:translateY(-1px);
+
+      transform:
+        translateY(-1px);
+
     }
+
+
+
+    /* =========================
+       PAGE
+       ========================= */
 
     main{
+
       min-height:100dvh;
-      padding:4.6rem 0 1.2rem;
+
+      padding:
+        4.6rem 0 1.2rem;
+
     }
 
-    /* layout: left links + right gallery */
+
+
     .layout{
+
       width:100%;
-      padding-left: var(--gutter);
-      padding-right: var(--gutter);
+
+      padding-left:
+        var(--gutter);
+
+      padding-right:
+        var(--gutter);
+
       display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
+
+      justify-content:
+        space-between;
+
+      align-items:
+        flex-start;
+
       gap:16px;
+
     }
 
-    /* LEFT */
+
+
+    /* =========================
+       LEFT NAVIGATION
+       ========================= */
+
     .side{
-      width: var(--links-width);
-      flex: 0 0 var(--links-width);
+
+      width:
+        var(--links-width);
+
+      flex:
+        0 0 var(--links-width);
+
       display:flex;
-      flex-direction:column;
+
+      flex-direction:
+        column;
+
       gap:10px;
+
       padding-top:2px;
+
     }
+
+
     .side a{
+
       text-decoration:none;
+
       color:#000;
+
       font-size:1.1rem;
+
       font-weight:700;
+
       letter-spacing:.15em;
-      text-transform:uppercase;
+
+      text-transform:
+        uppercase;
+
       line-height:1;
-      transition:opacity 160ms ease;
+
+      transition:
+        opacity 160ms ease;
+
       width:fit-content;
+
       user-select:none;
+
     }
-    .side a:hover{opacity:.55;}
+
+
+    .side a:hover{
+
+      opacity:.55;
+
+    }
+
+
     .side a.current{
+
       opacity:.35;
+
       pointer-events:none;
+
     }
 
-    /* RIGHT */
+
+
+    /* =========================
+       GALLERY
+       ========================= */
+
     .gallery{
-      width: var(--gallery-width);
-      flex: 0 0 var(--gallery-width);
+
+      width:
+        var(--gallery-width);
+
+      flex:
+        0 0 var(--gallery-width);
+
     }
-    /* NEW: true rows so “top row is newest” is guaranteed 
+
+
+
+    /* =========================
+       MASONRY
+
+       This remains exactly the
+       insertion-style layout.
+       ========================= */
+
     .masonry{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0,1fr));
-      gap: var(--gap);      
-      padding: var(--gap);  
+
+      column-count:3;
+
+      column-gap:
+        var(--gap);
+
+      padding:
+        var(--gap);
+
     }
 
-    .tile{ margin:0; } */
 
-    /* ✅ TRUE MASONRY INSERTION (NOT ROW-BASED) */
-    .masonry{
-      column-count: 3;
-      column-gap: var(--gap);
-
-      padding: var(--gap);
-    }
     .tile{
-      break-inside: avoid;
-      -webkit-column-break-inside: avoid;
-      margin: 0 0 var(--gap);
+
+      break-inside:
+        avoid;
+
+      -webkit-column-break-inside:
+        avoid;
+
+      margin:
+        0 0 var(--gap);
+
     }
 
-    /* hover shrink only */
+
+
+    /* =========================
+       ARTWORK
+       ========================= */
+
     .media{
-      display:block;
-      transform:scale(1);
-      transition:transform 220ms ease;
-      will-change:transform;
-    }
-    .tile:hover .media{ transform:scale(.975); }
 
-    /* keep original proportions, no crop */
-    .media img{
       display:block;
-      width:100%;
-      height:auto;
+
+      transform:
+        scale(1);
+
+      transition:
+        transform 220ms ease;
+
+      will-change:
+        transform;
+
+      cursor:zoom-in;
+
     }
-    /* ===== LIGHTBOX (SMOOTH) ===== */
+
+
+    .tile:hover .media{
+
+      transform:
+        scale(.975);
+
+    }
+
+
+    .media img{
+
+      display:block;
+
+      width:100%;
+
+      height:auto;
+
+      cursor:zoom-in;
+
+    }
+
+
+
+    /* =========================
+       LOADING
+       ========================= */
+
+    .gallery-loading{
+
+      font-size:.8rem;
+
+      opacity:.35;
+
+      letter-spacing:.1em;
+
+      text-transform:uppercase;
+
+      padding:10px;
+
+    }
+
+
+
+    /* =========================
+       LIGHTBOX
+       ========================= */
+
     .lightbox{
+
       position:fixed;
+
       inset:0;
-      background:rgba(0,0,0,.85);
+
+      background:
+        rgba(0,0,0,.85);
+
       display:flex;
+
       align-items:center;
+
       justify-content:center;
 
       opacity:0;
+
       pointer-events:none;
-      transition:opacity 220ms ease;
+
+      transition:
+        opacity 220ms ease;
+
       z-index:9999;
+
     }
+
 
     .lightbox.open{
+
       opacity:1;
+
       pointer-events:auto;
+
     }
 
-    /* smooth image pop */
+
     .lightbox img{
+
       max-width:90vw;
+
       max-height:90vh;
+
+      width:auto;
+
+      height:auto;
+
       object-fit:contain;
 
-      transform:scale(.96);
+      transform:
+        scale(.96);
+
       opacity:0;
-      transition:transform 240ms cubic-bezier(.2,.8,.2,1), opacity 240ms ease;
-      will-change:transform, opacity;
+
+      transition:
+        transform 240ms
+        cubic-bezier(.2,.8,.2,1),
+        opacity 240ms ease;
+
+      will-change:
+        transform,
+        opacity;
+
     }
+
 
     .lightbox.open img{
-      transform:scale(1);
+
+      transform:
+        scale(1);
+
       opacity:1;
+
     }
+
+
 
     .lightbox-close{
+
       position:absolute;
+
       top:20px;
+
       right:26px;
+
+      font-family:
+        "SpaceMono",
+        monospace;
+
       font-size:32px;
+
+      font-weight:400;
+
       background:none;
+
       border:none;
+
       color:white;
+
       cursor:pointer;
+
       line-height:1;
+
       opacity:.7;
-      transition:opacity 140ms ease, transform 140ms ease;
+
+      transition:
+        opacity 140ms ease,
+        transform 140ms ease;
+
     }
+
 
     .lightbox-close:hover{
+
       opacity:1;
-      transform:scale(1.08);
+
+      transform:
+        scale(1.08);
+
     }
 
-    /* optional: nice cursor */
-    .media img{ cursor: zoom-in; }
 
 
-    /* RESPONSIVE: stack links above gallery when it would collide */
-    @media (max-width: 1180px){
+    /* =========================
+       RESPONSIVE
+       ========================= */
+
+    @media (max-width:1180px){
+
       .layout{
-        flex-direction:column;
-        align-items:center;
-        justify-content:flex-start;
+
+        flex-direction:
+          column;
+
+        align-items:
+          center;
+
+        justify-content:
+          flex-start;
+
         gap:6px;
+
       }
+
+
       .side{
-        width:min(100%, var(--gallery-width));
-        flex:0 1 auto;
-        flex-direction:row;
-        flex-wrap:wrap;
+
+        width:
+          min(
+            100%,
+            var(--gallery-width)
+          );
+
+        flex:
+          0 1 auto;
+
+        flex-direction:
+          row;
+
+        flex-wrap:
+          wrap;
+
         gap:12px;
+
         padding-top:0;
+
       }
+
+
       .gallery{
-        width:min(100%, var(--gallery-width));
-        flex:0 1 auto;
+
+        width:
+          min(
+            100%,
+            var(--gallery-width)
+          );
+
+        flex:
+          0 1 auto;
+
       }
+
     }
 
-    /* responsive column count */
-    @media (max-width: 980px){
-      .masonry{ column-count: 2; }
+
+
+    @media (max-width:980px){
+
+      .masonry{
+
+        column-count:2;
+
+      }
+
     }
-    @media (max-width: 520px){
-      .masonry{ column-count: 1; }
+
+
+
+    @media (max-width:520px){
+
+      .masonry{
+
+        column-count:1;
+
+      }
+
     }
+
   </style>
+
 </head>
 
+
 <body>
+
+
+  <!-- =========================
+       TOP NAV
+       ========================= -->
+
   <nav>
-    <a href="index.html" data-nav>Home</a>
-    <a href="portfolio.html" data-nav>Portfolio</a>
-    <a href="about.html" data-nav>About</a>
+
+    <a
+      href="index.html"
+      data-nav
+    >
+      Home
+    </a>
+
+    <a
+      href="portfolio.html"
+      data-nav
+    >
+      Portfolio
+    </a>
+
+    <a
+      href="about.html"
+      data-nav
+    >
+      About
+    </a>
+
   </nav>
-  <!-- Lightbox -->
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" id="lightboxClose">×</button>
-    <img id="lightboxImg" src="" alt="">
+
+
+
+  <!-- =========================
+       LIGHTBOX
+       ========================= -->
+
+  <div
+    class="lightbox"
+    id="lightbox"
+  >
+
+    <button
+      class="lightbox-close"
+      id="lightboxClose"
+      aria-label="Close image"
+    >
+      ×
+    </button>
+
+    <img
+      id="lightboxImg"
+      src=""
+      alt=""
+    >
+
   </div>
 
+
+
+  <!-- =========================
+       PAGE
+       ========================= -->
+
   <main>
+
     <div class="layout">
 
+
       <!-- LEFT -->
+
       <aside class="side">
-        <a href="portfolio.html" class="current">Artworks</a>
-        <a href="projects.html" data-nav>Projects</a>
-        <a href="photography.html" data-nav>Photography</a>
+
+        <a
+          href="portfolio.html"
+          class="current"
+        >
+          Artworks
+        </a>
+
+        <a
+          href="projects.html"
+          data-nav
+        >
+          Projects
+        </a>
+
+        <a
+          href="photography.html"
+          data-nav
+        >
+          Photography
+        </a>
+
       </aside>
 
-      <!-- RIGHT -->
-      <div class="gallery">
-        <section class="masonry">
 
-        <div class="tile"><a class="media"><img src="images/portfolio44.jpg" loading="lazy" alt="Portfolio 44"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio42.jpg" loading="lazy" alt="Portfolio 42"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio27.jpg" loading="lazy" alt="Portfolio 27"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio34.jpg" loading="lazy" alt="Portfolio 34"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio39.jpg" loading="lazy" alt="Portfolio 39"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio38.jpg" loading="lazy" alt="Portfolio 38"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio37.jpg" loading="lazy" alt="Portfolio 37"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio36.jpg" loading="lazy" alt="Portfolio 36"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio35.jpg" loading="lazy" alt="Portfolio 35"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio13.jpg" loading="lazy" alt="Portfolio 13"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio33.jpg" loading="lazy" alt="Portfolio 33"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio32.jpg" loading="lazy" alt="Portfolio 32"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio30.jpg" loading="lazy" alt="Portfolio 30"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio29.jpg" loading="lazy" alt="Portfolio 29"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio28.jpg" loading="lazy" alt="Portfolio 28"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio41.jpg" loading="lazy" alt="Portfolio 41"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio26.jpg" loading="lazy" alt="Portfolio 26"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio25.jpg" loading="lazy" alt="Portfolio 25"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio24.jpg" loading="lazy" alt="Portfolio 24"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio23.jpg" loading="lazy" alt="Portfolio 23"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio22.jpg" loading="lazy" alt="Portfolio 22"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio21.jpg" loading="lazy" alt="Portfolio 21"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio20.jpg" loading="lazy" alt="Portfolio 20"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio19.jpg" loading="lazy" alt="Portfolio 19"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio18.jpg" loading="lazy" alt="Portfolio 18"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio17.jpg" loading="lazy" alt="Portfolio 17"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio16.jpg" loading="lazy" alt="Portfolio 16"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio15.jpg" loading="lazy" alt="Portfolio 15"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio14.jpg" loading="lazy" alt="Portfolio 14"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio12.jpg" loading="lazy" alt="Portfolio 12"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio43.jpg" loading="lazy" alt="Portfolio 43"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio40.jpg" loading="lazy" alt="Portfolio 40"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio11.jpg" loading="lazy" alt="Portfolio 11"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio10.jpg" loading="lazy" alt="Portfolio 10"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio09.jpg" loading="lazy" alt="Portfolio 09"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio08.jpg" loading="lazy" alt="Portfolio 08"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio07.jpg" loading="lazy" alt="Portfolio 07"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio06.jpg" loading="lazy" alt="Portfolio 06"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio05.jpg" loading="lazy" alt="Portfolio 05"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio04.jpg" loading="lazy" alt="Portfolio 04"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio03.jpg" loading="lazy" alt="Portfolio 03"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio02.jpg" loading="lazy" alt="Portfolio 02"></a></div>
-        <div class="tile"><a class="media"><img src="images/portfolio01.jpg" loading="lazy" alt="Portfolio 01"></a></div>
+
+      <!-- RIGHT -->
+
+      <div class="gallery">
+
+        <!--
+
+          IMPORTANT:
+
+          This is now EMPTY.
+
+          artworks.json will automatically
+          insert every artwork here.
+
+        -->
+
+        <section
+          class="masonry"
+          id="artworkGallery"
+        >
+
+          <div class="gallery-loading">
+            Loading artwork...
+          </div>
 
         </section>
+
       </div>
 
+
     </div>
+
   </main>
 
+
+
   <script>
-    // page fade in
-    window.addEventListener("load", () => {
-      document.body.classList.add("page-loaded");
-    });
 
-    // smooth page transitions for nav links
-    document.querySelectorAll("a[data-nav]").forEach(link => {
-      link.addEventListener("click", e => {
-        e.preventDefault();
-        document.body.classList.add("page-exit");
-        setTimeout(() => { window.location.href = link.href; }, 200);
-      });
-    });
+    /* ===================================
+       ELEMENTS
+       =================================== */
 
-    // ===== LIGHTBOX =====
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightboxImg");
-    const lightboxClose = document.getElementById("lightboxClose");
-    function getScrollbarWidth(){
-      return window.innerWidth - document.documentElement.clientWidth;
-    }
+    const gallery =
+      document.getElementById(
+        "artworkGallery"
+      );
 
-    function openLightbox(src, alt) {
-      lightboxImg.src = src;
-      lightboxImg.alt = alt || "";
+    const lightbox =
+      document.getElementById(
+        "lightbox"
+      );
 
-      // prevent background shift
-      document.documentElement.style.setProperty("--sbw", getScrollbarWidth() + "px");
-      document.body.classList.add("lock-scroll");
+    const lightboxImg =
+      document.getElementById(
+        "lightboxImg"
+      );
 
-      lightbox.classList.add("open");
-    }
-
-    function closeLightbox() {
-      lightbox.classList.remove("open");
-      document.body.classList.remove("lock-scroll");
-
-      // clear after the fade-out finishes
-      setTimeout(() => {
-        if (!lightbox.classList.contains("open")) lightboxImg.src = "";
-      }, 240);
-    }
+    const lightboxClose =
+      document.getElementById(
+        "lightboxClose"
+      );
 
 
 
-    // Attach click listeners to all images (works even if inside <a>)
-    document.querySelectorAll(".masonry .tile img").forEach(img => {
-      img.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        openLightbox(img.src, img.alt);
-      });
-    });
+    /* ===================================
+       PAGE FADE
+       =================================== */
 
-    // Close with X
-    lightboxClose.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      closeLightbox();
-    });
+    window.addEventListener(
+      "load",
+      () => {
 
-    // Close by clicking the dark background (not the image)
-    lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox) closeLightbox();
-    });
+        document.body.classList.add(
+          "page-loaded"
+        );
 
-    // Close with ESC
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && lightbox.classList.contains("open")) {
-        closeLightbox();
       }
-    });
+    );
+
+
+
+    /* ===================================
+       NAVIGATION FADE
+       =================================== */
+
+    document
+      .querySelectorAll(
+        "a[data-nav]"
+      )
+      .forEach(link => {
+
+        link.addEventListener(
+          "click",
+          event => {
+
+            event.preventDefault();
+
+            document.body
+              .classList
+              .add(
+                "page-exit"
+              );
+
+            setTimeout(
+              () => {
+
+                window.location.href =
+                  link.href;
+
+              },
+              200
+            );
+
+          }
+        );
+
+      });
+
+
+
+    /* ===================================
+       LOAD ARTWORK FROM DECAP DATA
+       =================================== */
+
+    async function loadArtworks(){
+
+      try{
+
+        /*
+          Prevent browser caching while
+          you're testing changes.
+        */
+
+        const response =
+          await fetch(
+            "/content/artworks.json",
+            {
+              cache:"no-store"
+            }
+          );
+
+
+        if(!response.ok){
+
+          throw new Error(
+            "Could not load artworks.json"
+          );
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        gallery.innerHTML = "";
+
+
+        if(
+          !data.artworks ||
+          data.artworks.length === 0
+        ){
+
+          gallery.innerHTML =
+            `
+            <div class="gallery-loading">
+              No artwork yet.
+            </div>
+            `;
+
+          return;
+
+        }
+
+
+
+        data.artworks.forEach(
+          (artwork,index) => {
+
+
+            /* TILE */
+
+            const tile =
+              document.createElement(
+                "div"
+              );
+
+            tile.className =
+              "tile";
+
+
+
+            /* MEDIA */
+
+            const media =
+              document.createElement(
+                "div"
+              );
+
+            media.className =
+              "media";
+
+
+
+            /* IMAGE */
+
+            const img =
+              document.createElement(
+                "img"
+              );
+
+
+            img.src =
+              artwork.image;
+
+
+            img.alt =
+              artwork.alt ||
+              `Portfolio artwork ${index + 1}`;
+
+
+            img.loading =
+              "lazy";
+
+
+            img.addEventListener(
+              "error",
+              () => {
+
+                console.error(
+                  "Missing artwork:",
+                  artwork.image
+                );
+
+              }
+            );
+
+
+
+            /* LIGHTBOX CLICK */
+
+            img.addEventListener(
+              "click",
+              () => {
+
+                openLightbox(
+                  img.src,
+                  img.alt
+                );
+
+              }
+            );
+
+
+
+            media.appendChild(
+              img
+            );
+
+
+            tile.appendChild(
+              media
+            );
+
+
+            gallery.appendChild(
+              tile
+            );
+
+          }
+        );
+
+
+      }
+      catch(error){
+
+        console.error(
+          "Artwork loading error:",
+          error
+        );
+
+
+        gallery.innerHTML =
+          `
+          <div class="gallery-loading">
+            Artwork could not load.
+          </div>
+          `;
+
+      }
+
+    }
+
+
+
+    /* ===================================
+       LIGHTBOX
+       =================================== */
+
+    function getScrollbarWidth(){
+
+      return (
+        window.innerWidth -
+        document
+          .documentElement
+          .clientWidth
+      );
+
+    }
+
+
+
+    function openLightbox(
+      src,
+      alt
+    ){
+
+      lightboxImg.src =
+        src;
+
+      lightboxImg.alt =
+        alt || "";
+
+
+      /*
+        Prevent page movement when
+        scrollbar disappears.
+      */
+
+      document
+        .documentElement
+        .style
+        .setProperty(
+          "--sbw",
+          getScrollbarWidth() + "px"
+        );
+
+
+      document.body
+        .classList
+        .add(
+          "lock-scroll"
+        );
+
+
+      lightbox
+        .classList
+        .add(
+          "open"
+        );
+
+    }
+
+
+
+    function closeLightbox(){
+
+      lightbox
+        .classList
+        .remove(
+          "open"
+        );
+
+
+      document.body
+        .classList
+        .remove(
+          "lock-scroll"
+        );
+
+
+      /*
+        Wait for closing animation
+        before clearing image.
+      */
+
+      setTimeout(
+        () => {
+
+          if(
+            !lightbox
+              .classList
+              .contains(
+                "open"
+              )
+          ){
+
+            lightboxImg.src =
+              "";
+
+          }
+
+        },
+        240
+      );
+
+    }
+
+
+
+    /* CLOSE BUTTON */
+
+    lightboxClose
+      .addEventListener(
+        "click",
+        event => {
+
+          event.preventDefault();
+
+          event.stopPropagation();
+
+          closeLightbox();
+
+        }
+      );
+
+
+
+    /* CLICK DARK AREA TO CLOSE */
+
+    lightbox
+      .addEventListener(
+        "click",
+        event => {
+
+          if(
+            event.target ===
+            lightbox
+          ){
+
+            closeLightbox();
+
+          }
+
+        }
+      );
+
+
+
+    /* ESC TO CLOSE */
+
+    window.addEventListener(
+      "keydown",
+      event => {
+
+        if(
+          event.key ===
+          "Escape" &&
+          lightbox
+            .classList
+            .contains(
+              "open"
+            )
+        ){
+
+          closeLightbox();
+
+        }
+
+      }
+    );
+
+
+
+    /* ===================================
+       START
+       =================================== */
+
+    loadArtworks();
+
   </script>
 
-  
 
 </body>
 </html>
