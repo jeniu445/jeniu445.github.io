@@ -31,6 +31,19 @@
       "url": "/paper-forms.html",
       "description": "",
       "blocks": []
+    },
+    {
+      "title": "Force of Light ",
+      "slug": "force-of-light",
+      "banner": "/images/projects/screenshot-2026-08-17-at-3.36.20 pm.png",
+      "description": "In this project, I am building a wooden lampshade with a floral component to depict Chernobyl’s aftermath on its people and environment through the materiality. \n\nBy combining wood and plant I can engineer a structure the represents the man-made systems built to sustain daily life, and how human negligence and righteousness can consequently cause irreversible damage. \n\nThe living flower arrangement introduces fragility, growth, and decay. Through physically layering different materials with organic matter in one object, the piece comments on how man-made infrastructures can negatively affect the ecosystem around it.",
+      "blocks": [
+        {
+          "type": "image",
+          "width": "large",
+          "image": "/images/projects/img_6851.jpg"
+        }
+      ]
     }
   ]
 }
