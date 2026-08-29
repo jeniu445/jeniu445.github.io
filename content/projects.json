@@ -33,7 +33,14 @@
         {
           "type": "heading",
           "size": "medium",
-          "text": "Research "
+          "text": "Inspiration"
+        },
+        {
+          "type": "text_image",
+          "image_position": "right",
+          "ratio": "1-1",
+          "image": "/images/projects/screenshot-2026-08-29-at-4.25.20 pm.png",
+          "text": "Kosen Ohtsubo was an artist I drew most inspiration from for this project. His practice mainly combines organic material like plants with man-made objects to convey different concepts of harmony and destruction. I was really inspired by how nature breathes a different perspective to ordinary objects and wanted to incorporate it into my own work through a minimalist way. "
         }
       ]
     },
