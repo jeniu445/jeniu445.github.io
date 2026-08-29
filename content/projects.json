@@ -18,9 +18,17 @@
           "text": "Rather than representing the explosion literally, the work focuses on what followed, contaminated landscapes, disrupted food chains, long-term illnesses among the animal and human population, and the way a disaster becomes embedded in everyday life."
         },
         {
+          "type": "spacer",
+          "size": "medium"
+        },
+        {
           "type": "image",
           "width": "full",
           "image": "/images/projects/screenshot-2026-08-17-at-3.36.20 pm.png"
+        },
+        {
+          "type": "spacer",
+          "size": "medium"
         },
         {
           "type": "heading",
