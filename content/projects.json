@@ -21,6 +21,11 @@
           "type": "image",
           "width": "full",
           "image": "/images/projects/screenshot-2026-08-17-at-3.36.20 pm.png"
+        },
+        {
+          "type": "heading",
+          "size": "medium",
+          "text": "Research "
         }
       ]
     },
