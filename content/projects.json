@@ -33,7 +33,7 @@
         {
           "type": "heading",
           "size": "medium",
-          "text": "Inspiration"
+          "text": "Inspiration & Ideation"
         },
         {
           "type": "text_image",
@@ -41,6 +41,12 @@
           "ratio": "1-2",
           "image": "/images/projects/screenshot-2026-08-29-at-4.25.20 pm.png",
           "text": "Kosen Ohtsubo was an artist I drew most inspiration from for this project. His practice mainly combines organic material like plants with man-made objects to convey different concepts of harmony and destruction. I was really inspired by how nature breathes a different perspective to ordinary objects and wanted to incorporate it into my own work through a minimalist way. "
+        },
+        {
+          "type": "image",
+          "width": "full",
+          "image": "/images/projects/img_2009.jpg",
+          "caption": "Coming into the project, I had a general concept of the silhouette I wanted my structure to have: around 3.5 ft tall, with a narrow frame. Two of the main issues when planning how to build the structure were how to preserve the arch while still using wood and how to fixture the light. "
         }
       ]
     },
